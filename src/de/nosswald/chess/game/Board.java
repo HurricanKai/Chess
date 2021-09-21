@@ -1,7 +1,7 @@
 package de.nosswald.chess.game;
 
 import de.nosswald.chess.game.piece.Piece;
-import de.nosswald.chess.game.piece.impl.Pawn;
+import de.nosswald.chess.game.piece.impl.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,7 +25,32 @@ public class Board
     {
         IntStream.range(0, 16).forEach(i -> {
             boolean b = i % 2 == 0;
-            pieces.add(new Pawn(b ? Side.WHITE : Side.BLACK, b ? 1 : 7 , i / 2));
+            pieces.add(new Pawn(b ? Side.WHITE : Side.BLACK, b ? 1 : 6, i / 2));
+        });
+
+        IntStream.range(0, 4).forEach(i -> {
+            boolean b = i % 2 == 0;
+            pieces.add(new Rook(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 0 : 7));
+        });
+
+        IntStream.range(0, 4).forEach(i -> {
+            boolean b = i % 2 == 0;
+            pieces.add(new Knight(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 1 : 6));
+        });
+
+        IntStream.range(0, 4).forEach(i -> {
+            boolean b = i % 2 == 0;
+            pieces.add(new Bishop(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 2 : 5));
+        });
+
+        IntStream.range(0, 2).forEach(i -> {
+            boolean b = i % 2 == 0;
+            pieces.add(new Queen(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 3 : 4));
+        });
+
+        IntStream.range(0, 2).forEach(i -> {
+            boolean b = i % 2 == 0;
+            pieces.add(new King(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 4 : 3));
         });
 
         pieces.forEach(piece -> System.out.println(piece.getSide() + " " + piece.getCol() + " " + piece.getRow()));

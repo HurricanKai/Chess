@@ -2,6 +2,7 @@ package de.nosswald.chess;
 
 /**
  * @author Nils Osswald
+ * @author Noah Gerber
  */
 public class Start
 {

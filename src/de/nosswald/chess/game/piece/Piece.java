@@ -6,10 +6,11 @@ import java.awt.*;
 
 /**
  * @author Nils Osswald
+ * @author Noah Gerber
  */
 public abstract class Piece
 {
-    private Side side;
+    private final Side side;
     private int col, row;
 
     public Piece(Side side, int col, int row)
@@ -34,5 +35,15 @@ public abstract class Piece
     public int getRow()
     {
         return row;
+    }
+
+    public void setCol(int col)
+    {
+        this.col = col;
+    }
+
+    public void setRow(int row)
+    {
+        this.row = row;
     }
 }
