@@ -2,6 +2,10 @@ package de.nosswald.chess;
 
 import de.nosswald.chess.game.Board;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public class Chess
 {
     public static final String APP_NAME = "Chess";
