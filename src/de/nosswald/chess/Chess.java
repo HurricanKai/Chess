@@ -1,6 +1,7 @@
 package de.nosswald.chess;
 
 import de.nosswald.chess.game.Board;
+import de.nosswald.chess.gui.Window;
 
 public class Chess
 {
@@ -13,11 +14,12 @@ public class Chess
     private static Chess instance;
 
     private Board board;
+    private Window window;
 
     public Chess()
     {
         instance = this;
-
+        window = new Window();
         board = new Board();
     }
 
