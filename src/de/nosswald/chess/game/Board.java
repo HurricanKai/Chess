@@ -33,9 +33,18 @@ public class Board
 
     public void paint(Graphics2D graphics, int boardSize)
     {
-        // TODO paint board
+        graphics.fillRect(0, 0, 100, 100);
+
+        for (int c = 0; c < 8; c++)
+        {
+            for (int r = 0; r < 8; r++)
+            {
+                graphics.setColor((c + r) % 2 == 1 ? new Color(240, 217, 181) : new Color(186, 120, 63));
+                graphics.fillRect((boardSize / 10) * r, (boardSize / 10) * c, boardSize / 10, boardSize / 10);
+            }
+        }
 
         // paint pieces
-        pieces.forEach(piece -> piece.paint(graphics, boardSize / 9));
+        pieces.forEach(piece -> piece.paint(graphics, boardSize / 10));
     }
 }

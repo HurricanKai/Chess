@@ -1,7 +1,7 @@
 package de.nosswald.chess;
 
 import de.nosswald.chess.game.Board;
-import de.nosswald.chess.gui.Window;
+import de.nosswald.chess.gui.GameFrame;
 
 /**
  * @author Nils Osswald
@@ -18,12 +18,12 @@ public class Chess
     private static Chess instance;
 
     private Board board;
-    private Window window;
+    private GameFrame window;
 
     public Chess()
     {
         instance = this;
-        window = new Window();
+        window = new GameFrame();
         board = new Board();
     }
 
