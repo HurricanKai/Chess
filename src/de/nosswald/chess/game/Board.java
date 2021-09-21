@@ -53,8 +53,6 @@ public class Board
             pieces.add(new King(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 4 : 3));
         });
 
-
-
         pieces.forEach(piece -> System.out.println(piece.getSide() + " " + piece.getCol() + " " + piece.getRow()));
     }
 

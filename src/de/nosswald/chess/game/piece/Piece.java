@@ -6,6 +6,7 @@ import java.awt.*;
 
 /**
  * @author Nils Osswald
+ * @author Noah Gerber
  */
 public abstract class Piece
 {

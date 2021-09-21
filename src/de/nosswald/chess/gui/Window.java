@@ -5,6 +5,9 @@ import de.nosswald.chess.Chess;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Noah Gerber
+ */
 public class Window extends JFrame
 {
     private JPanel userInterface;

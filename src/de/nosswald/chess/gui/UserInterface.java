@@ -8,6 +8,9 @@ import javafx.stage.Screen;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Noah Gerber
+ */
 public class UserInterface extends JPanel
 {
     private JPanel infoPanel;

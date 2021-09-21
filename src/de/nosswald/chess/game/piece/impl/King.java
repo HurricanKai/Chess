@@ -5,6 +5,9 @@ import de.nosswald.chess.game.piece.Piece;
 
 import java.awt.*;
 
+/**
+ * @author Noah Gerber
+ */
 public class King extends Piece
 {
     public King(Side side, int col, int row)

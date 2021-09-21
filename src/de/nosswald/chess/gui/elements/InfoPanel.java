@@ -3,6 +3,9 @@ package de.nosswald.chess.gui.elements;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Noah Gerber
+ */
 public class InfoPanel extends JPanel
 {
     public InfoPanel()
