@@ -17,7 +17,6 @@ public class GameScreen extends JPanel
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D)g;
-
-        Chess.getInstance().getBoard().paint(g2d, 1500); // TODO make this relative or something
+        Chess.getInstance().getBoard().paint(g2d, getHeight());
     }
 }

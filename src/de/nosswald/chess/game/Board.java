@@ -63,11 +63,11 @@ public class Board
             for (int r = 0; r < 8; r++)
             {
                 graphics.setColor((c + r) % 2 == 1 ? new Color(240, 217, 181) : new Color(186, 120, 63));
-                graphics.fillRect((boardSize / 10) * r, (boardSize / 10) * c, boardSize / 10, boardSize / 10);
+                graphics.fillRect((boardSize / 8) * r, (boardSize / 8) * c, boardSize / 8, boardSize / 8);
             }
         }
 
         // paint pieces
-        pieces.forEach(piece -> piece.paint(graphics, boardSize / 10));
+        pieces.forEach(piece -> piece.paint(graphics, boardSize / 8));
     }
 }
