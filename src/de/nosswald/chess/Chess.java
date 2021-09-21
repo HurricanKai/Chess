@@ -18,13 +18,14 @@ public class Chess
     private static Chess instance;
 
     private Board board;
-    private GameFrame window;
 
     public Chess()
     {
         instance = this;
-        window = new GameFrame();
         board = new Board();
+
+        System.out.println("Loading user interface..");
+        new GameFrame();
     }
 
     public Board getBoard()
