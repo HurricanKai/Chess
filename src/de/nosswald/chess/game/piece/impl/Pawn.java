@@ -8,9 +8,9 @@ import java.awt.*;
 /**
  * @author Nils Osswald
  */
-public class Queen extends Piece
+public class Pawn extends Piece
 {
-    public Queen(Side side, int col, int row)
+    public Pawn(Side side, int col, int row)
     {
         super(side, col, row);
     }
