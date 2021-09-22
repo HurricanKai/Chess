@@ -1,8 +1,13 @@
 package de.nosswald.chess.game.piece;
 
 import de.nosswald.chess.game.Side;
+import de.nosswald.chess.utils.ResourceLocation;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Nils Osswald
@@ -13,14 +18,22 @@ public abstract class Piece
     private final Side side;
     private int col, row;
 
-    public Piece(Side side, int col, int row)
+    private BufferedImage image;
+
+    public Piece(String fileName, Side side, int col, int row)
     {
         this.side = side;
         this.col = col;
         this.row = row;
+
+        // TODO error print
+        try { image = ImageIO.read(new ResourceLocation(fileName, ResourceLocation.Type.PIECE).getFile()); } catch (IOException ignored) { }
     }
 
-    public abstract void paint(Graphics2D graphics, int size);
+    public void paint(Graphics2D graphics, int x, int y, int size)
+    {
+        graphics.drawImage(image, x, y, size, size, null, null);
+    }
 
     public Side getSide()
     {
