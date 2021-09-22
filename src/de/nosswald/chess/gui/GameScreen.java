@@ -4,6 +4,8 @@ import de.nosswald.chess.Chess;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Noah Gerber
@@ -11,6 +13,20 @@ import java.awt.*;
  */
 public class GameScreen extends JPanel
 {
+
+    public GameScreen()
+    {
+        addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                Chess.getInstance().getBoard().onClick(e, getHeight());
+                super.mouseClicked(e);
+            }
+        });
+    }
+
     @Override
     public void paint(Graphics g)
     {
@@ -18,5 +34,7 @@ public class GameScreen extends JPanel
 
         Graphics2D g2d = (Graphics2D)g;
         Chess.getInstance().getBoard().paint(g2d, getHeight());
+
+        repaint();
     }
 }

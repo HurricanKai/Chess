@@ -4,6 +4,7 @@ import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.game.piece.impl.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -46,22 +47,42 @@ public class Board
 
     public void paint(Graphics2D graphics, int boardSize)
     {
-        graphics.fillRect(0, 0, 100, 100);
-
         for (int c = 0; c < 8; c++)
         {
             for (int r = 0; r < 8; r++)
             {
-                graphics.setColor((c + r) % 2 == 1 ? new Color(186, 120, 63) : new Color(240, 217, 181));
-                graphics.fillRect((boardSize / 8) * r, (boardSize / 8) * c, boardSize / 8, boardSize / 8);
+                Color color = (c + r) % 2 == 1 ? new Color(186, 120, 63) : new Color(240, 217, 181);
 
-                // paint piece
                 for (Piece piece : pieces)
                 {
-                    if (piece.getCol() == c && piece.getRow() == r)
-                        piece.paint(graphics, (boardSize / 8) * r, (boardSize / 8) * c, boardSize / 8);
+                    if (piece.getCol() == c && piece.getRow() == r && piece.isSelected())
+                    {
+                        color = Color.RED;
+                        break;
+                    }
                 }
+
+                graphics.setColor(color);
+                graphics.fillRect((boardSize / 8) * r, (boardSize / 8) * c, boardSize / 8, boardSize / 8);
             }
+        }
+
+        // paint piece
+        for (Piece piece : pieces)
+        {
+            piece.paint(graphics, (boardSize / 8) * piece.getRow(), (boardSize / 8) * piece.getCol(), boardSize / 8);
+        }
+    }
+
+    public void onClick(MouseEvent e, int boardSize)
+    {
+        int pieceSize = boardSize/8;
+        for (Piece piece : pieces)
+        {
+            piece.setSelected(
+                    piece.getCol() == e.getY() / pieceSize &&
+                    piece.getRow() == e.getX() / pieceSize
+            );
         }
     }
 }

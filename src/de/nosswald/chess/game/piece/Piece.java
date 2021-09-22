@@ -19,6 +19,7 @@ public abstract class Piece
     private int col, row;
 
     private BufferedImage image;
+    private boolean selected;
 
     public Piece(String fileName, Side side, int col, int row)
     {
@@ -48,6 +49,16 @@ public abstract class Piece
     public int getRow()
     {
         return row;
+    }
+
+    public boolean isSelected()
+    {
+        return selected;
+    }
+
+    public void setSelected(boolean selected)
+    {
+        this.selected = selected;
     }
 
     public void setCol(int col)
