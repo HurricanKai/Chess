@@ -28,30 +28,22 @@ public class Board
         IntStream.range(0, 16).forEach(i -> {
             boolean b = i % 2 == 0;
             pieces.add(new Pawn(b ? Side.WHITE : Side.BLACK, b ? 1 : 6, i / 2));
+            if (i < 4)
+            {
+                pieces.add(new Rook(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 0 : 7));
+                pieces.add(new Knight(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 1 : 6));
+                pieces.add(new Bishop(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 2 : 5));
+            }
+            if (i < 2)
+            {
+                pieces.add(new Queen(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 3 : 4));
+                pieces.add(new King(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 4 : 3));
+            }
         });
 
-        IntStream.range(0, 4).forEach(i -> {
-            boolean b = i % 2 == 0;
-            pieces.add(new Rook(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 0 : 7));
-        });
-
-        IntStream.range(0, 4).forEach(i -> {
-            boolean b = i % 2 == 0;
-            pieces.add(new Knight(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 1 : 6));
-        });
-
-        IntStream.range(0, 4).forEach(i -> {
-            boolean b = i % 2 == 0;
-            pieces.add(new Bishop(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, i / 2 == 0 ? 2 : 5));
-        });
-
-        pieces.add(new Queen(Side.WHITE, 0, 3));
-        pieces.add(new Queen(Side.BLACK, 7, 4));
-
-        pieces.add(new King(Side.WHITE, 0, 4));
-        pieces.add(new King(Side.BLACK, 7, 3));
-
-        // pieces.forEach(piece -> System.out.println(piece.getSide() + " " + piece.getCol() + " " + piece.getRow()));
+        pieces.forEach(piece -> System.out.println(
+                piece.getSide() + " " + piece.getCol() + " " + piece.getRow() + " " + piece.getClass().getSimpleName())
+        );
     }
 
     public void paint(Graphics2D graphics, int boardSize)
