@@ -23,8 +23,6 @@ public class Board
 
     public void initialize()
     {
-        // TODO das ist soviel kot das geht bestimmt kompakter
-
         IntStream.range(0, 16).forEach(i -> {
             boolean b = i % 2 == 0;
             pieces.add(new Pawn(b ? Side.WHITE : Side.BLACK, b ? 1 : 6, i / 2));
@@ -36,8 +34,8 @@ public class Board
             }
             if (i < 2)
             {
-                pieces.add(new Queen(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 3 : 4));
-                pieces.add(new King(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, b ? 4 : 3));
+                pieces.add(new Queen(b ? Side.WHITE : Side.BLACK, b ? 0 : 7,3));
+                pieces.add(new King(b ? Side.WHITE : Side.BLACK, b ? 0 : 7, 4));
             }
         });
 
