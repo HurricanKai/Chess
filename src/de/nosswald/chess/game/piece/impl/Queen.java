@@ -3,6 +3,7 @@ package de.nosswald.chess.game.piece.impl;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -14,5 +15,11 @@ public class Queen extends Piece
     public Queen(Side side, int col, int row)
     {
         super("queen_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, col, row);
+    }
+
+    @Override
+    public List<int[]> getPossibleMoves()
+    {
+        return null;
     }
 }

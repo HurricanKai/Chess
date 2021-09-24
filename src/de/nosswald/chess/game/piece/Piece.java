@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Nils Osswald
@@ -14,8 +15,8 @@ import java.io.IOException;
  */
 public abstract class Piece
 {
-    private final Side side;
-    private int col, row;
+    protected final Side side;
+    protected int col, row;
 
     private BufferedImage image;
 
@@ -34,6 +35,18 @@ public abstract class Piece
         graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         graphics.drawImage(image, x, y, size, size, null, null);
     }
+
+    protected boolean onBoard(int col, int row)
+    {
+        return col >= 0 && row >= 0 && col < 8 && row < 8;
+    }
+
+    protected int getActualRow()
+    {
+        return 8 - row;
+    }
+
+    public abstract List<int[]> getPossibleMoves();
 
     public Side getSide()
     {
