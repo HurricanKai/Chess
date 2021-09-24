@@ -6,12 +6,12 @@ import java.io.File;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class ResourceLocation
+public final class ResourceLocation
 {
     private final String fileName;
     private final Type type;
 
-    private File file;
+    private final File file;
 
     public ResourceLocation(String fileName, Type type)
     {
@@ -37,5 +37,9 @@ public class ResourceLocation
     {
         return file;
     }
-}
 
+    public Type getType()
+    {
+        return type;
+    }
+}
