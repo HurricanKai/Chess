@@ -11,7 +11,8 @@ public enum FieldColor
     WHITE(new Color(240, 217, 181)),
     BLACK(new Color(186, 120, 63)),
 
-    SELECTED(new Color(255, 0, 0, 80));
+    SELECTED(new Color(255, 0, 0, 75)),
+    POSSIBLE_MOVE(new Color(0, 255, 0, 75));
 
     private Color color;
 
