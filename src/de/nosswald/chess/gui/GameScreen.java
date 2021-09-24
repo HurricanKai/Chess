@@ -13,16 +13,14 @@ import java.awt.event.MouseEvent;
  */
 public class GameScreen extends JPanel
 {
-
     public GameScreen()
     {
-        addMouseListener(new MouseAdapter()
+        this.addMouseListener(new MouseAdapter()
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                Chess.getInstance().getBoard().onClick(e, getHeight());
-                super.mouseClicked(e);
+                Chess.getInstance().getBoard().onClick(getHeight(), e.getX() / (getHeight() / 8), e.getY() / (getHeight() / 8));
             }
         });
     }

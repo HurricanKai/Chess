@@ -6,7 +6,6 @@ import de.nosswald.chess.utils.ResourceLocation;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -19,7 +18,6 @@ public abstract class Piece
     private int col, row;
 
     private BufferedImage image;
-    private boolean selected;
 
     public Piece(String fileName, Side side, int col, int row)
     {
@@ -33,6 +31,7 @@ public abstract class Piece
 
     public void paint(Graphics2D graphics, int x, int y, int size)
     {
+        graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         graphics.drawImage(image, x, y, size, size, null, null);
     }
 
@@ -49,16 +48,6 @@ public abstract class Piece
     public int getRow()
     {
         return row;
-    }
-
-    public boolean isSelected()
-    {
-        return selected;
-    }
-
-    public void setSelected(boolean selected)
-    {
-        this.selected = selected;
     }
 
     public void setCol(int col)
