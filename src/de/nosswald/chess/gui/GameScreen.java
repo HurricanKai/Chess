@@ -20,7 +20,7 @@ public class GameScreen extends JPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                Chess.getInstance().getBoard().onClick(getHeight(), e.getX() / (getHeight() / 8), e.getY() / (getHeight() / 8));
+                Chess.getInstance().getBoard().onClick(e.getX() / (getHeight() / 8), e.getY() / (getHeight() / 8));
             }
         });
     }
