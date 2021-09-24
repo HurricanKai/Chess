@@ -19,6 +19,8 @@ public class Board
 {
     private final List<Piece> pieces = new ArrayList<>();
 
+    private Side nextMove = Side.WHITE;
+
     @Nullable
     private Piece selected;
 
@@ -81,14 +83,13 @@ public class Board
                 piece.paint(graphics, fieldSize * piece.getCol(), fieldSize * piece.getRow(), fieldSize));
     }
 
-    public void onClick(int boardSize, int col, int row)
+    public void onClick(int col, int row)
     {
-        // TODO check if the player has the next move
         if (selected == null)
         {
             Piece clicked = getPiece(col, row);
 
-            if (clicked != null)
+            if (clicked != null && clicked.getSide() == nextMove)
             {
                 selected = clicked;
 
@@ -106,6 +107,9 @@ public class Board
                 pieces.removeIf(piece -> piece.getCol() == move[0] && piece.getRow() == move[1]);
                 selected.setCol(move[0]);
                 selected.setRow(move[1]);
+
+                // flip sides
+                nextMove = nextMove == Side.WHITE ? Side.BLACK : Side.WHITE;
             });
 
             selected = null;
