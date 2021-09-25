@@ -8,13 +8,12 @@ import java.awt.*;
  */
 public enum FieldColor
 {
-    WHITE(new Color(240, 217, 181)),
-    BLACK(new Color(186, 120, 63)),
+    WHITE(new Color(237, 216, 191)),
+    BLACK(new Color(170, 119, 102)),
+    SELECTED(new Color(148, 219, 147, 150)),
+    POSSIBLE_MOVE(new Color(197, 49, 61, 200));
 
-    SELECTED(new Color(255, 0, 0, 75)),
-    POSSIBLE_MOVE(new Color(0, 255, 0, 75));
-
-    private Color color;
+    private final Color color;
 
     FieldColor(Color color)
     {

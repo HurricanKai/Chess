@@ -68,13 +68,13 @@ public class Board
         if (selected != null)
         {
             graphics.setColor(FieldColor.SELECTED.getColor());
-            graphics.fillOval(fieldSize * selected.getCol(), fieldSize * selected.getRow(), fieldSize, fieldSize);
+            graphics.fillRect(fieldSize * selected.getCol(), fieldSize * selected.getRow(), fieldSize, fieldSize);
 
             if (!selected.getPossibleMoves().isEmpty())
             {
                 selected.getPossibleMoves().forEach(move -> {
                     graphics.setColor(FieldColor.POSSIBLE_MOVE.getColor());
-                    graphics.fillOval(fieldSize * move[0], fieldSize * move[1], fieldSize, fieldSize);
+                    graphics.fillRect(fieldSize * move[0], fieldSize * move[1], fieldSize, fieldSize);
                 });
             }
         }
