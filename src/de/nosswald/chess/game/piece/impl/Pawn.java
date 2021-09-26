@@ -24,16 +24,16 @@ public class Pawn extends Piece
     {
         final List<int[]> moves = new ArrayList<>();
         final Board board = Chess.getInstance().getBoard();
-        final boolean isFirstMove = this.side == Side.WHITE ? this.getActualRow() == 2 : this.getActualRow() == 7;
+        final boolean isFirstMove = this.side == Side.WHITE ? this.row == 6 : this.row == 1;
         final int rowForward = this.side == Side.WHITE ? this.row - 1 : this.row + 1;
         final int rowFirst = this.side == Side.WHITE ? this.row - 2 : this.row + 2;
 
         // single step forward
-        if (!board.hasPiece(col, rowForward) && onBoard(col, rowForward))
+        if (!board.hasPiece(col, rowForward) && this.onBoard(col, rowForward))
             moves.add(new int[]{ col, rowForward });
 
         // double step forward
-        if (isFirstMove && !board.hasPiece(col, rowForward) && !board.hasPiece(col, rowFirst) && onBoard(col, rowFirst))
+        if (isFirstMove && !board.hasPiece(col, rowForward) && !board.hasPiece(col, rowFirst) && this.onBoard(col, rowFirst))
             moves.add(new int[]{ col, rowFirst });
 
         // opponent attack right

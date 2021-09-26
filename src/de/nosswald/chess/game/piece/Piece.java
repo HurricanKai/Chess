@@ -41,11 +41,6 @@ public abstract class Piece
         return col >= 0 && row >= 0 && col < 8 && row < 8;
     }
 
-    protected int getActualRow()
-    {
-        return 8 - row;
-    }
-
     public abstract List<int[]> getPossibleMoves();
 
     public Side getSide()
