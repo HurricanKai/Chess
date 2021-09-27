@@ -1,7 +1,5 @@
 package de.nosswald.chess.game.piece.impl;
 
-import de.nosswald.chess.Chess;
-import de.nosswald.chess.game.Board;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
 
@@ -23,28 +21,28 @@ public class Pawn extends Piece
     public List<int[]> getPossibleMoves()
     {
         final List<int[]> moves = new ArrayList<>();
-        final Board board = Chess.getInstance().getBoard();
         final boolean isFirstMove = this.side == Side.WHITE ? this.row == 6 : this.row == 1;
         final int rowForward = this.side == Side.WHITE ? this.row - 1 : this.row + 1;
         final int rowFirst = this.side == Side.WHITE ? this.row - 2 : this.row + 2;
 
         // single step forward
-        if (!board.hasPiece(col, rowForward) && this.onBoard(col, rowForward))
-            moves.add(new int[]{ col, rowForward });
+        if (!this.board.hasPiece(this.col, rowForward) && this.onBoard(this.col, rowForward))
+            moves.add(new int[]{ this.col, rowForward });
 
         // double step forward
-        if (isFirstMove && !board.hasPiece(col, rowForward) && !board.hasPiece(col, rowFirst) && this.onBoard(col, rowFirst))
-            moves.add(new int[]{ col, rowFirst });
+        if (isFirstMove && !this.board.hasPiece(this.col, rowForward) && !this.board.hasPiece(this.col, rowFirst)
+                && this.onBoard(this.col, rowFirst))
+            moves.add(new int[]{ this.col, rowFirst });
 
         // opponent attack right
-        if (onBoard(col + 1, rowForward) && board.hasPiece(col + 1, rowForward)
-                && board.getPiece(col + 1, rowForward).getSide() != this.side)
-            moves.add(new int[]{ col + 1, rowForward });
+        if (this.onBoard(this.col + 1, rowForward) && this.board.hasPiece(this.col + 1, rowForward)
+                && this.board.getPiece(this.col + 1, rowForward).getSide() != this.side)
+            moves.add(new int[]{ this.col + 1, rowForward });
 
         // opponent attack left
-        if (onBoard(col - 1, rowForward) && board.hasPiece(col - 1, rowForward)
-                && board.getPiece(col - 1, rowForward).getSide() != this.side)
-            moves.add(new int[]{ col - 1, rowForward });
+        if (this.onBoard(this.col - 1, rowForward) && this.board.hasPiece(this.col - 1, rowForward)
+                && this.board.getPiece(this.col - 1, rowForward).getSide() != this.side)
+            moves.add(new int[]{ this.col - 1, rowForward });
 
         return moves;
     }

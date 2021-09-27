@@ -24,6 +24,8 @@ public class Chess
         instance = this;
         board = new Board();
 
+        board.initialize();
+
         System.out.println("Loading user interface..");
         new GameFrame();
     }

@@ -24,11 +24,6 @@ public class Board
     @Nullable
     private Piece selected;
 
-    public Board()
-    {
-        initialize();
-    }
-
     public void initialize()
     {
         IntStream.range(0, 16).forEach(i -> {
