@@ -48,6 +48,10 @@ public class Board
     public void paint(Graphics2D graphics, int boardSize)
     {
         final int fieldSize = boardSize / 8;
+        final boolean isDebugMode = Chess.DEBUG_MODE;
+
+        if (isDebugMode)
+            graphics.setFont(new Font("Arial", Font.PLAIN, 26));
 
         // paint board
         for (int c = 0; c < 8; c++)
@@ -56,6 +60,12 @@ public class Board
             {
                 graphics.setColor((c + r) % 2 == 1 ? FieldColor.BLACK.getColor() : FieldColor.WHITE.getColor());
                 graphics.fillRect(fieldSize * c, fieldSize * r, fieldSize, fieldSize);
+
+                if (isDebugMode)
+                {
+                    graphics.setColor(Color.BLACK);
+                    graphics.drawString("(" + c + "|" + r + ")", fieldSize* c, (fieldSize * r) + fieldSize);
+                }
             }
         }
 
@@ -89,7 +99,7 @@ public class Board
                 selected = clicked;
 
                 if (Chess.DEBUG_MODE)
-                    System.out.printf("[DEBUG] Selected %s on col %d and row %d\n", clicked.getClass().getSimpleName(), col, row);
+                    System.out.printf("[DEBUG] Selected %s on (%d|%d)\n", clicked.getClass().getSimpleName(), col, row);
             }
         }
         else
@@ -97,7 +107,7 @@ public class Board
             selected.getPossibleMoves().stream().filter(move -> move[0] == col && move[1] == row).findFirst().ifPresent(move ->
             {
                 if (Chess.DEBUG_MODE)
-                    System.out.printf("[DEBUG] Moved %s from col %d and row %d to col %d and row %d\n", selected.getClass().getSimpleName(), selected.getCol(), selected.getRow(), move[0], move[1]);
+                    System.out.printf("[DEBUG] Moved %s from (%d|%d) to (%d|%d)\n", selected.getClass().getSimpleName(), selected.getCol(), selected.getRow(), move[0], move[1]);
 
                 pieces.removeIf(piece -> piece.getCol() == move[0] && piece.getRow() == move[1]);
                 selected.setCol(move[0]);
