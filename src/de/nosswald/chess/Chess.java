@@ -13,14 +13,18 @@ public class Chess
     public static final String APP_VERSION = "0.1";
     public static final String[] APP_AUTHORS = { "Noah Gerber", "Nils Osswald" };
 
-    public static final boolean DEBUG_MODE = true;
+    public static boolean DEBUG_MODE;
 
     private static Chess instance;
 
     private Board board;
 
-    public Chess()
+    public Chess(boolean debug)
     {
+        if (debug)
+            System.out.println("[DEBUG] Using debug mode");
+        DEBUG_MODE = debug;
+
         instance = this;
         board = new Board();
 
