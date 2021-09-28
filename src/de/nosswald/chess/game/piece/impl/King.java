@@ -3,6 +3,7 @@ package de.nosswald.chess.game.piece.impl;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,6 +21,18 @@ public class King extends Piece
     @Override
     public List<int[]> getPossibleMoves()
     {
-        return null;
+        final List<int[]> moves = new ArrayList<>();
+
+        for (int c = getCol() - 1; c <= getCol() + 1; c++)
+        {
+            for (int r = getRow() - 1; r <= getRow() + 1; r++)
+            {
+                if(c == getCol() && r == getRow())
+                    break;
+
+                if (!this.canPath(moves, c, r)) break;
+            }
+        }
+        return moves;
     }
 }
