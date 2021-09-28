@@ -25,32 +25,32 @@ public class Queen extends Piece
         int r;
 
         // right down
-        r = getRow() + 1;
-        for (int c = getCol() + 1; c < 8; c++)
+        r = this.getRow() + 1;
+        for (int c = this.getCol() + 1; c < 8; c++)
         {
             if (!this.canPath(moves, c, r) || r == 7) break;
             r++;
         }
 
         // right up
-        r = getRow() - 1;
-        for (int c = getCol() + 1; c < 8; c++)
+        r = this.getRow() - 1;
+        for (int c = this.getCol() + 1; c < 8; c++)
         {
             if (!this.canPath(moves, c, r) || r == 0) break;
             r--;
         }
 
         // left down
-        r = getRow() + 1;
-        for (int c = getCol() - 1; c >= 0; c--)
+        r = this.getRow() + 1;
+        for (int c = this.getCol() - 1; c >= 0; c--)
         {
             if (!this.canPath(moves, c, r) || r == 7) break;
             r++;
         }
 
         // left up
-        r = getRow() - 1;
-        for (int c = getCol() - 1; c >= 0; c--)
+        r = this.getRow() - 1;
+        for (int c = this.getCol() - 1; c >= 0; c--)
         {
             if (!this.canPath(moves, c, r) || r == 0) break;
             r--;
