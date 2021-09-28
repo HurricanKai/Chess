@@ -23,14 +23,23 @@ public class King extends Piece
     {
         final List<int[]> moves = new ArrayList<>();
 
-        for (int c = getCol() - 1; c <= getCol() + 1; c++)
+        for (int colOffset = -1; colOffset <= 1; colOffset++)
         {
-            for (int r = getRow() - 1; r <= getRow() + 1; r++)
+            for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
             {
-                if(c == getCol() && r == getRow())
-                    break;
+                if (colOffset != 0 || rowOffset != 0)
+                {
+                    int c = this.col + colOffset;
+                    int r = this.row + rowOffset;
 
-                if (!this.canPath(moves, c, r)) break;
+                    if (this.onBoard(c, r))
+                    {
+                        if (this.board.hasPiece(c, r) && board.getPiece(c, r).getSide() == this.side)
+                            continue;
+
+                        moves.add(new int[]{ c, r });
+                    }
+                }
             }
         }
         return moves;
