@@ -55,11 +55,11 @@ public abstract class Piece
             {
                 if (board.getPiece(col, row).getSide() != this.side)
                     moves.add(new int[]{ col, row });
-                return true;
+                return false;
             }
             moves.add(new int[]{ col, row });
         }
-        return false;
+        return true;
     }
 
     public abstract List<int[]> getPossibleMoves();
