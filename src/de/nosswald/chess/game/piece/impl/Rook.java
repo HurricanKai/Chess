@@ -25,19 +25,19 @@ public class Rook extends Piece
 
         // down
         for (int r = this.row + 1; r < 8; r++)
-            if (this.canPath(moves, this.col, r)) break;
+            if (!this.canPath(moves, this.col, r)) break;
 
         // up
         for (int r = this.row - 1; r >= 0; r--)
-            if (this.canPath(moves, this.col, r)) break;
+            if (!this.canPath(moves, this.col, r)) break;
 
         // right
         for (int c = this.col + 1; c < 8; c++)
-            if (this.canPath(moves, c, this.row)) break;
+            if (!this.canPath(moves, c, this.row)) break;
 
         // left
         for (int c = this.col - 1; c >= 0; c--)
-            if (this.canPath(moves, c, this.row)) break;
+            if (!this.canPath(moves, c, this.row)) break;
 
         return moves;
     }
