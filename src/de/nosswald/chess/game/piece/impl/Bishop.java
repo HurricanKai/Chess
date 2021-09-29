@@ -56,6 +56,6 @@ public class Bishop extends Piece
             r--;
         }
 
-        return moves;
+        return filterLegalMoves(moves);
     }
 }

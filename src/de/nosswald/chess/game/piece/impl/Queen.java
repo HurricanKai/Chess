@@ -72,6 +72,6 @@ public class Queen extends Piece
         for (int c = this.col - 1; c >= 0; c--)
             if (!this.canPath(moves, c, this.row)) break;
 
-        return moves;
+        return filterLegalMoves(moves);
     }
 }

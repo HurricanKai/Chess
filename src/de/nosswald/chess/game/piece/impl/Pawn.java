@@ -44,6 +44,6 @@ public class Pawn extends Piece
                 && this.board.getPiece(this.col - 1, rowForward).getSide() != this.side)
             moves.add(new int[]{ this.col - 1, rowForward });
 
-        return moves;
+        return filterLegalMoves(moves);
     }
 }

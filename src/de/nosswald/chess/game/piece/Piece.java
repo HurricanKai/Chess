@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,8 +33,14 @@ public abstract class Piece
 
         board = Chess.getInstance().getBoard();
 
-        // TODO error print
-        try { image = ImageIO.read(new ResourceLocation(fileName, ResourceLocation.Type.PIECE).getFile()); } catch (IOException ignored) { }
+        try
+        {
+            image = ImageIO.read(new ResourceLocation(fileName, ResourceLocation.Type.PIECE).getFile());
+        }
+        catch (IOException e)
+        {
+            System.out.printf("[ERROR] Image for %s not found!\n%s\n", getClass().getSimpleName(), e.getMessage());
+        }
     }
 
     public void paint(Graphics2D graphics, int x, int y, int size)
@@ -60,6 +67,42 @@ public abstract class Piece
             moves.add(new int[]{ col, row });
         }
         return true;
+    }
+
+    protected List<int[]> filterLegalMoves(List<int[]> pseudoLegalMoves)
+    {
+        if (!board.isLegitimacyChecking())
+            return pseudoLegalMoves;
+
+        board.setLegitimacyChecking(false);
+
+        final List<int[]> legalMoves = new ArrayList<>();
+
+        if (board.isInCheck(side))
+        {
+            for (int[] pseudoLegalMove : pseudoLegalMoves)
+            {
+                final int col = this.col;
+                final int row = this.row;
+                final Piece piece = board.getPiece(col, row);
+
+                piece.setCol(pseudoLegalMove[0]);
+                piece.setRow(pseudoLegalMove[1]);
+
+                if (!board.isInCheck(side))
+                    legalMoves.add(pseudoLegalMove);
+
+                // reset
+                piece.setCol(col);
+                piece.setRow(row);
+            }
+        }
+        else
+            legalMoves.addAll(pseudoLegalMoves);
+
+        board.setLegitimacyChecking(true);
+
+        return legalMoves;
     }
 
     public abstract List<int[]> getPossibleMoves();

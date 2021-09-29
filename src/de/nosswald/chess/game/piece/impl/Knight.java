@@ -26,7 +26,7 @@ public class Knight extends Piece
         addMoves(moves, 2, 4, 1, 2);
         addMoves(moves, 1, 2, 2, 4);
 
-        return moves;
+        return filterLegalMoves(moves);
     }
 
     private void addMoves(List<int[]> moves, int minFirst, int maxFirst, int minSecond, int maxSecond)

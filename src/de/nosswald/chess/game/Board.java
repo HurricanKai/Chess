@@ -21,6 +21,8 @@ public class Board
 
     private Side nextMove = Side.WHITE;
 
+    private boolean legitimacyChecking = true;
+
     @Nullable
     private Piece selected;
 
@@ -121,6 +123,23 @@ public class Board
         }
     }
 
+    public boolean isInCheck(Side side)
+    {
+        return pieces.stream()
+                .filter(piece -> piece instanceof King)
+                .anyMatch(king -> pieces.stream()
+                        .filter(piece -> piece.getSide() != side)
+                        .anyMatch(piece -> piece.getPossibleMoves().stream()
+                                .anyMatch(move -> king.getCol() == move[0] && king.getRow() == move[1])));
+    }
+
+    public boolean isCheckMate(Side side)
+    {
+        return pieces.stream()
+                .filter(piece -> piece.getSide() == side)
+                .allMatch(piece -> piece.getPossibleMoves().isEmpty()) && isInCheck(side);
+    }
+
     @Nullable
     public Piece getPiece(int col, int row)
     {
@@ -130,5 +149,15 @@ public class Board
     public boolean hasPiece(int col, int row)
     {
         return pieces.stream().anyMatch(piece -> piece.getCol() == col && piece.getRow() == row);
+    }
+
+    public void setLegitimacyChecking(boolean legitimacyChecking)
+    {
+        this.legitimacyChecking = legitimacyChecking;
+    }
+
+    public boolean isLegitimacyChecking()
+    {
+        return legitimacyChecking;
     }
 }
