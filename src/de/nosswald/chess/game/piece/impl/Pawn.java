@@ -16,7 +16,6 @@ public class Pawn extends Piece
         super("pawn_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, col, row);
     }
 
-    // TODO en passant rule
     @Override
     public List<int[]> getPossibleMoves()
     {

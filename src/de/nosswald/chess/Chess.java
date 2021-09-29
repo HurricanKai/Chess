@@ -9,6 +9,12 @@ import de.nosswald.chess.gui.GameFrame;
  */
 public class Chess
 {
+    /**
+     * TODO en passent
+     *      castling
+     *      checkmate + show winner
+     */
+
     public static final String APP_NAME = "Chess";
     public static final String APP_VERSION = "0.1";
     public static final String[] APP_AUTHORS = { "Noah Gerber", "Nils Osswald" };
