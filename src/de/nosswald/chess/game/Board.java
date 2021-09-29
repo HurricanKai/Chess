@@ -111,9 +111,7 @@ public class Board
                 if (Chess.DEBUG_MODE)
                     System.out.printf("[DEBUG] Moved %s from (%d|%d) to (%d|%d)\n", selected.getClass().getSimpleName(), selected.getCol(), selected.getRow(), move[0], move[1]);
 
-                pieces.removeIf(piece -> piece.getCol() == move[0] && piece.getRow() == move[1]);
-                selected.setCol(move[0]);
-                selected.setRow(move[1]);
+                selected.setPosition(move[0], move[1]);
 
                 // flip sides
                 nextMove = nextMove == Side.WHITE ? Side.BLACK : Side.WHITE;
@@ -149,6 +147,11 @@ public class Board
     public boolean hasPiece(int col, int row)
     {
         return pieces.stream().anyMatch(piece -> piece.getCol() == col && piece.getRow() == row);
+    }
+
+    public List<Piece> getPieces()
+    {
+        return pieces;
     }
 
     public void setLegitimacyChecking(boolean legitimacyChecking)

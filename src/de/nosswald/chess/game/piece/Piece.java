@@ -78,31 +78,33 @@ public abstract class Piece
 
         final List<int[]> legalMoves = new ArrayList<>();
 
-        if (board.isInCheck(side))
+        for (int[] pseudoLegalMove : pseudoLegalMoves)
         {
-            for (int[] pseudoLegalMove : pseudoLegalMoves)
-            {
-                final int col = this.col;
-                final int row = this.row;
-                final Piece piece = board.getPiece(col, row);
+            final int col = this.col;
+            final int row = this.row;
+            final Piece piece = board.getPiece(col, row);
+            final Piece oldPiece = board.getPiece(pseudoLegalMove[0], pseudoLegalMove[1]);
 
-                piece.setCol(pseudoLegalMove[0]);
-                piece.setRow(pseudoLegalMove[1]);
+            piece.setPosition(pseudoLegalMove[0], pseudoLegalMove[1]);
 
-                if (!board.isInCheck(side))
-                    legalMoves.add(pseudoLegalMove);
+            if (!board.isInCheck(side))
+                legalMoves.add(pseudoLegalMove);
 
-                // reset
-                piece.setCol(col);
-                piece.setRow(row);
-            }
+            // reset
+            setPosition(col, row);
+            if (oldPiece != null) board.getPieces().add(oldPiece);
         }
-        else
-            legalMoves.addAll(pseudoLegalMoves);
 
         board.setLegitimacyChecking(true);
 
         return legalMoves;
+    }
+
+    public void setPosition(int col, int row)
+    {
+        board.getPieces().removeIf(piece -> piece.getCol() == col && piece.getRow() == row);
+        this.col = col;
+        this.row = row;
     }
 
     public abstract List<int[]> getPossibleMoves();
@@ -120,15 +122,5 @@ public abstract class Piece
     public int getRow()
     {
         return row;
-    }
-
-    public void setCol(int col)
-    {
-        this.col = col;
-    }
-
-    public void setRow(int row)
-    {
-        this.row = row;
     }
 }
