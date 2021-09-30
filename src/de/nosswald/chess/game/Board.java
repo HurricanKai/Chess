@@ -115,6 +115,10 @@ public class Board
 
                 // flip sides
                 nextMove = nextMove == Side.WHITE ? Side.BLACK : Side.WHITE;
+
+                // check if checkmate
+                if (isCheckMate(nextMove))
+                    System.out.println("Checkmate for " + nextMove.name());
             });
 
             selected = null;
@@ -123,9 +127,12 @@ public class Board
 
     public boolean isInCheck(Side side)
     {
-        return pieces.stream()
+        List<Piece> piecesClone = new ArrayList<>(pieces);
+        List<Piece> anotherPiecesClone = new ArrayList<>(pieces);
+
+        return piecesClone.stream()
                 .filter(piece -> piece instanceof King)
-                .anyMatch(king -> pieces.stream()
+                .anyMatch(king -> anotherPiecesClone.stream()
                         .filter(piece -> piece.getSide() != side)
                         .anyMatch(piece -> piece.getPossibleMoves().stream()
                                 .anyMatch(move -> king.getCol() == move[0] && king.getRow() == move[1])));
