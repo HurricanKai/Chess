@@ -140,7 +140,9 @@ public class Board
 
     public boolean isCheckMate(Side side)
     {
-        return pieces.stream()
+        List<Piece> piecesClone = new ArrayList<>(pieces);
+
+        return piecesClone.stream()
                 .filter(piece -> piece.getSide() == side)
                 .allMatch(piece -> piece.getPossibleMoves().isEmpty()) && isInCheck(side);
     }
