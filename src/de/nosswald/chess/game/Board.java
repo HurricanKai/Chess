@@ -17,15 +17,27 @@ import java.util.stream.IntStream;
  */
 public class Board
 {
+    /**
+     * contains every {@link Piece} on the board
+     */
     private final List<Piece> pieces = new ArrayList<>();
 
+    /**
+     * stores the {@link Side} which moves next
+     */
     private Side nextMove = Side.WHITE;
 
     private boolean legitimacyChecking = true;
 
+    /**
+     * stores the currently selected {@link Piece}<br> (null if nothing is selected)
+     */
     @Nullable
     private Piece selected;
 
+    /**
+     * Initializes every {@link Piece} on the board
+     */
     public void initialize()
     {
         IntStream.range(0, 16).forEach(i -> {
@@ -45,8 +57,17 @@ public class Board
                 pieces.add(new King(b ? Side.BLACK : Side.WHITE, 4, b ? 0 : 7));
             }
         });
+
+        if (Chess.DEBUG_MODE)
+            System.out.println("[DEBUG] Added all pieces to the board!");
     }
 
+    /**
+     * Paints the board
+     *
+     * @param graphics  the graphics object
+     * @param boardSize the total board size (width = height)
+     */
     public void paint(Graphics2D graphics, int boardSize)
     {
         final int fieldSize = boardSize / 8;
@@ -90,10 +111,17 @@ public class Board
                 piece.paint(graphics, fieldSize * piece.getCol(), fieldSize * piece.getRow(), fieldSize));
     }
 
+    /**
+     * Handles the click event based on the {@link Piece#col} and the {@link Piece#col}
+     *
+     * @param col   the clicked column
+     * @param row   the clicked row
+     */
     public void onClick(int col, int row)
     {
         if (selected == null)
         {
+            // select piece
             Piece clicked = getPiece(col, row);
 
             if (clicked != null && clicked.getSide() == nextMove)
@@ -122,9 +150,18 @@ public class Board
             });
 
             selected = null;
+
+            if (Chess.DEBUG_MODE)
+                System.out.println("[DEBUG] Cleared selected piece");
         }
     }
 
+    /**
+     * Checks if the {@link King} of the given {@link Side} is in check
+     *
+     * @param side the side to be checked
+     * @return whether the sides king is in check or not
+     */
     public boolean isInCheck(Side side)
     {
         List<Piece> piecesClone = new ArrayList<>(pieces);
@@ -138,6 +175,12 @@ public class Board
                                 .anyMatch(move -> king.getCol() == move[0] && king.getRow() == move[1])));
     }
 
+    /**
+     * Checks if the given {@link Side} is checkmate
+     *
+     * @param side the side to be checked
+     * @return whether it is checkmate for the given side or not
+     */
     public boolean isCheckMate(Side side)
     {
         List<Piece> piecesClone = new ArrayList<>(pieces);
@@ -147,17 +190,34 @@ public class Board
                 .allMatch(piece -> piece.getPossibleMoves().isEmpty()) && isInCheck(side);
     }
 
+    /**
+     * Returns the piece on the given {@link Piece#col} and {@link Piece#row}
+     *
+     * @param col   the column
+     * @param row   the row
+     * @return the piece on the given col and row (null if the field is empty)
+     */
     @Nullable
     public Piece getPiece(int col, int row)
     {
         return pieces.stream().filter(piece -> piece.getCol() == col && piece.getRow() == row).findFirst().orElse(null);
     }
 
+    /**
+     * Checks if there is a piece on the given {@link Piece#col} and {@link Piece#row}
+     *
+     * @param col   the column
+     * @param row   the row
+     * @return whether the field has a piece or not
+     */
     public boolean hasPiece(int col, int row)
     {
         return pieces.stream().anyMatch(piece -> piece.getCol() == col && piece.getRow() == row);
     }
 
+    /**
+     * @return a list of all pieces on the board
+     */
     public List<Piece> getPieces()
     {
         return pieces;

@@ -27,6 +27,12 @@ public abstract class Piece
 
     private BufferedImage image;
 
+    /**
+     * @param fileName  the name of the image file
+     * @param side      the side
+     * @param col       the column
+     * @param row       the row
+     */
     public Piece(String fileName, Side side, int col, int row)
     {
         this.side = side;
@@ -45,17 +51,41 @@ public abstract class Piece
         }
     }
 
+    /**
+     * Paints the piece
+     *
+     * @param graphics  the graphics object
+     * @param x         the x position measured in pixels
+     * @param y         the y position measured in pixels
+     * @param size      the width and the height of the piece measured in pixels
+     */
     public void paint(Graphics2D graphics, int x, int y, int size)
     {
         graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         graphics.drawImage(image, x, y, size, size, null, null);
     }
 
+    /**
+     * Checks if the given column and row is on the board
+     *
+     * @param col   the column
+     * @param row   the row
+     * @return whether the row and the col is on the board or not
+     */
     protected boolean onBoard(int col, int row)
     {
         return col >= 0 && row >= 0 && col < 8 && row < 8;
     }
 
+    /**
+     * Checks if the piece is able to move to the given {@link #col} and {@link #row}<br>
+     * Also adds the move to the given list reference
+     *
+     * @param moves the reference to the moves list
+     * @param col   the column to path to
+     * @param row   the row to path to
+     * @return whether the piece can move to the given column and row or not
+     */
     protected boolean canPath(List<int[]> moves, int col, int row)
     {
         if (onBoard(col, row))
@@ -71,6 +101,12 @@ public abstract class Piece
         return true;
     }
 
+    /**
+     * Filters out every illegal move
+     *
+     * @param pseudoLegalMoves the moves to check
+     * @return all legal moves
+     */
     protected List<int[]> filterLegalMoves(List<int[]> pseudoLegalMoves)
     {
         if (!board.isLegitimacyChecking())
@@ -103,6 +139,13 @@ public abstract class Piece
         return legalMoves;
     }
 
+    /**
+     * Places the piece on the given column and row<br>
+     * Also removes a piece if there is already a piece on the given position
+     *
+     * @param col   the new column
+     * @param row   the new row
+     */
     public void setPosition(int col, int row)
     {
         board.getPieces().removeIf(piece -> piece.getCol() == col && piece.getRow() == row);
@@ -117,6 +160,9 @@ public abstract class Piece
         }
     }
 
+    /**
+     * @return an unfiltered list of all possible moves
+     */
     public abstract List<int[]> getPossibleMoves();
 
     public Side getSide()

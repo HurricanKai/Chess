@@ -25,6 +25,9 @@ public class Chess
 
     private Board board;
 
+    /**
+     * @param debug whether to run in debug mode or not
+     */
     public Chess(boolean debug)
     {
         if (debug)
@@ -32,10 +35,13 @@ public class Chess
         DEBUG_MODE = debug;
 
         instance = this;
-        board = new Board();
 
+        // load board
+        System.out.println("Creating chess board..");
+        board = new Board();
         board.initialize();
 
+        // load user interface
         System.out.println("Loading user interface..");
         new GameFrame();
     }

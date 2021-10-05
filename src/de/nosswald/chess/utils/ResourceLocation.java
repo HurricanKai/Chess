@@ -13,6 +13,10 @@ public final class ResourceLocation
 
     private final File file;
 
+    /**
+     * @param fileName  the name of the file
+     * @param type      the type of the resource
+     */
     public ResourceLocation(String fileName, Type type)
     {
         this.fileName = fileName;
@@ -36,10 +40,5 @@ public final class ResourceLocation
     public File getFile()
     {
         return file;
-    }
-
-    public Type getType()
-    {
-        return type;
     }
 }
