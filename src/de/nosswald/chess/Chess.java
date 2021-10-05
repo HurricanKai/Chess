@@ -15,6 +15,7 @@ public class Chess
      * TODO en passent
      *      castling
      *      checkmate + show winner
+     *      Draw
      */
 
     public static final String APP_NAME = "Chess";
