@@ -3,6 +3,8 @@ package de.nosswald.chess.game.piece;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
 import de.nosswald.chess.game.Side;
+import de.nosswald.chess.game.piece.impl.Pawn;
+import de.nosswald.chess.game.piece.impl.Queen;
 import de.nosswald.chess.utils.ResourceLocation;
 
 import javax.imageio.ImageIO;
@@ -83,7 +85,7 @@ public abstract class Piece
             final int col = this.col;
             final int row = this.row;
             final Piece piece = board.getPiece(col, row);
-            final Piece oldPiece = board.getPiece(pseudoLegalMove[0], pseudoLegalMove[1]);
+            final List<Piece> oldPieces = new ArrayList<>(board.getPieces());
 
             piece.setPosition(pseudoLegalMove[0], pseudoLegalMove[1]);
 
@@ -92,7 +94,8 @@ public abstract class Piece
 
             // reset
             setPosition(col, row);
-            if (oldPiece != null) board.getPieces().add(oldPiece);
+            board.getPieces().clear();
+            board.getPieces().addAll(oldPieces);
         }
 
         board.setLegitimacyChecking(true);
@@ -105,6 +108,13 @@ public abstract class Piece
         board.getPieces().removeIf(piece -> piece.getCol() == col && piece.getRow() == row);
         this.col = col;
         this.row = row;
+
+        if (this instanceof Pawn && side == Side.WHITE ? row == 0 : row == 7)
+        {
+            // TODO make piece selectable
+            board.getPieces().remove(this);
+            board.getPieces().add(new Queen(side, col, row));
+        }
     }
 
     public abstract List<int[]> getPossibleMoves();
