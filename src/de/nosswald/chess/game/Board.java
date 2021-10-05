@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.game.piece.impl.*;
+import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.FieldColor;
 
 import java.awt.*;
@@ -59,7 +60,7 @@ public class Board
         });
 
         if (Chess.DEBUG_MODE)
-            System.out.println("[DEBUG] Added all pieces to the board!");
+            Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Added all pieces to the board");
     }
 
     /**
@@ -128,16 +129,17 @@ public class Board
             {
                 selected = clicked;
 
-                if (Chess.DEBUG_MODE)
-                    System.out.printf("[DEBUG] Selected %s on (%d|%d)\n", clicked.getClass().getSimpleName(), col, row);
+                Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
+                        "Selected %s on (%d|%d)", clicked.getClass().getSimpleName(), col, row);
             }
         }
         else
         {
             selected.getPossibleMoves().stream().filter(move -> move[0] == col && move[1] == row).findFirst().ifPresent(move ->
             {
-                if (Chess.DEBUG_MODE)
-                    System.out.printf("[DEBUG] Moved %s from (%d|%d) to (%d|%d)\n", selected.getClass().getSimpleName(), selected.getCol(), selected.getRow(), move[0], move[1]);
+                Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
+                        "Moved %s from (%d|%d) to (%d|%d)", selected.getClass().getSimpleName(),
+                        selected.getCol(), selected.getRow(), move[0], move[1]);
 
                 selected.setPosition(move[0], move[1]);
 
@@ -145,14 +147,13 @@ public class Board
                 nextMove = nextMove == Side.WHITE ? Side.BLACK : Side.WHITE;
 
                 // check if checkmate
-                if (isCheckMate(nextMove))
-                    System.out.println("Checkmate for " + nextMove.name());
+                // if (isCheckMate(nextMove))
+                //     System.out.println("Checkmate for " + nextMove.name());
             });
 
             selected = null;
 
-            if (Chess.DEBUG_MODE)
-                System.out.println("[DEBUG] Cleared selected piece");
+            Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Unselected piece");
         }
     }
 

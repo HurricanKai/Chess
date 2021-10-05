@@ -2,6 +2,8 @@ package de.nosswald.chess;
 
 import de.nosswald.chess.game.Board;
 import de.nosswald.chess.gui.GameFrame;
+import de.nosswald.chess.logger.Logger;
+import de.nosswald.chess.logger.LoggerLevel;
 
 /**
  * @author Nils Osswald
@@ -24,26 +26,35 @@ public class Chess
     private static Chess instance;
 
     private Board board;
+    private Logger logger;
 
     /**
      * @param debug whether to run in debug mode or not
      */
     public Chess(boolean debug)
     {
-        if (debug)
-            System.out.println("[DEBUG] Using debug mode");
-        DEBUG_MODE = debug;
-
         instance = this;
 
+        // create logger
+        logger = new Logger();
+        logger.print(LoggerLevel.INFO, "Created logger");
+
+        DEBUG_MODE = debug;
+        logger.print(LoggerLevel.DEBUG, "Using debug mode");
+
         // load board
-        System.out.println("Creating chess board..");
+        logger.print(LoggerLevel.INFO, "Creating chess board..");
         board = new Board();
         board.initialize();
 
         // load user interface
-        System.out.println("Loading user interface..");
+        logger.print(LoggerLevel.INFO, "Loading user interface..");
         new GameFrame();
+    }
+
+    public static Chess getInstance()
+    {
+        return instance;
     }
 
     public Board getBoard()
@@ -51,8 +62,8 @@ public class Chess
         return board;
     }
 
-    public static Chess getInstance()
+    public Logger getLogger()
     {
-        return instance;
+        return logger;
     }
 }

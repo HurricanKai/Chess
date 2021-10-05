@@ -5,6 +5,7 @@ import de.nosswald.chess.game.Board;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.impl.Pawn;
 import de.nosswald.chess.game.piece.impl.Queen;
+import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.ResourceLocation;
 
 import javax.imageio.ImageIO;
@@ -47,7 +48,8 @@ public abstract class Piece
         }
         catch (IOException e)
         {
-            System.out.printf("[ERROR] Image for %s not found!\n%s\n", getClass().getSimpleName(), e.getMessage());
+            Chess.getInstance().getLogger().printFormat(LoggerLevel.ERROR, "Image for %s not found!\n%s",
+                    getClass().getSimpleName(), e.getMessage());
         }
     }
 
