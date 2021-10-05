@@ -1,12 +1,15 @@
 package de.nosswald.chess.gui;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import de.nosswald.chess.Chess;
+import de.nosswald.chess.game.Side;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * @author Noah Gerber
@@ -21,7 +24,8 @@ public class GameScreen extends JPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                Chess.getInstance().getBoard().onClick(e.getX() / (getHeight() / 8), e.getY() / (getHeight() / 8));
+                Chess.getInstance().getBoard().onClick(
+                        e.getX() / (GameScreen.this.getHeight() / 8), e.getY() / (GameScreen.this.getHeight() / 8));
             }
         });
     }
@@ -32,8 +36,23 @@ public class GameScreen extends JPanel
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D)g;
-        //g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .25F));
-        Chess.getInstance().getBoard().paint(g2d, getHeight());
+
+        if (Chess.getInstance().getBoard().isGameOver())
+        {
+            // TODO set board nextMove to null if the match result is a draw
+            final Side nextMove = Chess.getInstance().getBoard().getNextMove();
+            final String message = nextMove == null ?
+                    "Draw" : StringUtils.capitalize(nextMove.flip().toString().toLowerCase(Locale.ROOT)) + " won";
+
+            g2d.setColor(Color.BLACK);
+            g2d.setFont(new Font("Arial", Font.PLAIN, this.getHeight() / 20));
+            g2d.drawString(message, (this.getHeight() - g2d.getFontMetrics().stringWidth(message)) / 2,
+                    (this.getHeight() + g2d.getFontMetrics().getHeight()) / 2);
+
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .25F));
+        }
+
+        Chess.getInstance().getBoard().paint(g2d, this.getHeight());
 
         if (Chess.DEBUG_MODE)
         {
@@ -41,7 +60,7 @@ public class GameScreen extends JPanel
 
             for (int[] move : Chess.getInstance().getBoard().getHistory())
             {
-                g2d.drawString(Arrays.toString(move), getHeight() + 10, y);
+                g2d.drawString(Arrays.toString(move), this.getHeight() + 10, y);
                 y+=35;
             }
         }

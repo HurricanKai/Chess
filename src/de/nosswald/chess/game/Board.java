@@ -34,6 +34,7 @@ public class Board
      */
     private Side nextMove = Side.WHITE;
 
+    private boolean gameOver;
     private boolean legitimacyChecking = true;
 
     /**
@@ -81,7 +82,7 @@ public class Board
         final boolean isDebugMode = Chess.DEBUG_MODE;
 
         if (isDebugMode)
-            graphics.setFont(new Font("Arial", Font.PLAIN, 26));
+            graphics.setFont(new Font("Arial", Font.PLAIN, boardSize / 50));
 
         // paint board
         for (int c = 0; c < 8; c++)
@@ -126,6 +127,9 @@ public class Board
      */
     public void onClick(int col, int row)
     {
+        if (gameOver)
+            return;
+
         if (selected == null)
         {
             // select piece
@@ -151,11 +155,10 @@ public class Board
                 selected.setPosition(move[0], move[1]);
 
                 // flip sides
-                nextMove = nextMove == Side.WHITE ? Side.BLACK : Side.WHITE;
+                nextMove = nextMove.flip();
 
-                // check if checkmate
-                // if (isCheckMate(nextMove))
-                //     System.out.println("Checkmate for " + nextMove.name());
+                if (isCheckMate(nextMove))
+                    gameOver = true;
             });
 
             selected = null;
@@ -239,6 +242,14 @@ public class Board
         return history;
     }
 
+    /**
+     * @return the side which has the next move
+     */
+    public Side getNextMove()
+    {
+        return nextMove;
+    }
+
     public void setLegitimacyChecking(boolean legitimacyChecking)
     {
         this.legitimacyChecking = legitimacyChecking;
@@ -247,5 +258,10 @@ public class Board
     public boolean isLegitimacyChecking()
     {
         return legitimacyChecking;
+    }
+
+    public boolean isGameOver()
+    {
+        return gameOver;
     }
 }

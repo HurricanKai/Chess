@@ -7,5 +7,15 @@ package de.nosswald.chess.game;
 public enum Side
 {
     WHITE,
-    BLACK
+    BLACK;
+
+    /**
+     * Flips the side
+     *
+     * @return black if white or white if black
+     */
+    public Side flip()
+    {
+        return this == WHITE ? BLACK : WHITE;
+    }
 }

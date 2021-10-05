@@ -19,14 +19,15 @@ public class Chess
 
     public static final String APP_NAME = "Chess";
     public static final String APP_VERSION = "0.1";
-    public static final String[] APP_AUTHORS = { "Noah Gerber", "Nils Osswald" };
+    public static final String[] APP_AUTHORS = { "Nils Osswald", "Noah Gerber" };
 
     public static boolean DEBUG_MODE;
 
     private static Chess instance;
 
-    private Board board;
     private Logger logger;
+    private Board board;
+    private GameFrame frame;
 
     /**
      * @param debug whether to run in debug mode or not
@@ -49,7 +50,7 @@ public class Chess
 
         // load user interface
         logger.print(LoggerLevel.INFO, "Loading user interface..");
-        new GameFrame();
+        frame = new GameFrame();
     }
 
     public static Chess getInstance()
@@ -57,13 +58,18 @@ public class Chess
         return instance;
     }
 
+    public Logger getLogger()
+    {
+        return logger;
+    }
+
     public Board getBoard()
     {
         return board;
     }
 
-    public Logger getLogger()
+    public GameFrame getFrame()
     {
-        return logger;
+        return frame;
     }
 }
