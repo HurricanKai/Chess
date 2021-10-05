@@ -17,6 +17,25 @@ public class Pawn extends Piece
     }
 
     @Override
+    public void setPosition(int col, int row)
+    {
+        super.setPosition(col, row);
+
+        this.board.getPieces().removeIf(piece -> piece.getSide() != this.side
+                && piece.getLastRow() == (piece.getSide() == Side.WHITE ? 6 : 1)
+                && piece.getRow() == (piece.getSide() == Side.WHITE ? 4 : 3)
+                && this.col == piece.getCol() && this.row == piece.getRow() + (this.side == Side.WHITE ? -1 : 1)
+        );
+
+        if (row == (this.side == Side.WHITE ? 0 : 7))
+        {
+            // TODO make piece selectable
+            this.board.getPieces().remove(this);
+            this.board.getPieces().add(new Queen(this.side, col, row));
+        }
+    }
+
+    @Override
     public List<int[]> getPossibleMoves()
     {
         final List<int[]> moves = new ArrayList<>();
@@ -42,6 +61,24 @@ public class Pawn extends Piece
         if (this.onBoard(this.col - 1, rowForward) && this.board.hasPiece(this.col - 1, rowForward)
                 && this.board.getPiece(this.col - 1, rowForward).getSide() != this.side)
             moves.add(new int[]{ this.col - 1, rowForward });
+
+        //en passant
+        Piece targetPiece;
+        int[] lastTurn;
+        for (int i = -1; i < 3; i += 2)
+        {
+            targetPiece = this.board.getPiece(this.col + i, this.row);
+
+            if(this.board.getHistory().isEmpty())
+                break;
+            lastTurn = this.board.getHistory().get(this.board.getHistory().size() - 1);
+
+            if (targetPiece instanceof Pawn && targetPiece.getSide() != this.side
+                    && targetPiece.getLastRow() == (targetPiece.getSide() == Side.WHITE ? 6 : 1)
+                    && targetPiece.getRow() == (targetPiece.getSide() == Side.WHITE ? 4 : 3)
+                    && lastTurn[2] == targetPiece.getCol() && lastTurn[3] == targetPiece.getRow())
+                moves.add(new int[]{ this.col + i, rowForward});
+        }
 
         return filterLegalMoves(moves);
     }
