@@ -8,7 +8,7 @@ import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.FieldColor;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -22,6 +22,12 @@ public class Board
      * contains every {@link Piece} on the board
      */
     private final List<Piece> pieces = new ArrayList<>();
+
+    /**
+     * contains every move that has been done on the board<br>
+     * structure: int[fromCol, fromRow, toCol, toRow]
+     */
+    private final List<int[]> history = new ArrayList<>();
 
     /**
      * stores the {@link Side} which moves next
@@ -141,6 +147,7 @@ public class Board
                         "Moved %s from (%d|%d) to (%d|%d)", selected.getClass().getSimpleName(),
                         selected.getCol(), selected.getRow(), move[0], move[1]);
 
+                history.add(new int[]{ selected.getCol(), selected.getRow(), move[0], move[1] });
                 selected.setPosition(move[0], move[1]);
 
                 // flip sides
@@ -222,6 +229,14 @@ public class Board
     public List<Piece> getPieces()
     {
         return pieces;
+    }
+
+    /**
+     * @return every move that has been done on the board<br>(structure: int[fromCol, fromRow, toCol, toRow])
+     */
+    public List<int[]> getHistory()
+    {
+        return history;
     }
 
     public void setLegitimacyChecking(boolean legitimacyChecking)
