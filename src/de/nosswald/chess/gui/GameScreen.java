@@ -39,10 +39,9 @@ public class GameScreen extends JPanel
 
         if (Chess.getInstance().getBoard().isGameOver())
         {
-            // TODO set board nextMove to null if the match result is a draw
             final Side nextMove = Chess.getInstance().getBoard().getNextMove();
             final String message = nextMove == null ?
-                    "Draw" : StringUtils.capitalize(nextMove.flip().toString().toLowerCase(Locale.ROOT)) + " won";
+                    "Stalemate" : StringUtils.capitalize(nextMove.flip().toString().toLowerCase(Locale.ROOT)) + " won";
 
             g2d.setColor(Color.BLACK);
             g2d.setFont(new Font("Arial", Font.PLAIN, this.getHeight() / 20));
