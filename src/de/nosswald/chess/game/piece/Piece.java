@@ -22,7 +22,7 @@ import java.util.List;
 public abstract class Piece
 {
     protected final Side side;
-    protected int col, row, lastCol, lastRow;
+    protected int col, row;
 
     protected final Board board;
 
@@ -151,8 +151,6 @@ public abstract class Piece
     public void setPosition(int col, int row)
     {
         board.getPieces().removeIf(piece -> piece.getCol() == col && piece.getRow() == row);
-        lastCol = this.col;
-        lastRow = this.row;
         this.col = col;
         this.row = row;
     }
@@ -175,25 +173,5 @@ public abstract class Piece
     public int getRow()
     {
         return row;
-    }
-
-    public int getLastCol()
-    {
-        return lastCol;
-    }
-
-    public int getLastRow()
-    {
-        return lastRow;
-    }
-
-    public void setLastCol(int lastCol)
-    {
-        this.lastCol = lastCol;
-    }
-
-    public void setLastRow(int lastRow)
-    {
-        this.lastRow = lastRow;
     }
 }

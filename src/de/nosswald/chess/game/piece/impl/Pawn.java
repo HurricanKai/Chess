@@ -1,7 +1,9 @@
 package de.nosswald.chess.game.piece.impl;
 
+import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
+import de.nosswald.chess.logger.LoggerLevel;
 
 import java.util.*;
 
@@ -21,10 +23,18 @@ public class Pawn extends Piece
     {
         super.setPosition(col, row);
 
-        this.board.getPieces().removeIf(piece -> piece.getSide() != this.side
-                && piece.getLastRow() == (piece.getSide() == Side.WHITE ? 6 : 1)
-                && piece.getRow() == (piece.getSide() == Side.WHITE ? 4 : 3)
-                && this.col == piece.getCol() && this.row == piece.getRow() + (this.side == Side.WHITE ? -1 : 1)
+        if(this.board.getHistory().size() < 2)
+            return;
+        int[] lastTurn = this.board.getHistory().get(this.board.getHistory().size() - 2);
+
+        this.board.getPieces().removeIf(piece ->
+                piece.getSide() != this.side
+                && piece.getCol() == lastTurn[2]
+                && piece.getRow() == lastTurn[3]
+                && lastTurn[1] == (piece.getSide() == Side.WHITE ? 6 : 1)
+                && lastTurn[3] == (piece.getSide() == Side.WHITE ? 4 : 3)
+                && this.col == piece.getCol()
+                && this.row == (piece.getSide() == Side.WHITE ? 5 : 2)
         );
 
         if (row == (this.side == Side.WHITE ? 0 : 7))
@@ -74,9 +84,9 @@ public class Pawn extends Piece
             lastTurn = this.board.getHistory().get(this.board.getHistory().size() - 1);
 
             if (targetPiece instanceof Pawn && targetPiece.getSide() != this.side
-                    && targetPiece.getLastRow() == (targetPiece.getSide() == Side.WHITE ? 6 : 1)
-                    && targetPiece.getRow() == (targetPiece.getSide() == Side.WHITE ? 4 : 3)
-                    && lastTurn[2] == targetPiece.getCol() && lastTurn[3] == targetPiece.getRow())
+                    && lastTurn[1] == (targetPiece.getSide() == Side.WHITE ? 6 : 1)
+                    && lastTurn[2] == targetPiece.getCol()
+                    && lastTurn[3] == (targetPiece.getSide() == Side.WHITE ? 4 : 3))
                 moves.add(new int[]{ this.col + i, rowForward});
         }
 
