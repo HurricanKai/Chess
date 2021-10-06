@@ -10,6 +10,7 @@ import de.nosswald.chess.utils.FieldColor;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -137,10 +138,15 @@ public class Board
 
             if (clicked != null && clicked.getSide() == nextMove)
             {
+                final List<int[]> possibleMoves = clicked.getPossibleMoves();
+
                 selected = clicked;
 
                 Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
                         "Selected %s on (%d|%d)", clicked.getClass().getSimpleName(), col, row);
+                Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
+                        "%d possible moves %s", possibleMoves.size(), possibleMoves.stream().map(
+                                Arrays::toString).collect(Collectors.joining()));
             }
         }
         else
@@ -171,7 +177,8 @@ public class Board
                 {
                     gameOver = true;
 
-                    Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO, "%s has won the match", nextMove.flip());
+                    Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO,
+                            "%s has won the match", nextMove.flip().toString());
                 }
             });
 

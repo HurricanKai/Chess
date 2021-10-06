@@ -41,7 +41,7 @@ public class GameScreen extends JPanel
         {
             final Side nextMove = Chess.getInstance().getBoard().getNextMove();
             final String message = nextMove == null ?
-                    "Stalemate" : StringUtils.capitalize(nextMove.flip().toString().toLowerCase(Locale.ROOT)) + " won";
+                    "Stalemate" : nextMove.flip().toString() + " won";
 
             g2d.setColor(Color.BLACK);
             g2d.setFont(new Font("Arial", Font.PLAIN, this.getHeight() / 20));
