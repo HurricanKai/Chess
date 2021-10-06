@@ -28,9 +28,10 @@ public class Pawn extends Piece
         int[] lastTurn = this.board.getHistory().get(this.board.getHistory().size() - 2);
 
         this.board.getPieces().removeIf(piece ->
-                piece.getSide() != this.side
-                && piece.getCol() == lastTurn[2]
-                && piece.getRow() == lastTurn[3]
+                piece instanceof Pawn
+                && this.side != piece.getSide()
+                && lastTurn[2] == piece.getCol()
+                && lastTurn[3] == piece.getRow()
                 && lastTurn[1] == (piece.getSide() == Side.WHITE ? 6 : 1)
                 && lastTurn[3] == (piece.getSide() == Side.WHITE ? 4 : 3)
                 && this.col == piece.getCol()
@@ -83,9 +84,11 @@ public class Pawn extends Piece
                 break;
             lastTurn = this.board.getHistory().get(this.board.getHistory().size() - 1);
 
-            if (targetPiece instanceof Pawn && targetPiece.getSide() != this.side
-                    && lastTurn[1] == (targetPiece.getSide() == Side.WHITE ? 6 : 1)
+            if (targetPiece instanceof Pawn
+                    && this.side != targetPiece.getSide()
                     && lastTurn[2] == targetPiece.getCol()
+                    && lastTurn[3] == targetPiece.getRow()
+                    && lastTurn[1] == (targetPiece.getSide() == Side.WHITE ? 6 : 1)
                     && lastTurn[3] == (targetPiece.getSide() == Side.WHITE ? 4 : 3))
                 moves.add(new int[]{ this.col + i, rowForward});
         }
