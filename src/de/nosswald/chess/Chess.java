@@ -11,13 +11,6 @@ import de.nosswald.chess.logger.LoggerLevel;
  */
 public class Chess
 {
-    /**
-     * TODO en passent
-     *      castling
-     *      checkmate + show winner
-     *      Draw
-     */
-
     public static final String APP_NAME = "Chess";
     public static final String APP_VERSION = "0.1";
     public static final String[] APP_AUTHORS = { "Nils Osswald", "Noah Gerber" };

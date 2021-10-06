@@ -34,14 +34,14 @@ public class Board
      */
     private Side nextMove = Side.WHITE;
 
-    private boolean gameOver;
-    private boolean legitimacyChecking = true;
-
     /**
      * stores the currently selected {@link Piece}<br> (null if nothing is selected)
      */
     @Nullable
     private Piece selected;
+
+    private boolean gameOver;
+    private boolean legitimacyChecking = true;
 
     /**
      * Initializes every {@link Piece} on the board
@@ -157,8 +157,22 @@ public class Board
                 // flip sides
                 nextMove = nextMove.flip();
 
-                if (isCheckMate(nextMove))
+                // check if draw
+                if (isStaleMate())
+                {
                     gameOver = true;
+                    nextMove = null;
+
+                    Chess.getInstance().getLogger().print(LoggerLevel.INFO, "The match has ended in a draw");
+                }
+
+                // check if checkmate
+                if (isCheckMate(nextMove))
+                {
+                    gameOver = true;
+
+                    Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO, "%s has won the match", nextMove.flip());
+                }
             });
 
             selected = null;
@@ -199,6 +213,21 @@ public class Board
         return piecesClone.stream()
                 .filter(piece -> piece.getSide() == side)
                 .allMatch(piece -> piece.getPossibleMoves().isEmpty()) && isInCheck(side);
+    }
+
+    /**
+     * Checks if both sides are unable to move<br>
+     * TODO check for maximum moves and other draw stuff
+     *
+     * @return true if both sides are unable to move
+     */
+    private boolean isStaleMate()
+    {
+        List<Piece> piecesClone = new ArrayList<>(pieces);
+
+        return piecesClone.stream()
+                .filter(piece -> piece.getSide() == nextMove)
+                .allMatch(piece -> piece.getPossibleMoves().isEmpty()) && !isInCheck(nextMove);
     }
 
     /**
