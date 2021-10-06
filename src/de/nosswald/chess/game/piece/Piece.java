@@ -3,6 +3,7 @@ package de.nosswald.chess.game.piece;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
 import de.nosswald.chess.game.Side;
+import de.nosswald.chess.game.piece.impl.King;
 import de.nosswald.chess.game.piece.impl.Pawn;
 import de.nosswald.chess.game.piece.impl.Queen;
 import de.nosswald.chess.logger.LoggerLevel;
@@ -14,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Nils Osswald
@@ -120,6 +122,34 @@ public abstract class Piece
 
         for (int[] pseudoLegalMove : pseudoLegalMoves)
         {
+            // check if castling is possible
+            if (this instanceof King && !board.isInCheck(side))
+            {
+                final int startRow = side == Side.WHITE ? 7 : 0;
+
+                // short castle
+                if (pseudoLegalMove[0] == 6 && pseudoLegalMove[1] == startRow)
+                {
+                    if (!IntStream.range(5, 6).anyMatch(c -> board.getPieces().stream().filter(piece ->
+                            piece.side != side).anyMatch(piece -> piece.getPossibleMoves().stream().anyMatch(move ->
+                            move[0] == c && move[1] == startRow))))
+                        legalMoves.add(pseudoLegalMove);
+
+                    continue;
+                }
+
+                // long castle
+                if (pseudoLegalMove[0] == 2 && pseudoLegalMove[1] == startRow)
+                {
+                    if (!IntStream.range(1, 3).anyMatch(c -> board.getPieces().stream().filter(piece ->
+                            piece.side != side).anyMatch(piece -> piece.getPossibleMoves().stream().anyMatch(move ->
+                            move[0] == c && move[1] == startRow))))
+                        legalMoves.add(pseudoLegalMove);
+
+                    continue;
+                }
+            }
+
             final int col = this.col;
             final int row = this.row;
             final Piece piece = board.getPiece(col, row);

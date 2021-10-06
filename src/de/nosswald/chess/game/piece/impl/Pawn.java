@@ -1,11 +1,11 @@
 package de.nosswald.chess.game.piece.impl;
 
-import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
-import de.nosswald.chess.logger.LoggerLevel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Nils Osswald
@@ -72,7 +72,7 @@ public class Pawn extends Piece
                 && this.board.getPiece(this.col - 1, rowForward).getSide() != this.side)
             moves.add(new int[]{ this.col - 1, rowForward });
 
-        //en passant
+        // en passant
         Piece targetPiece;
         int[] lastTurn;
         for (int i = -1; i < 3; i += 2)
@@ -81,6 +81,7 @@ public class Pawn extends Piece
 
             if(this.board.getHistory().isEmpty())
                 break;
+
             lastTurn = this.board.getHistory().get(this.board.getHistory().size() - 1);
 
             if (targetPiece instanceof Pawn && targetPiece.getSide() != this.side
