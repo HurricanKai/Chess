@@ -4,7 +4,7 @@ package de.nosswald.chess;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Start
+public final class Start
 {
     /**
      * The entry point of the application

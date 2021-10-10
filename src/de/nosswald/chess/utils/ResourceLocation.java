@@ -27,6 +27,7 @@ public final class ResourceLocation
 
     public enum Type
     {
+        TEXTURE("textures/"),
         PIECE("textures/pieces/");
 
         private final String folder;
