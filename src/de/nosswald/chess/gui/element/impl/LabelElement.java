@@ -24,7 +24,7 @@ public final class LabelElement extends Element
 
         // default values
         color = Color.BLACK;
-        font = new Font("Arial", Font.PLAIN, 12);
+        font = new Font("Arial", Font.PLAIN, new AbsoluteSize(12).get(0));
     }
 
     @Override

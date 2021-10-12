@@ -1,14 +1,18 @@
 package de.nosswald.chess.gui.element.impl.mainmenu;
 
+import de.nosswald.chess.Chess;
 import de.nosswald.chess.gui.*;
 import de.nosswald.chess.gui.element.impl.ButtonElement;
+import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.ResourceLocation;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public final class MainMenuButtonElement extends ButtonElement
 {
@@ -25,38 +29,26 @@ public final class MainMenuButtonElement extends ButtonElement
     public void onPaint(CustomGraphics graphics)
     {
         super.onPaint(graphics);
+
         graphics.drawRoundRect(x, y, width, height, new AbsoluteSize(15), new AbsoluteSize(15), isHovered() ? new Color(170, 119, 102) : new Color(237, 216, 191));
         graphics.drawString(title, x, y, width, height, Anchor.CENTER, Anchor.CENTER, Color.BLACK, new Font("Courier New", Font.PLAIN, new AbsoluteSize(36).get(0)));
 
+        if (!isHovered()) return;
+        Arrays.stream(new String[]{ "pawn_white.png", "pawn_black.png" })
+                .collect(HashMap<Integer, BufferedImage>::new, (map, fileName) -> {
+                    try {map.put(map.size(), ImageIO.read(new ResourceLocation(fileName, ResourceLocation.Type.PIECE).getFile()));}
+                    catch (IOException e) {
+                        Chess.getInstance().getLogger().printFormat(LoggerLevel.ERROR, "Image for %s not found!\n%s",
+                                getClass().getSimpleName(), e.getMessage());
+                    }
+                }, (i, j) -> { }).forEach((i, image) ->
+                        getContextGraphics(graphics).drawSquareImage(
+                                image, new RelativeSize((i == 0 ? 0F : .8F)), new RelativeSize(0), new RelativeSize(1)));
+    }
 
-        System.out.println("graphics: " + graphics.getWidth() + "  " + graphics.getHeight());
-
-        CustomGraphics graphics2 = graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);
-
-
-        System.out.println(graphics2.getWidth() + "  " + graphics2.getHeight());
-
-
-        if (isHovered())
-        {
-            String[] colors = { "pawn_white.png" , "pawn_black.png"};
-            Image image = null;
-
-            for (int i = 0; i < colors.length; i++)
-            {
-                File pawnFile = new ResourceLocation(colors[i], ResourceLocation.Type.PIECE).getFile();
-                try
-                {
-                    image = ImageIO.read(pawnFile);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                //graphics2.drawRect(new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new RelativeSize(1), Color.GREEN);
-                graphics2.drawSquareImage(image, new RelativeSize((i == 0 ? .2F : .8F)), new RelativeSize(0), new RelativeSize(1));
-            }
-        }
+    private CustomGraphics getContextGraphics(CustomGraphics graphics)
+    {
+        return graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);
     }
 
     @Override

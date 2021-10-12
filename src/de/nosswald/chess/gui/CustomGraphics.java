@@ -62,7 +62,8 @@ public final class CustomGraphics
 
     public void drawSquareImage(Image image, SizeReference x, SizeReference y, SizeReference size)
     {
-        graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), size.get(this.height), size.get(this.height), null, null);    }
+        graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), size.get(this.height), size.get(this.height), null, null);
+    }
 
     public void drawString(String string, SizeReference x, SizeReference y, SizeReference width, SizeReference height, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
     {
