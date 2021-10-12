@@ -82,4 +82,24 @@ public final class CustomGraphics
         graphics.setFont(font);
         graphics.drawString(string, posX, posY);
     }
+
+    public int getOffX()
+    {
+        return offX;
+    }
+
+    public int getOffY()
+    {
+        return offY;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
+    }
 }

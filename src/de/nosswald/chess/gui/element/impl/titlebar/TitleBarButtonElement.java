@@ -21,6 +21,7 @@ public final class TitleBarButtonElement extends ButtonElement
     @Override
     public void onPaint(CustomGraphics graphics)
     {
+        super.onPaint(graphics);
         graphics.drawOval(x, y, width, height, color);
     }
 

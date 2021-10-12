@@ -34,6 +34,7 @@ public class ImageButtonElement extends ButtonElement
     @Override
     public void onPaint(CustomGraphics graphics)
     {
+        super.onPaint(graphics);
         graphics.drawImage(image, x, y, width, height);
     }
 

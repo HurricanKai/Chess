@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 public abstract class Element
 {
     protected SizeReference x, y, width, height;
+    protected int mouseX, mouseY;
 
     public Element(SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
@@ -20,4 +21,10 @@ public abstract class Element
     public abstract void onPaint(CustomGraphics graphics);
 
     public abstract void onClick(MouseEvent event);
+
+    public void setMousePos(int x, int y)
+    {
+        mouseX = x;
+        mouseY = y;
+    }
 }

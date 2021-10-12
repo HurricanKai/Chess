@@ -10,6 +10,7 @@ import de.nosswald.chess.gui.element.impl.titlebar.TitleBarComponent;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
@@ -29,6 +30,15 @@ public abstract class Screen extends JPanel
             public void mouseClicked(MouseEvent event)
             {
                 elements.forEach(element -> element.onClick(event));
+            }
+        });
+
+        this.addMouseMotionListener(new MouseMotionAdapter()
+        {
+            @Override
+            public void mouseMoved(MouseEvent e)
+            {
+                elements.forEach(element -> element.setMousePos(e.getX(), e.getY()));
             }
         });
     }

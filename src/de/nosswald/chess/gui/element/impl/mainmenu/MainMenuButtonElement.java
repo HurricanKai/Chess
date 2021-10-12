@@ -20,7 +20,8 @@ public final class MainMenuButtonElement extends ButtonElement
     @Override
     public void onPaint(CustomGraphics graphics)
     {
-        graphics.drawRoundRect(x, y, width, height, new AbsoluteSize(15), new AbsoluteSize(15), new Color(237, 216, 191));
+        super.onPaint(graphics);
+        graphics.drawRoundRect(x, y, width, height, new AbsoluteSize(15), new AbsoluteSize(15), isHovered() ? new Color(170, 119, 102) : new Color(237, 216, 191));
         graphics.drawString(title, x, y, width, height, Anchor.CENTER, Anchor.CENTER, Color.BLACK, new Font("Courier New", Font.PLAIN, new AbsoluteSize(36).get(0)));
     }
 
