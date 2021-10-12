@@ -37,17 +37,4 @@ public class MainMenuCopyrightComponent extends Component
                         .setFont(new Font("Verdana", Font.PLAIN, 11))
         );
     }
-
-    @Override
-    public void onClick(MouseEvent event)
-    {
-        super.onClick(event);
-    }
-
-    @Override
-    public void onPaint(CustomGraphics graphics)
-    {
-        graphics.drawRect(x, y, width, height, Color.GREEN);
-        super.onPaint(graphics);
-    }
 }

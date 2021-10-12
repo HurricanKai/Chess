@@ -17,7 +17,7 @@ public final class TitleBarComponent extends Component
         this.elements.add(
                 new LabelElement(Chess.APP_NAME, x, y, width, height, Anchor.CENTER, Anchor.CENTER)
                         .setColor(Color.BLACK)
-                        .setFont(new Font("Verdana", Font.PLAIN, 18))
+                        .setFont(new Font("Verdana", Font.PLAIN, new AbsoluteSize(18).get(0)))
         );
         this.elements.add(
                 new TitleBarButtonElement(new AdditionSize(new AdditionSize(x, width), new AbsoluteSize(-25)), new AbsoluteSize(5), new AbsoluteSize(20), new Color(255, 84, 77))

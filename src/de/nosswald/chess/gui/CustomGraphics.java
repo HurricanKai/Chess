@@ -64,9 +64,7 @@ public final class CustomGraphics
     {
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         int posX = offX + x.get(this.width);
-        int posY = offY + y.get(this.height) + fontMetrics.getAscent();
-
-        y = new AdditionSize(y, new AbsoluteSize(fontMetrics.getAscent()));
+        int posY = offY + y.get(this.height);
 
         if (xAnchor == Anchor.CENTER)
             posX = offX + x.get(this.width) + (width.get(this.width) - fontMetrics.stringWidth(string)) / 2;
@@ -77,6 +75,8 @@ public final class CustomGraphics
             posY = offY + y.get(this.height) + (height.get(this.height) - fontMetrics.getHeight()) / 2;
         else if (yAnchor == Anchor.POSITIVE)
             posY = offY + y.get(this.height) + height.get(this.height) - fontMetrics.getHeight();
+
+        posY += fontMetrics.getAscent();
 
         graphics.setColor(color);
         graphics.setFont(font);
