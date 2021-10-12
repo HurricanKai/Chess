@@ -18,24 +18,24 @@ public final class CustomGraphics
         this.height = bounds.height;
     }
 
-//    public CustomGraphics(Graphics graphics, int offX, int offY, int width, int height)
-//    {
-//        this.graphics = graphics;
-//        this.offX = offX;
-//        this.offY = offY;
-//        this.width = width;
-//        this.height = height;
-//    }
-//
-//    public CustomGraphics clip(SizeReference width, SizeReference height)
-//    {
-//        return new CustomGraphics(graphics, offX, offY, width.get(this.width), height.get(this.height));
-//    }
-//
-//    public CustomGraphics translate(SizeReference x, SizeReference y)
-//    {
-//        return new CustomGraphics(graphics, offX + x.get(width), offY + y.get(height), width - x.get(width), height - y.get(height));
-//    }
+    public CustomGraphics(Graphics graphics, int offX, int offY, int width, int height)
+    {
+        this.graphics = graphics;
+        this.offX = offX;
+        this.offY = offY;
+        this.width = width;
+        this.height = height;
+    }
+
+    public CustomGraphics clip(CustomGraphics g, SizeReference width, SizeReference height)
+    {
+        return new CustomGraphics(g.graphics, offX, offY, width.get(g.width), height.get(g.height));
+    }
+
+    public CustomGraphics translate(SizeReference x, SizeReference y)
+    {
+        return new CustomGraphics(graphics, offX + x.get(width), offY + y.get(height), width - x.get(width), height - y.get(height));
+    }
 
     public void drawRect(SizeReference x, SizeReference y, SizeReference width, SizeReference height, Color color)
     {
@@ -59,6 +59,10 @@ public final class CustomGraphics
     {
         graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height), null, null);
     }
+
+    public void drawSquareImage(Image image, SizeReference x, SizeReference y, SizeReference size)
+    {
+        graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), size.get(this.height), size.get(this.height), null, null);    }
 
     public void drawString(String string, SizeReference x, SizeReference y, SizeReference width, SizeReference height, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
     {
