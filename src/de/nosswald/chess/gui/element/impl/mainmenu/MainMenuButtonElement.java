@@ -43,7 +43,9 @@ public final class MainMenuButtonElement extends ButtonElement
                     }
                 }, (i, j) -> { }).forEach((i, image) ->
                         getContextGraphics(graphics).drawSquareImage(
-                                image, new RelativeSize((i == 0 ? 0F : .8F)), new RelativeSize(0), new RelativeSize(1)));
+                                image, new RelativeSize(0), new RelativeSize(0), new RelativeSize(1),
+                                new RelativeSize(1), new RelativeSize(1),
+                                i == 0 ? Anchor.NEGATIVE : Anchor.POSITIVE, Anchor.CENTER));
     }
 
     private CustomGraphics getContextGraphics(CustomGraphics graphics)

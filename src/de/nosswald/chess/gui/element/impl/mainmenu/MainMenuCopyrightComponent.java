@@ -2,7 +2,6 @@ package de.nosswald.chess.gui.element.impl.mainmenu;
 
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.gui.Anchor;
-import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.SizeReference;
 import de.nosswald.chess.gui.element.Component;
 import de.nosswald.chess.gui.element.impl.ImageButtonElement;
@@ -10,7 +9,6 @@ import de.nosswald.chess.gui.element.impl.LabelElement;
 import de.nosswald.chess.utils.ResourceLocation;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class MainMenuCopyrightComponent extends Component
 {
