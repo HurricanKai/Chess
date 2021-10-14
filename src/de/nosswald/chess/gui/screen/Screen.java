@@ -53,6 +53,9 @@ public abstract class Screen extends JPanel
         // set background
         this.setBackground(new Color(229, 229, 229));
 
+        // paint elements
+        elements.forEach(element -> element.onPaint(customGraphics));
+
         // draw centered debug lines
         if (Chess.DEBUG_MODE)
         {
@@ -60,9 +63,6 @@ public abstract class Screen extends JPanel
             graphics.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
             graphics.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
         }
-
-        // paint elements
-        elements.forEach(element -> element.onPaint(customGraphics));
 
         repaint();
     }

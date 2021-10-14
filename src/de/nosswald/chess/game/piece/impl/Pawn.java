@@ -11,7 +11,7 @@ import java.util.Locale;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Pawn extends Piece
+public final class Pawn extends Piece
 {
     public Pawn(Side side, int col, int row)
     {

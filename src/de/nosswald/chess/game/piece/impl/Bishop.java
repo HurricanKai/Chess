@@ -11,7 +11,7 @@ import java.util.Locale;
  * @author Noah Gerber
  * @author Nils Osswald
  */
-public class Bishop extends Piece
+public final class Bishop extends Piece
 {
     public Bishop(Side side, int col, int row)
     {

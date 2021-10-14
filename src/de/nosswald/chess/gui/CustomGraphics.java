@@ -60,40 +60,33 @@ public final class CustomGraphics
         graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height), null, null);
     }
 
-    public void drawSquareImage(Image image, SizeReference x, SizeReference y, SizeReference size)
-    {
-        graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), size.get(this.height), size.get(this.height), null, null);
-    }
     /**
      * Draws an image with even sides
      *
      * @param image     the image
-     * @param x         the x position of the context
-     * @param y         the y position of the contest
-     * @param width     the width of the context
-     * @param height    the height of the context
      * @param size      the width and the height of the image
      * @param xAnchor   the anchor on the x-axis
      * @param yAnchor   the anchor of the y-axis
      */
-    public void drawSquareImage(Image image, SizeReference x, SizeReference y, SizeReference width, SizeReference height, SizeReference size, Anchor xAnchor, Anchor yAnchor)
+    public void drawSquareImage(Image image, SizeReference size, Anchor xAnchor, Anchor yAnchor)
     {
-        int posX = offX + x.get(this.width);
-        int posY = offY + y.get(this.height);
+        int posX = offX;
+        int posY = offY;
 
         if (xAnchor == Anchor.CENTER)
-            posX = offX + x.get(this.width) + (width.get(this.width) - size.get(this.height) / 2);
+            posX = offX + (width - size.get(this.height) / 2);
         else if (xAnchor == Anchor.POSITIVE)
-            posX = offX + x.get(this.width) + width.get(this.width) - size.get(this.height);
+            posX = offX + width - size.get(this.height);
 
         if (yAnchor == Anchor.CENTER)
-            posY = offY + y.get(this.height) + (height.get(this.height) - size.get(this.height) / 2);
+            posY = offY + (height - size.get(this.height) / 2);
         else if (yAnchor == Anchor.POSITIVE)
-            posY = offY + y.get(this.height) + height.get(this.height) - size.get(this.height);
+            posY = offY + height - size.get(this.height);
 
         graphics.drawImage(image, posX, posY, size.get(this.height), size.get(this.height), null, null);
     }
 
+    // TODO make relative to current context
     public void drawString(String string, SizeReference x, SizeReference y, SizeReference width, SizeReference height, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
     {
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);

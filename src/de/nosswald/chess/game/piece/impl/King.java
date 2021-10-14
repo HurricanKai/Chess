@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class King extends Piece
+public final class King extends Piece
 {
     private final int startRow;
 

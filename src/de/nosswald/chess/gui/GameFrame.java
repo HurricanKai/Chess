@@ -33,14 +33,14 @@ public final class GameFrame extends JFrame
 //        this.setUndecorated(true);
         this.setLayout(null);
 
-        Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Successfully created game frame");
+        Chess.getInstance().getLogger().print(LoggerLevel.INFO, "Successfully created game frame");
         this.setVisible(true);
     }
 
     public void setScreen(@NotNull Screen screen)
     {
         Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
-                "Switching screen to %s", screen.getClass().getSimpleName());
+                "Switching screen to %s..", screen.getClass().getSimpleName());
 
         currentScreen = screen;
         this.setContentPane(screen);

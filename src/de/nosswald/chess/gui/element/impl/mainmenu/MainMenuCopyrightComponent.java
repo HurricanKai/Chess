@@ -10,7 +10,7 @@ import de.nosswald.chess.utils.ResourceLocation;
 
 import java.awt.*;
 
-public class MainMenuCopyrightComponent extends Component
+public final class MainMenuCopyrightComponent extends Component
 {
     public MainMenuCopyrightComponent(SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {

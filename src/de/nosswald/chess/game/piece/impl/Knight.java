@@ -11,7 +11,7 @@ import java.util.Locale;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Knight extends Piece
+public final class Knight extends Piece
 {
     public Knight(Side side, int col, int row)
     {

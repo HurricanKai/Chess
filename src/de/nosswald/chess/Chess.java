@@ -39,6 +39,7 @@ public final class Chess
         logger.print(LoggerLevel.DEBUG, "Using debug mode");
 
         // create board
+        // TODO create this after starting a new game
         logger.print(LoggerLevel.INFO, "Creating chess board..");
         board = new Board();
         board.initialize();
@@ -49,6 +50,11 @@ public final class Chess
 
         // open main menu
         frame.setScreen(new MainMenuScreen());
+
+        // add shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            logger.print(LoggerLevel.INFO, "Shutting down..");
+        }));
     }
 
     public static Chess getInstance()

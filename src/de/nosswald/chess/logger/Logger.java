@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Logger
+public final class Logger
 {
     /**
      * Prints the given message

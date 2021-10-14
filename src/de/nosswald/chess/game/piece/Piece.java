@@ -4,8 +4,6 @@ import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.impl.King;
-import de.nosswald.chess.game.piece.impl.Pawn;
-import de.nosswald.chess.game.piece.impl.Queen;
 import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.ResourceLocation;
 

@@ -67,8 +67,7 @@ public class Board
             }
         });
 
-        if (Chess.DEBUG_MODE)
-            Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Added all pieces to the board");
+        Chess.getInstance().getLogger().print(LoggerLevel.INFO, "Added all pieces to the board");
     }
 
     /**

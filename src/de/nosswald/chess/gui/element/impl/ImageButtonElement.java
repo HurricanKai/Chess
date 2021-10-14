@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageButtonElement extends ButtonElement
+public final class ImageButtonElement extends ButtonElement
 {
     private BufferedImage image;
 

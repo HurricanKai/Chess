@@ -11,7 +11,7 @@ import java.util.Locale;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Rook extends Piece
+public final class Rook extends Piece
 {
     public Rook(Side side, int col, int row)
     {
