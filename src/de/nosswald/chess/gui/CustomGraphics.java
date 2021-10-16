@@ -1,5 +1,7 @@
 package de.nosswald.chess.gui;
 
+import de.nosswald.chess.Chess;
+
 import java.awt.*;
 
 public final class CustomGraphics
@@ -128,5 +130,10 @@ public final class CustomGraphics
     public int getHeight()
     {
         return height;
+    }
+
+    public Graphics getGraphics()
+    {
+        return graphics;
     }
 }

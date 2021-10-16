@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.game.piece.impl.*;
+import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.FieldColor;
 
@@ -73,29 +74,29 @@ public class Board
     /**
      * Paints the board
      *
-     * @param graphics  the graphics object
+     * @param g  the graphics object
      * @param boardSize the total board size (width = height)
      */
-    public void paint(Graphics2D graphics, int boardSize)
+    public void paint(Graphics2D g, CustomGraphics cG, int boardSize)
     {
         final int fieldSize = boardSize / 8;
         final boolean isDebugMode = Chess.DEBUG_MODE;
 
         if (isDebugMode)
-            graphics.setFont(new Font("Arial", Font.PLAIN, boardSize / 50));
+            g.setFont(new Font("Arial", Font.PLAIN, boardSize / 50));
 
         // paint board
         for (int c = 0; c < 8; c++)
         {
             for (int r = 0; r < 8; r++)
             {
-                graphics.setColor((c + r) % 2 == 1 ? FieldColor.BLACK.getColor() : FieldColor.WHITE.getColor());
-                graphics.fillRect(fieldSize * c, fieldSize * r, fieldSize, fieldSize);
+                g.setColor((c + r) % 2 == 1 ? FieldColor.BLACK.getColor() : FieldColor.WHITE.getColor());
+                g.fillRect((fieldSize * c) + cG.getOffX(), (fieldSize * r) + cG.getOffY(), fieldSize, fieldSize);
 
                 if (isDebugMode)
                 {
-                    graphics.setColor(Color.BLACK);
-                    graphics.drawString("(" + c + "|" + r + ")", fieldSize* c, (fieldSize * r) + fieldSize);
+                    g.setColor(Color.BLACK);
+                    g.drawString("(" + c + "|" + r + ")", (fieldSize * c) + cG.getOffX(), (fieldSize * r) + cG.getOffY() + fieldSize);
                 }
             }
         }
@@ -103,20 +104,20 @@ public class Board
         // paint piece
         if (selected != null)
         {
-            graphics.setColor(FieldColor.SELECTED.getColor());
-            graphics.fillRect(fieldSize * selected.getCol(), fieldSize * selected.getRow(), fieldSize, fieldSize);
+            g.setColor(FieldColor.SELECTED.getColor());
+            g.fillRect((fieldSize * selected.getCol()) + cG.getOffX(), (fieldSize * selected.getRow()) + cG.getOffY(), fieldSize, fieldSize);
 
             if (!selected.getPossibleMoves().isEmpty())
             {
                 selected.getPossibleMoves().forEach(move -> {
-                    graphics.setColor(FieldColor.POSSIBLE_MOVE.getColor());
-                    graphics.fillRect(fieldSize * move[0], fieldSize * move[1], fieldSize, fieldSize);
+                    g.setColor(FieldColor.POSSIBLE_MOVE.getColor());
+                    g.fillRect((fieldSize * move[0]) + cG.getOffX(), (fieldSize * move[1]) + cG.getOffY(), fieldSize, fieldSize);
                 });
             }
         }
 
         pieces.forEach(piece ->
-                piece.paint(graphics, fieldSize * piece.getCol(), fieldSize * piece.getRow(), fieldSize));
+                piece.paint(g, (fieldSize * piece.getCol()) + cG.getOffX(), (fieldSize * piece.getRow()) + cG.getOffY(), fieldSize));
     }
 
     /**
