@@ -184,7 +184,7 @@ public abstract class Piece
     }
 
     /**
-     * @return an unfiltered list of all possible moves
+     * @return an unfiltered list of all possible moves (i = 0: col, i = 1: row)
      */
     public abstract List<int[]> getPossibleMoves();
 

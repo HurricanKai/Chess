@@ -30,7 +30,7 @@ public final class GameFrame extends JFrame
         this.setSize(frameWidth, frameHeight);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // center frame on screen
-//        this.setUndecorated(true);
+        this.setUndecorated(true);
         this.setLayout(null);
 
         Chess.getInstance().getLogger().print(LoggerLevel.INFO, "Successfully created game frame");

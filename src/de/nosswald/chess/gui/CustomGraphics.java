@@ -1,6 +1,9 @@
 package de.nosswald.chess.gui;
 
 import de.nosswald.chess.Chess;
+import de.nosswald.chess.game.Board;
+import de.nosswald.chess.game.piece.Piece;
+import de.nosswald.chess.utils.FieldColor;
 
 import java.awt.*;
 
@@ -63,6 +66,51 @@ public final class CustomGraphics
     }
 
     /**
+     * Draws a chess board on the given context
+     *
+     * @param board the board
+     */
+    public void drawBoard(Board board)
+    {
+        final int fieldSize = height / 8;
+        final Piece selected = board.getSelected();
+
+        // draw fields
+        for (int col = 0; col < 8; col++)
+        {
+            for (int row = 0; row < 8; row++)
+            {
+                graphics.setColor((col + row) % 2 == 1 ? FieldColor.BLACK.getColor() : FieldColor.WHITE.getColor());
+                graphics.fillRect(offX + (fieldSize * col), offY + (fieldSize * row), fieldSize, fieldSize);
+
+                if (Chess.DEBUG_MODE)
+                {
+                    graphics.setColor(Color.BLACK);
+                    graphics.setFont(new Font("Arial", Font.PLAIN, fieldSize / 5));
+                    graphics.drawString("(" + col + "|" + row + ")", offX + (fieldSize * col), offY + fieldSize + (fieldSize * row));
+                }
+            }
+        }
+
+        // draw possible moves of the currently selected piece
+        if (selected != null)
+        {
+            graphics.setColor(FieldColor.SELECTED.getColor());
+            graphics.fillRect(offX + (fieldSize * selected.getCol()), offY + (fieldSize * selected.getRow()), fieldSize, fieldSize);
+
+            selected.getPossibleMoves().forEach(move -> {
+                graphics.setColor(FieldColor.POSSIBLE_MOVE.getColor());
+                graphics.fillRect(offX + (fieldSize * move[0]), offY + (fieldSize * move[1]), fieldSize, fieldSize);
+            });
+        }
+
+        // draw pieces
+        board.getPieces().forEach(piece -> {
+            piece.paint((Graphics2D)graphics, offX + (piece.getCol() * fieldSize), offY + (piece.getRow() * fieldSize), fieldSize);
+        });
+    }
+
+    /**
      * Draws an image with even sides
      *
      * @param image     the image
@@ -112,6 +160,13 @@ public final class CustomGraphics
         graphics.drawString(string, posX, posY);
     }
 
+//    public void drawString(String string, SizeReference x, SizeReference y, Color color, Font font)
+//    {
+//        graphics.setColor(color);
+//        graphics.setFont(font);
+//        graphics.drawString(string, offX + x.get(width), offY + y.get(height));
+//    }
+
     public int getOffX()
     {
         return offX;
@@ -130,10 +185,5 @@ public final class CustomGraphics
     public int getHeight()
     {
         return height;
-    }
-
-    public Graphics getGraphics()
-    {
-        return graphics;
     }
 }
