@@ -8,6 +8,10 @@ import de.nosswald.chess.logger.LoggerLevel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class GameFrame extends JFrame
 {
     private Screen currentScreen;
@@ -30,13 +34,18 @@ public final class GameFrame extends JFrame
         this.setSize(frameWidth, frameHeight);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // center frame on screen
-        this.setUndecorated(true);
+        if (!Chess.DEBUG_MODE) this.setUndecorated(true);
         this.setLayout(null);
 
         Chess.getInstance().getLogger().print(LoggerLevel.INFO, "Successfully created game frame");
         this.setVisible(true);
     }
 
+    /**
+     * Changes the current screen
+     *
+     * @param screen the screen
+     */
     public void setScreen(@NotNull Screen screen)
     {
         Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
@@ -50,6 +59,9 @@ public final class GameFrame extends JFrame
         this.revalidate();
     }
 
+    /**
+     * @return the screen that is currently being displayed on the frame
+     */
     public Screen getCurrentScreen()
     {
         return currentScreen;

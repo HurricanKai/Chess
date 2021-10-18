@@ -7,7 +7,7 @@ import de.nosswald.chess.gui.element.Element;
 
 import java.awt.event.MouseEvent;
 
-public class BoardElement extends Element
+public final class BoardElement extends Element
 {
     private CustomGraphics graphics;
 

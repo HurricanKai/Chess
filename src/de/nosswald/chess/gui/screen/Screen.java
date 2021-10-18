@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public abstract class Screen extends JPanel
 {
     private final Component titleBarComponent = new TitleBarComponent(new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new AbsoluteSize(30));

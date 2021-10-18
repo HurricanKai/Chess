@@ -1,5 +1,11 @@
 package de.nosswald.chess.gui;
 
+/**
+ * Represents a {@link SizeReference} that is an addition of two other SizeReferences
+ *
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class AdditionSize implements SizeReference
 {
     private final SizeReference a;

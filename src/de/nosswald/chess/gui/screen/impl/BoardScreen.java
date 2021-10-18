@@ -4,6 +4,10 @@ import de.nosswald.chess.gui.RelativeSize;
 import de.nosswald.chess.gui.element.impl.board.BoardElement;
 import de.nosswald.chess.gui.screen.Screen;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class BoardScreen extends Screen
 {
     public BoardScreen()

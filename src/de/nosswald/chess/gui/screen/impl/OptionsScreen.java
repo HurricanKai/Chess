@@ -6,8 +6,15 @@ import de.nosswald.chess.gui.RelativeSize;
 import de.nosswald.chess.gui.element.impl.mainmenu.MainMenuButtonElement;
 import de.nosswald.chess.gui.screen.Screen;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class OptionsScreen extends Screen
 {
+    /**
+     * @param parent the parent screen to return to after closing this one
+     */
     public OptionsScreen(@NotNull Screen parent)
     {
         this.elements.add(

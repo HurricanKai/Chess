@@ -38,12 +38,6 @@ public final class Chess
         DEBUG_MODE = debug;
         logger.print(LoggerLevel.DEBUG, "Using debug mode");
 
-        // create board
-        // TODO create this after starting a new game
-        logger.print(LoggerLevel.INFO, "Creating chess board..");
-        board = new Board();
-        board.initialize();
-
         // create user interface
         logger.print(LoggerLevel.INFO, "Creating user interface..");
         frame = new GameFrame();
@@ -75,5 +69,12 @@ public final class Chess
     public Board getBoard()
     {
         return board;
+    }
+
+    public void setBoard(Board board)
+    {
+        logger.print(LoggerLevel.INFO, "Creating new chess board..");
+        this.board = board;
+        board.initialize();
     }
 }

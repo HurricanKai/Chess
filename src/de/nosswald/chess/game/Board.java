@@ -4,12 +4,10 @@ import com.sun.istack.internal.Nullable;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.game.piece.impl.*;
-import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.logger.LoggerLevel;
-import de.nosswald.chess.utils.FieldColor;
 
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,7 +16,7 @@ import java.util.stream.IntStream;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Board
+public final class Board
 {
     /**
      * contains every {@link Piece} on the board

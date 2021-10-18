@@ -8,6 +8,10 @@ import de.nosswald.chess.gui.screen.Screen;
 
 import java.awt.*;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class LoadGameScreen extends Screen
 {
     public LoadGameScreen()

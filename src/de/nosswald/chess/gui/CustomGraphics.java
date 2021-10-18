@@ -7,11 +7,20 @@ import de.nosswald.chess.utils.FieldColor;
 
 import java.awt.*;
 
+/**
+ * A graphics resembling {@link Graphics} but with {@link SizeReference} instead of pixels
+ *
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class CustomGraphics
 {
     private final Graphics graphics;
     private final int offX, offY, width, height;
 
+    /**
+     * @param graphics the graphics object of the parent screen or component
+     */
     public CustomGraphics(Graphics graphics)
     {
         final Rectangle bounds = graphics.getClipBounds();
@@ -23,6 +32,13 @@ public final class CustomGraphics
         this.height = bounds.height;
     }
 
+    /**
+     * @param graphics  the graphics instances of the parent screen or component
+     * @param offX      the x offset
+     * @param offY      the y offset
+     * @param width     the width
+     * @param height    the height
+     */
     public CustomGraphics(Graphics graphics, int offX, int offY, int width, int height)
     {
         this.graphics = graphics;
@@ -32,41 +48,100 @@ public final class CustomGraphics
         this.height = height;
     }
 
+    /**
+     * Clips the width and the height
+     *
+     * @param g
+     * @param width
+     * @param height
+     * @return
+     */
     public CustomGraphics clip(CustomGraphics g, SizeReference width, SizeReference height)
     {
         return new CustomGraphics(g.graphics, offX, offY, width.get(g.width), height.get(g.height));
     }
 
+    /**
+     * Translates the position to its parent position plus the new position
+     *
+     * @param x the x position to be added
+     * @param y the y position to be added
+     * @return itself but translated
+     */
     public CustomGraphics translate(SizeReference x, SizeReference y)
     {
         return new CustomGraphics(graphics, offX + x.get(width), offY + y.get(height), width - x.get(width), height - y.get(height));
     }
 
+    /**
+     * Fills a specific rectangle
+     * The left and the right edges of the rectangle are x and x + width.
+     * The top and the bottom edges of the rectangle are y and y + height.
+     *
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width
+     * @param height    the height
+     * @param color     the color to fill with
+     */
     public void drawRect(SizeReference x, SizeReference y, SizeReference width, SizeReference height, Color color)
     {
         graphics.setColor(color);
         graphics.fillRect(offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height));
     }
 
+    /**
+     * Fills a specific round rectangle
+     * The left and the right edges of the rectangle are x and x + width.
+     * The top and the bottom edges of the rectangle are y and y + height.
+     *
+     * @param x             the x position
+     * @param y             the y position
+     * @param width         the width
+     * @param height        the height
+     * @param argWidth      the horizontal diameter of the arc at the four corners
+     * @param argHeight     the vertical diameter of the arc at the four corners
+     * @param color         the color to fill with
+     */
     public void drawRoundRect(SizeReference x, SizeReference y, SizeReference width, SizeReference height, SizeReference argWidth, SizeReference argHeight, Color color)
     {
         graphics.setColor(color);
         graphics.fillRoundRect(offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height), argWidth.get(this.width), argHeight.get(this.height));
     }
 
+    /**
+     * Fills a specific round oval
+     * The left and the right edges of the oval are x and x + width.
+     * The top and the bottom edges of the oval are y and y + height.
+     *
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width
+     * @param height    the height
+     * @param color     the color to fill with
+     */
     public void drawOval(SizeReference x, SizeReference y, SizeReference width, SizeReference height, Color color)
     {
         graphics.setColor(color);
         graphics.fillOval(offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height));
     }
 
+    /**
+     * Draws an image
+     *
+     * @param image     the image
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width to scale to
+     * @param height    the height to scale to
+     */
     public void drawImage(Image image, SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height), null, null);
     }
 
     /**
-     * Draws a chess board on the given context
+     * Draws a chess board
      *
      * @param board the board
      */
@@ -136,9 +211,22 @@ public final class CustomGraphics
         graphics.drawImage(image, posX, posY, size.get(this.height), size.get(this.height), null, null);
     }
 
-    // TODO make relative to current context
+    /**
+     * Draws a string
+     *
+     * @param string    the string
+     * @param x         the x position of the context
+     * @param y         the y position of the context
+     * @param width     the width of the context
+     * @param height    the height of the context
+     * @param xAnchor   the horizontal anchor
+     * @param yAnchor   the vertical anchor
+     * @param color     the color
+     * @param font      the font
+     */
     public void drawString(String string, SizeReference x, SizeReference y, SizeReference width, SizeReference height, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
     {
+        // TODO make relative to current context
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         int posX = offX + x.get(this.width);
         int posY = offY + y.get(this.height);
@@ -159,7 +247,6 @@ public final class CustomGraphics
         graphics.setFont(font);
         graphics.drawString(string, posX, posY);
     }
-
 //    public void drawString(String string, SizeReference x, SizeReference y, Color color, Font font)
 //    {
 //        graphics.setColor(color);
