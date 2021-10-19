@@ -59,6 +59,9 @@ public abstract class Component extends Element
     @Override
     public void setMousePos(int x, int y)
     {
+        mouseX = x;
+        mouseY = y;
+
         elements.forEach(element -> element.setMousePos(x, y));
     }
 }

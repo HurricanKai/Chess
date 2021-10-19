@@ -22,7 +22,7 @@ import java.awt.*;
  */
 public abstract class Screen extends JPanel
 {
-    private final Component titleBarComponent = new TitleBarComponent(new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new AbsoluteSize(30));
+    private final TitleBarComponent titleBarComponent = new TitleBarComponent(new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new AbsoluteSize(30));
     protected final List<Element> elements = new ArrayList<>();
 
     public Screen()
@@ -40,10 +40,16 @@ public abstract class Screen extends JPanel
         this.addMouseMotionListener(new MouseMotionAdapter()
         {
             @Override
-            public void mouseMoved(MouseEvent e)
+            public void mouseMoved(MouseEvent event)
             {
-                titleBarComponent.setMousePos(e.getX(), e.getY());
-                elements.forEach(element -> element.setMousePos(e.getX(), e.getY()));
+                titleBarComponent.setMousePos(event.getX(), event.getY());
+                elements.forEach(element -> element.setMousePos(event.getX(), event.getY()));
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent event)
+            {
+                titleBarComponent.onDrag(event);
             }
         });
     }

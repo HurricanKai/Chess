@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 
 public final class TitleBarComponent extends Component
 {
+    private int posX, posY;
+    private CustomGraphics graphics;
+
     public TitleBarComponent(SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         super(x, y, width, height);
@@ -29,7 +32,8 @@ public final class TitleBarComponent extends Component
         );
         this.elements.add(
                 new TitleBarButtonElement(new AdditionSize(new AdditionSize(x, width), new AbsoluteSize(-87)), new AbsoluteSize(5), new AbsoluteSize(20), new Color(36, 193, 56))
-                        .setAction(() -> Chess.getInstance().getFrame().setExtendedState(Frame.MAXIMIZED_BOTH))
+                        .setAction(() -> Chess.getInstance().getFrame().setExtendedState(
+                                Chess.getInstance().getFrame().getExtendedState() == Frame.NORMAL ? Frame.MAXIMIZED_BOTH : Frame.NORMAL))
         );
     }
 
@@ -38,14 +42,31 @@ public final class TitleBarComponent extends Component
     {
         graphics.drawRect(x, y, width, height, new Color(242, 242, 242));
 
+        this.graphics = graphics;
+
         super.onPaint(graphics);
     }
 
     @Override
     public void onClick(MouseEvent event)
     {
-        // TODO window movement
+        posX = event.getX();
+        posY = event.getY();
 
         super.onClick(event);
+    }
+
+    public void onDrag(MouseEvent event)
+    {
+        if (isHovered())
+            Chess.getInstance().getFrame().setLocation(event.getXOnScreen() - posX, event.getYOnScreen() - posY);
+    }
+
+    private boolean isHovered()
+    {
+        return (mouseX >= graphics.getOffX() + x.get(graphics.getWidth())
+                && mouseX <= graphics.getOffX() + x.get(graphics.getWidth()) + width.get(graphics.getWidth())
+                && mouseY >= graphics.getOffY() + y.get(graphics.getHeight())
+                && mouseY <= graphics.getOffY() + y.get(graphics.getHeight()) + height.get(graphics.getHeight()));
     }
 }
