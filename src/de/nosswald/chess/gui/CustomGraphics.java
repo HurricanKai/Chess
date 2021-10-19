@@ -215,10 +215,6 @@ public final class CustomGraphics
      * Draws a string
      *
      * @param string    the string
-     * @param x         the x position of the context
-     * @param y         the y position of the context
-     * @param width     the width of the context
-     * @param height    the height of the context
      * @param xAnchor   the horizontal anchor
      * @param yAnchor   the vertical anchor
      * @param color     the color

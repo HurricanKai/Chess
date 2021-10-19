@@ -10,8 +10,18 @@ import de.nosswald.chess.utils.ResourceLocation;
 
 import java.awt.*;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class MainMenuCopyrightComponent extends Component
 {
+    /**
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width
+     * @param height    the height
+     */
     public MainMenuCopyrightComponent(SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         super(x, y, width, height);

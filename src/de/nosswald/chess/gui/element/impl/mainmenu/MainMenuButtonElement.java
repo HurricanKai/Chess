@@ -14,10 +14,21 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class MainMenuButtonElement extends ButtonElement
 {
     private final String title;
 
+    /**
+     * @param title     the title to paint on the button
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width
+     * @param height    the height
+     */
     public MainMenuButtonElement(String title, SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         super(x, y, width, height);
@@ -46,6 +57,10 @@ public final class MainMenuButtonElement extends ButtonElement
                                 image, new RelativeSize(1), i == 0 ? Anchor.NEGATIVE : Anchor.POSITIVE, Anchor.POSITIVE)); // TODO WHY POSITIVE AND NOT CENTER
     }
 
+    /**
+     * @param graphics the graphics
+     * @return the graphics but clipped and translated on the button
+     */
     private CustomGraphics getContextGraphics(CustomGraphics graphics)
     {
         return graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);

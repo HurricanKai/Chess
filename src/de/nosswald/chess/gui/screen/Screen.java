@@ -4,17 +4,16 @@ import de.nosswald.chess.Chess;
 import de.nosswald.chess.gui.AbsoluteSize;
 import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.RelativeSize;
-import de.nosswald.chess.gui.element.Component;
 import de.nosswald.chess.gui.element.Element;
 import de.nosswald.chess.gui.element.impl.titlebar.TitleBarComponent;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
 
 /**
  * @author Nils Osswald

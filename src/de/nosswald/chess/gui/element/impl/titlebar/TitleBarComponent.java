@@ -8,11 +8,21 @@ import de.nosswald.chess.gui.element.impl.LabelElement;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class TitleBarComponent extends Component
 {
     private int posX, posY;
     private CustomGraphics graphics;
 
+    /**
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width
+     * @param height    the height
+     */
     public TitleBarComponent(SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         super(x, y, width, height);
@@ -56,12 +66,20 @@ public final class TitleBarComponent extends Component
         super.onClick(event);
     }
 
+    /**
+     * Called when the mouse is dragging the frame
+     *
+     * @param event the event
+     */
     public void onDrag(MouseEvent event)
     {
         if (isHovered())
             Chess.getInstance().getFrame().setLocation(event.getXOnScreen() - posX, event.getYOnScreen() - posY);
     }
 
+    /**
+     * @return if the mouse cursor is currently hovering the button
+     */
     private boolean isHovered()
     {
         return (mouseX >= graphics.getOffX() + x.get(graphics.getWidth())

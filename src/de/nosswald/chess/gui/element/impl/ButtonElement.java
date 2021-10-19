@@ -6,11 +6,21 @@ import de.nosswald.chess.gui.element.Element;
 
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public abstract class ButtonElement extends Element
 {
     private Action action;
     private CustomGraphics graphics;
 
+    /**
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the width
+     * @param height    the height
+     */
     public ButtonElement(SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         super(x, y, width, height);
@@ -22,6 +32,9 @@ public abstract class ButtonElement extends Element
         graphics = g;
     }
 
+    /**
+     * Holds the function that is being called when the button is clicked
+     */
     public interface Action
     {
         void onAction();
@@ -34,6 +47,9 @@ public abstract class ButtonElement extends Element
             action.onAction();
     }
 
+    /**
+     * @return if the mouse cursor is currently hovering the button
+     */
     protected boolean isHovered()
     {
         return (mouseX >= graphics.getOffX() + x.get(graphics.getWidth())
@@ -42,6 +58,12 @@ public abstract class ButtonElement extends Element
                 && mouseY <= graphics.getOffY() + y.get(graphics.getHeight()) + height.get(graphics.getHeight()));
     }
 
+    /**
+     * Sets the click action
+     *
+     * @param action the action
+     * @return itself but with the click action
+     */
     public ButtonElement setAction(Action action)
     {
         this.action = action;

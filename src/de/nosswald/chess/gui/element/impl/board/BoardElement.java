@@ -7,10 +7,19 @@ import de.nosswald.chess.gui.element.Element;
 
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class BoardElement extends Element
 {
     private CustomGraphics graphics;
 
+    /**
+     * @param x     the x position
+     * @param y     the y position
+     * @param size  the width and the height
+     */
     public BoardElement(SizeReference x, SizeReference y, SizeReference size)
     {
         super(x, y, size, size);

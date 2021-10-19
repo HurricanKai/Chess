@@ -4,7 +4,6 @@ import de.nosswald.chess.Chess;
 import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.SizeReference;
 import de.nosswald.chess.logger.LoggerLevel;
-import de.nosswald.chess.utils.ResourceLocation;
 
 import javax.imageio.ImageIO;
 import java.awt.event.MouseEvent;
@@ -12,10 +11,21 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Nils Osswald
+ * @author Noah Gerber
+ */
 public final class ImageButtonElement extends ButtonElement
 {
     private BufferedImage image;
 
+    /**
+     * @param file      the image file
+     * @param x         the x position
+     * @param y         the y position
+     * @param width     the height of the image and the button
+     * @param height    the width of the image and the button
+     */
     public ImageButtonElement(File file, SizeReference x, SizeReference y, SizeReference width, SizeReference height)
     {
         super(x, y, width, height);
