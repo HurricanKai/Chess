@@ -224,22 +224,21 @@ public final class CustomGraphics
      * @param color     the color
      * @param font      the font
      */
-    public void drawString(String string, SizeReference x, SizeReference y, SizeReference width, SizeReference height, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
+    public void drawString(String string, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
     {
-        // TODO make relative to current context
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
-        int posX = offX + x.get(this.width);
-        int posY = offY + y.get(this.height);
+        int posX = offX;
+        int posY = offY;
 
         if (xAnchor == Anchor.CENTER)
-            posX = offX + x.get(this.width) + (width.get(this.width) - fontMetrics.stringWidth(string)) / 2;
+            posX = offX + (width - fontMetrics.stringWidth(string)) / 2;
         else if (xAnchor == Anchor.POSITIVE)
-            posX = x.get(this.width) + width.get(this.width) - fontMetrics.stringWidth(string);
+            posX = offX + width - fontMetrics.stringWidth(string);
 
         if (yAnchor == Anchor.CENTER)
-            posY = offY + y.get(this.height) + (height.get(this.height) - fontMetrics.getHeight()) / 2;
+            posY = offY + (height - fontMetrics.getHeight()) / 2;
         else if (yAnchor == Anchor.POSITIVE)
-            posY = offY + y.get(this.height) + height.get(this.height) - fontMetrics.getHeight();
+            posY = offY + height - fontMetrics.getHeight();
 
         posY += fontMetrics.getAscent();
 
@@ -247,12 +246,6 @@ public final class CustomGraphics
         graphics.setFont(font);
         graphics.drawString(string, posX, posY);
     }
-//    public void drawString(String string, SizeReference x, SizeReference y, Color color, Font font)
-//    {
-//        graphics.setColor(color);
-//        graphics.setFont(font);
-//        graphics.drawString(string, offX + x.get(width), offY + y.get(height));
-//    }
 
     public int getOffX()
     {

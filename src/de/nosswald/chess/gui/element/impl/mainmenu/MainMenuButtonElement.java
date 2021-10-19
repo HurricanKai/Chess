@@ -31,7 +31,7 @@ public final class MainMenuButtonElement extends ButtonElement
         super.onPaint(graphics);
 
         graphics.drawRoundRect(x, y, width, height, new AbsoluteSize(15), new AbsoluteSize(15), isHovered() ? new Color(170, 119, 102) : new Color(237, 216, 191));
-        graphics.drawString(title, x, y, width, height, Anchor.CENTER, Anchor.CENTER, Color.BLACK, new Font("Courier New", Font.PLAIN, new AbsoluteSize(36).get(0)));
+        getContextGraphics(graphics).drawString(title, Anchor.CENTER, Anchor.CENTER, Color.BLACK, new Font("Courier New", Font.PLAIN, new AbsoluteSize(36).get(0)));
 
         if (!isHovered()) return;
         Arrays.stream(new String[]{ "pawn_white.png", "pawn_black.png" })

@@ -30,7 +30,7 @@ public final class LabelElement extends Element
     @Override
     public void onPaint(CustomGraphics graphics)
     {
-        graphics.drawString(title, x, y, width, height, xAnchor, yAnchor, color, font);
+        graphics.clip(graphics, width, height).translate(x, y).drawString(title, xAnchor, yAnchor, color, font);
     }
 
     public LabelElement setColor(Color color)
