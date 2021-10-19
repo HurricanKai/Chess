@@ -199,12 +199,12 @@ public final class CustomGraphics
         int posY = offY;
 
         if (xAnchor == Anchor.CENTER)
-            posX = offX + (width - size.get(this.height) / 2);
+            posX = offX + (width - size.get(this.height)) / 2;
         else if (xAnchor == Anchor.POSITIVE)
             posX = offX + width - size.get(this.height);
 
         if (yAnchor == Anchor.CENTER)
-            posY = offY + (height - size.get(this.height) / 2);
+            posY = offY + (height - size.get(this.height)) / 2;
         else if (yAnchor == Anchor.POSITIVE)
             posY = offY + height - size.get(this.height);
 

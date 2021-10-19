@@ -54,7 +54,7 @@ public final class MainMenuButtonElement extends ButtonElement
                     }
                 }, (i, j) -> { }).forEach((i, image) ->
                         getContextGraphics(graphics).drawSquareImage(
-                                image, new RelativeSize(1), i == 0 ? Anchor.NEGATIVE : Anchor.POSITIVE, Anchor.POSITIVE)); // TODO WHY POSITIVE AND NOT CENTER
+                                image, new RelativeSize(1), i == 0 ? Anchor.NEGATIVE : Anchor.POSITIVE, Anchor.CENTER));
     }
 
     /**
