@@ -34,6 +34,12 @@ public abstract class Screen extends JPanel
                 titleBarComponent.onClick(event);
                 elements.forEach(element -> element.onClick(event));
             }
+
+            @Override
+            public void mousePressed(MouseEvent event)
+            {
+                titleBarComponent.onPress(event);
+            }
         });
 
         this.addMouseMotionListener(new MouseMotionAdapter()

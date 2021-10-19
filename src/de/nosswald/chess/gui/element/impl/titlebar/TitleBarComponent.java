@@ -60,9 +60,6 @@ public final class TitleBarComponent extends Component
     @Override
     public void onClick(MouseEvent event)
     {
-        posX = event.getX();
-        posY = event.getY();
-
         super.onClick(event);
     }
 
@@ -75,6 +72,18 @@ public final class TitleBarComponent extends Component
     {
         if (isHovered())
             Chess.getInstance().getFrame().setLocation(event.getXOnScreen() - posX, event.getYOnScreen() - posY);
+    }
+
+    /**
+     * Called when a mouse button is hold down
+     *
+     * @param event the event
+     */
+    public void onPress(MouseEvent event)
+    {
+        if (!isHovered()) return;
+        posX = event.getX();
+        posY = event.getY();
     }
 
     /**
