@@ -43,7 +43,7 @@ public final class LabelElement extends Element
     @Override
     public void onPaint(CustomGraphics graphics)
     {
-        graphics.clip(graphics, width, height).translate(x, y).drawString(title, xAnchor, yAnchor, color, font);
+        graphics.translate(x, y).clip(graphics, width, height).drawString(title, xAnchor, yAnchor, color, font);
     }
 
     /**
