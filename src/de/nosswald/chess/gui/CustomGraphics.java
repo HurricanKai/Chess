@@ -16,7 +16,8 @@ import java.awt.*;
 public final class CustomGraphics
 {
     private final Graphics graphics;
-    private final int offX, offY, width, height;
+    private final int offY, width, height;
+    private int offX;
 
     /**
      * @param graphics the graphics object of the parent screen or component
@@ -149,6 +150,8 @@ public final class CustomGraphics
     {
         final int fieldSize = height / 8;
         final Piece selected = board.getSelected();
+
+        offX += (width - height) / 2;
 
         // draw fields
         for (int col = 0; col < 8; col++)

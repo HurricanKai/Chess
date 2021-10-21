@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.game.piece.impl.*;
+import de.nosswald.chess.gui.screen.impl.GameResultScreen;
 import de.nosswald.chess.logger.LoggerLevel;
 
 import java.util.ArrayList;
@@ -112,27 +113,25 @@ public final class Board
                 // flip sides
                 nextMove = nextMove.flip();
 
-                // check if draw
-                if (isStaleMate())
-                {
-                    gameOver = true;
-                    nextMove = null;
-
-                    Chess.getInstance().getLogger().print(LoggerLevel.INFO, "The match has ended in a draw");
-                }
-
-                // check if checkmate
-                if (isCheckMate(nextMove))
+                // check if game is over
+                if (isStaleMate() || isCheckMate(nextMove))
                 {
                     gameOver = true;
 
-                    Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO,
-                            "%s has won the match", nextMove.flip().toString());
+                    if (isStaleMate())
+                    {
+                        nextMove = null;
+                        Chess.getInstance().getLogger().print(LoggerLevel.INFO, "The match has ended in a draw");
+                    }
+                    else
+                        Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO,
+                                "%s has won the match", nextMove.flip().toString());
+
+                    Chess.getInstance().getFrame().setScreen(new GameResultScreen(this));
                 }
             });
 
             selected = null;
-
             Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Unselected piece");
         }
     }
@@ -243,11 +242,6 @@ public final class Board
     public boolean isLegitimacyChecking()
     {
         return legitimacyChecking;
-    }
-
-    public boolean isGameOver()
-    {
-        return gameOver;
     }
 
     public Piece getSelected()

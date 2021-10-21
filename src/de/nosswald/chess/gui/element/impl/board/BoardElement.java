@@ -1,10 +1,11 @@
 package de.nosswald.chess.gui.element.impl.board;
 
-import de.nosswald.chess.Chess;
+import de.nosswald.chess.game.Board;
 import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.SizeReference;
 import de.nosswald.chess.gui.element.Element;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -13,6 +14,7 @@ import java.awt.event.MouseEvent;
  */
 public final class BoardElement extends Element
 {
+    private final Board board;
     private CustomGraphics graphics;
 
     /**
@@ -20,17 +22,20 @@ public final class BoardElement extends Element
      * @param y     the y position
      * @param size  the width and the height
      */
-    public BoardElement(SizeReference x, SizeReference y, SizeReference size)
+    public BoardElement(Board board, SizeReference x, SizeReference y, SizeReference size)
     {
         super(x, y, size, size);
+
+        this.board = board;
     }
 
     @Override
     public void onPaint(CustomGraphics g)
     {
+        g.drawRect(x, y, width, height, Color.ORANGE);
         graphics = g.translate(x, y).clip(g, width, height);
 
-        graphics.drawBoard(Chess.getInstance().getBoard());
+        graphics.drawBoard(board);
     }
 
     @Override
@@ -39,6 +44,6 @@ public final class BoardElement extends Element
         final int col = (this.mouseX - graphics.getOffX()) / (graphics.getHeight() / 8);
         final int row = (this.mouseY - graphics.getOffY()) / (graphics.getHeight() / 8);
 
-        Chess.getInstance().getBoard().onClick(col , row);
+        board.onClick(col, row);
     }
 }
