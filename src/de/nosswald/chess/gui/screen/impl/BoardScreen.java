@@ -2,7 +2,7 @@ package de.nosswald.chess.gui.screen.impl;
 
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.gui.RelativeSize;
-import de.nosswald.chess.gui.element.impl.board.BoardElement;
+import de.nosswald.chess.gui.element.impl.BoardElement;
 import de.nosswald.chess.gui.screen.Screen;
 
 /**

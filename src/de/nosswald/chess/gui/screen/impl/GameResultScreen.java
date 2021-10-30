@@ -7,7 +7,7 @@ import de.nosswald.chess.gui.Anchor;
 import de.nosswald.chess.gui.RelativeSize;
 import de.nosswald.chess.gui.element.impl.LabelElement;
 import de.nosswald.chess.gui.element.impl.SimpleButtonElement;
-import de.nosswald.chess.gui.element.impl.board.BoardElement;
+import de.nosswald.chess.gui.element.impl.BoardElement;
 import de.nosswald.chess.gui.screen.Screen;
 
 import java.awt.*;

@@ -1,5 +1,6 @@
-package de.nosswald.chess.gui.element.impl.board;
+package de.nosswald.chess.gui.element.impl;
 
+import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
 import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.SizeReference;
@@ -32,7 +33,7 @@ public final class BoardElement extends Element
     @Override
     public void onPaint(CustomGraphics g)
     {
-        g.drawRect(x, y, width, height, Color.ORANGE);
+        if (Chess.DEBUG_MODE) g.drawRect(x, y, width, height, Color.ORANGE);
         graphics = g.translate(x, y).clip(g, width, height);
 
         graphics.drawBoard(board);
