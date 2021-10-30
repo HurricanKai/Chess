@@ -2,6 +2,7 @@ package de.nosswald.chess.game;
 
 import com.sun.istack.internal.Nullable;
 import de.nosswald.chess.Chess;
+import de.nosswald.chess.game.ai.OpponentPlayer;
 import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.game.piece.impl.*;
 import de.nosswald.chess.gui.screen.impl.GameResultScreen;
@@ -36,6 +37,13 @@ public final class Board
     private Side nextMove = Side.WHITE;
 
     /**
+     * stores the {@link Side} which is controlled by the player
+     */
+    private final Side playerSide = Math.random() > .5 ? Side.WHITE : Side.BLACK;
+
+    private final OpponentPlayer opponentPlayer = new OpponentPlayer(this, playerSide.flip());
+
+    /**
      * stores the currently selected {@link Piece}<br> (null if nothing is selected)
      */
     @Nullable
@@ -68,6 +76,12 @@ public final class Board
         });
 
         Chess.getInstance().getLogger().print(LoggerLevel.INFO, "Added all pieces to the board");
+        Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO, "Player moves %s",
+                playerSide.toString().toLowerCase());
+
+        // in case the opponent has the first move
+        if (nextMove != playerSide)
+            opponentPlayer.awaitResponse();
     }
 
     /**
@@ -78,7 +92,7 @@ public final class Board
      */
     public void onClick(int col, int row)
     {
-        if (gameOver)
+        if (nextMove != playerSide || gameOver)
             return;
 
         if (selected == null)
@@ -91,7 +105,6 @@ public final class Board
                 final List<int[]> possibleMoves = clicked.getPossibleMoves();
 
                 selected = clicked;
-
                 Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
                         "Selected %s on (%d|%d)", clicked.getClass().getSimpleName(), col, row);
                 Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
@@ -103,36 +116,53 @@ public final class Board
         {
             selected.getPossibleMoves().stream().filter(move -> move[0] == col && move[1] == row).findFirst().ifPresent(move ->
             {
+                // move selected piece to the clicked column and row
                 Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
-                        "Moved %s from (%d|%d) to (%d|%d)", selected.getClass().getSimpleName(),
+                        "Player moved %s from (%d|%d) to (%d|%d)", selected.getClass().getSimpleName(),
                         selected.getCol(), selected.getRow(), move[0], move[1]);
+                makeMove(selected, col, row);
 
-                history.add(new int[]{ selected.getCol(), selected.getRow(), move[0], move[1] });
-                selected.setPosition(move[0], move[1]);
-
-                // flip sides
-                nextMove = nextMove.flip();
-
-                // check if game is over
-                if (isStaleMate() || isCheckMate(nextMove))
-                {
-                    gameOver = true;
-
-                    if (isStaleMate())
-                    {
-                        nextMove = null;
-                        Chess.getInstance().getLogger().print(LoggerLevel.INFO, "The match has ended in a draw");
-                    }
-                    else
-                        Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO,
-                                "%s has won the match", nextMove.flip().toString());
-
-                    Chess.getInstance().getFrame().setScreen(new GameResultScreen(this));
-                }
+                // opponents move
+                opponentPlayer.awaitResponse();
             });
 
+            // unselect current piece
             selected = null;
             Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Unselected piece");
+        }
+    }
+
+    /**
+     * Moves the given piece to the given column and row
+     *
+     * @param col the column
+     * @param row the row
+     */
+    public void makeMove(Piece piece, int col, int row)
+    {
+        piece.setPosition(col, row);
+        history.add(new int[]{ piece.getCol(), piece.getRow(), col, row });
+
+        // flip sides
+        nextMove = nextMove.flip();
+        Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
+                "%s's turn", nextMove.toString());
+
+        // check if game is over
+        if (isStaleMate() || isCheckMate(nextMove))
+        {
+            gameOver = true;
+
+            if (isStaleMate())
+            {
+                nextMove = null; // to identify that the match has ended in a draw
+                Chess.getInstance().getLogger().print(LoggerLevel.INFO, "The match has ended in a draw");
+            }
+            else
+                Chess.getInstance().getLogger().printFormat(LoggerLevel.INFO,
+                        "%s has won the match", nextMove.flip().toString());
+
+            Chess.getInstance().getFrame().setScreen(new GameResultScreen(this));
         }
     }
 
