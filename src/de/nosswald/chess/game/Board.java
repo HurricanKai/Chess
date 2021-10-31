@@ -145,6 +145,7 @@ public final class Board
         if (isStaleMate() || isCheckMate(nextMove))
         {
             gameOver = true;
+            selected = null;
 
             if (isStaleMate())
             {
