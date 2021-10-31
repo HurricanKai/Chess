@@ -9,9 +9,7 @@ import de.nosswald.chess.gui.screen.impl.GameResultScreen;
 import de.nosswald.chess.logger.LoggerLevel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -85,7 +83,7 @@ public final class Board
     }
 
     /**
-     * Handles the click event based on the {@link Piece#col} and the {@link Piece#col}
+     * Handles the click event based on the {@link Piece#col} and the {@link Piece#row}
      *
      * @param col   the clicked column
      * @param row   the clicked row
@@ -102,14 +100,10 @@ public final class Board
 
             if (clicked != null && clicked.getSide() == nextMove)
             {
-                final List<int[]> possibleMoves = clicked.getPossibleMoves();
-
                 selected = clicked;
                 Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
-                        "Selected %s on (%d|%d)", clicked.getClass().getSimpleName(), col, row);
-                Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
-                        "%d possible moves %s", possibleMoves.size(), possibleMoves.stream().map(
-                                Arrays::toString).collect(Collectors.joining()));
+                        "Selected %s on (%d|%d) [%d possible moves]", clicked.getClass().getSimpleName(),
+                        col, row, clicked.getPossibleMoves().size());
             }
         }
         else
@@ -128,20 +122,19 @@ public final class Board
 
             // unselect current piece
             selected = null;
-            Chess.getInstance().getLogger().print(LoggerLevel.DEBUG, "Unselected piece");
         }
     }
 
     /**
-     * Moves the given piece to the given column and row
+     * Moves the given {@link Piece} to the given {@link Piece#col} and {@link Piece#row}
      *
      * @param col the column
      * @param row the row
      */
     public void makeMove(Piece piece, int col, int row)
     {
-        piece.setPosition(col, row);
         history.add(new int[]{ piece.getCol(), piece.getRow(), col, row });
+        piece.setPosition(col, row);
 
         // flip sides
         nextMove = nextMove.flip();
