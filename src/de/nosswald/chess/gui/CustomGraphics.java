@@ -150,6 +150,7 @@ public final class CustomGraphics
     {
         final int fieldSize = height / 8;
         final Piece selected = board.getSelected();
+        final int[] lastMove = board.getHistory().isEmpty() ? null : board.getHistory().get(board.getHistory().size() - 1);
 
         offX += (width - height) / 2;
 
@@ -182,10 +183,17 @@ public final class CustomGraphics
             });
         }
 
+        // draw last move
+        if (lastMove != null)
+        {
+            graphics.setColor(FieldColor.LAST_MOVE.getColor());
+            graphics.fillRect(offX + (fieldSize * lastMove[0]), offY + (fieldSize * lastMove[1]), fieldSize, fieldSize);
+            graphics.fillRect(offX + (fieldSize * lastMove[2]), offY + (fieldSize * lastMove[3]), fieldSize, fieldSize);
+        }
+
         // draw pieces
-        board.getPieces().forEach(piece -> {
-            piece.paint((Graphics2D)graphics, offX + (piece.getCol() * fieldSize), offY + (piece.getRow() * fieldSize), fieldSize);
-        });
+        board.getPieces().forEach(piece ->
+                piece.paint((Graphics2D)graphics, offX + (piece.getCol() * fieldSize), offY + (piece.getRow() * fieldSize), fieldSize));
     }
 
     /**
