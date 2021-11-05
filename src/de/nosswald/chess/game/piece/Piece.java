@@ -1,7 +1,10 @@
 package de.nosswald.chess.game.piece;
 
+import com.sun.istack.internal.NotNull;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
+import de.nosswald.chess.game.Move;
+import de.nosswald.chess.game.Position;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.impl.King;
 import de.nosswald.chess.logger.LoggerLevel;
@@ -22,7 +25,7 @@ import java.util.stream.IntStream;
 public abstract class Piece
 {
     protected final Side side;
-    protected int col, row;
+    protected Position position;
 
     protected final Board board;
 
@@ -30,15 +33,13 @@ public abstract class Piece
 
     /**
      * @param fileName  the name of the image file
-     * @param side      the side
-     * @param col       the column
-     * @param row       the row
+     * @param side      the {@link Side}
+     * @param position  the {@link Position}
      */
-    public Piece(String fileName, Side side, int col, int row)
+    public Piece(String fileName, Side side, Position position)
     {
         this.side = side;
-        this.col = col;
-        this.row = row;
+        this.position = position;
 
         board = Chess.getInstance().getBoard();
 
@@ -54,7 +55,7 @@ public abstract class Piece
     }
 
     /**
-     * Paints the piece
+     * Paints the {@link Piece}
      *
      * @param graphics  the graphics object
      * @param x         the x position measured in pixels
@@ -68,57 +69,51 @@ public abstract class Piece
     }
 
     /**
-     * Checks if the given column and row is on the board
-     *
-     * @param col   the column
-     * @param row   the row
-     * @return whether the row and the col is on the board or not
+     * @param position the {@link Position}
+     * @return Whether the {@link Position} is in the {@link Board}'s bounds or not
      */
-    protected boolean onBoard(int col, int row)
+    protected boolean onBoard(@NotNull Position position)
     {
-        return col >= 0 && row >= 0 && col < 8 && row < 8;
+        return position.getCol() >= 0 && position.getRow() >= 0 && position.getCol() < 8 && position.getRow() < 8;
     }
 
     /**
-     * Checks if the piece is able to move to the given {@link #col} and {@link #row}<br>
-     * Also adds the move to the given list reference
-     *
-     * @param moves the reference to the moves list
-     * @param col   the column to path to
-     * @param row   the row to path to
-     * @return whether the piece can move to the given column and row or not
+     * @param moves     the moves {@link List}
+     * @param from      the {@link Position} to move from
+     * @param to        the {@link Position} to move to
+     * @return Whether the {@link Piece} can move to the given {@link Position} or not
      */
-    protected boolean canPath(List<int[]> moves, int col, int row)
+    protected boolean canPath(List<Move> moves, Position from, Position to)
     {
-        if (onBoard(col, row))
+        if (onBoard(to))
         {
-            if (board.hasPiece(col, row))
+            if (board.hasPiece(to))
             {
-                if (board.getPiece(col, row).getSide() != this.side)
-                    moves.add(new int[]{ col, row });
+                if (board.getPiece(to).getSide() != this.side)
+                    moves.add(new Move(from, to));
                 return false;
             }
-            moves.add(new int[]{ col, row });
+            moves.add(new Move(from, to));
         }
         return true;
     }
 
     /**
-     * Filters out every illegal move
+     * Filters out every illegal {@link Move}
      *
-     * @param pseudoLegalMoves the moves to check
-     * @return all legal moves
+     * @param pseudoLegalMoves the {@link Move}'s to check
+     * @return A {@link List} of all legal {@link Move}'s
      */
-    protected List<int[]> filterLegalMoves(List<int[]> pseudoLegalMoves)
+    protected List<Move> filterLegalMoves(List<Move> pseudoLegalMoves)
     {
         if (!board.isLegitimacyChecking())
             return pseudoLegalMoves;
 
         board.setLegitimacyChecking(false);
 
-        final List<int[]> legalMoves = new ArrayList<>();
+        final List<Move> legalMoves = new ArrayList<>();
 
-        for (int[] pseudoLegalMove : pseudoLegalMoves)
+        for (Move pseudoLegalMove : pseudoLegalMoves)
         {
             // check if castling is possible
             if (this instanceof King && !board.isInCheck(side))
@@ -126,40 +121,45 @@ public abstract class Piece
                 final int startRow = side == Side.WHITE ? 7 : 0;
 
                 // short castle
-                if (pseudoLegalMove[0] == 6 && pseudoLegalMove[1] == startRow)
+                if (pseudoLegalMove.getTo().equals(new Position(6, startRow)))
                 {
-                    if (!IntStream.range(5, 6).anyMatch(c -> board.getPieces().stream().filter(piece ->
-                            piece.side != side).anyMatch(piece -> piece.getPossibleMoves().stream().anyMatch(move ->
-                            move[0] == c && move[1] == startRow))))
+                    if (!IntStream.range(5, 6)
+                            .anyMatch(col -> board.getPieces().stream()
+                                    .filter(p -> p.side != side)
+                                    .anyMatch(p -> p.getPossibleMoves().stream()
+                                            .anyMatch(m -> m.getTo().equals(new Position(col, startRow)))))
+                    )
                         legalMoves.add(pseudoLegalMove);
 
                     continue;
                 }
 
                 // long castle
-                if (pseudoLegalMove[0] == 2 && pseudoLegalMove[1] == startRow)
+                if (pseudoLegalMove.getTo().equals(new Position(2, startRow)))
                 {
-                    if (!IntStream.range(1, 3).anyMatch(c -> board.getPieces().stream().filter(piece ->
-                            piece.side != side).anyMatch(piece -> piece.getPossibleMoves().stream().anyMatch(move ->
-                            move[0] == c && move[1] == startRow))))
+                    if (!IntStream.range(1, 3)
+                            .anyMatch(col -> board.getPieces().stream()
+                                    .filter(p -> p.side != side)
+                                    .anyMatch(p -> p.getPossibleMoves().stream()
+                                            .anyMatch(m -> m.getTo().equals(new Position(col, startRow)))))
+                    )
                         legalMoves.add(pseudoLegalMove);
 
                     continue;
                 }
             }
 
-            final int col = this.col;
-            final int row = this.row;
-            final Piece piece = board.getPiece(col, row);
+            final Position position = this.position;
+            final Piece piece = board.getPiece(position);
             final List<Piece> oldPieces = new ArrayList<>(board.getPieces());
 
-            piece.setPosition(pseudoLegalMove[0], pseudoLegalMove[1]);
+            piece.setPosition(pseudoLegalMove.getTo());
 
             if (!board.isInCheck(side))
                 legalMoves.add(pseudoLegalMove);
 
             // reset
-            setPosition(col, row);
+            setPosition(position);
             board.getPieces().clear();
             board.getPieces().addAll(oldPieces);
         }
@@ -170,36 +170,32 @@ public abstract class Piece
     }
 
     /**
-     * Places the piece on the given column and row<br>
-     * Also removes a piece if there is already a piece on the given position
+     * Places the {@link Piece} on the given {@link Position}.
+     * Also removes a {@link Piece} if there is already a {@link Piece} on the given {@link Position}.
      *
-     * @param col   the new column
-     * @param row   the new row
+     * @param position the new {@link Position}
      */
-    public void setPosition(int col, int row)
+    public void setPosition(@NotNull Position position)
     {
-        board.getPieces().removeIf(piece -> piece.getCol() == col && piece.getRow() == row);
-        this.col = col;
-        this.row = row;
+        board.getPieces().removeIf(p -> p.getPosition().equals(position));
+        this.position = position;
     }
 
     /**
-     * @return an unfiltered list of all possible moves (i = 0: col, i = 1: row)
+     * @return An unfiltered {@link List} of all possible {@link Position}'s
      */
-    public abstract List<int[]> getPossibleMoves();
+    public abstract List<Move> getPossibleMoves();
 
     public Side getSide()
     {
         return side;
     }
 
-    public int getCol()
+    /**
+     * @return The current {@link Position}
+     */
+    public Position getPosition()
     {
-        return col;
-    }
-
-    public int getRow()
-    {
-        return row;
+        return position;
     }
 }

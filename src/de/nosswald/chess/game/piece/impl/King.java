@@ -1,5 +1,8 @@
 package de.nosswald.chess.game.piece.impl;
 
+import com.sun.istack.internal.NotNull;
+import de.nosswald.chess.game.Move;
+import de.nosswald.chess.game.Position;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
 
@@ -16,17 +19,33 @@ public final class King extends Piece
 {
     private final int startRow;
 
-    public King(Side side, int col, int row)
+    /**
+     * @param side      the {@link Side}
+     * @param position  the {@link Position}
+     */
+    public King(Side side, Position position)
     {
-        super("king_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, col, row);
+        super("king_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, position);
 
         startRow = side == Side.WHITE ? 7 : 0;
     }
 
+    /**
+     * <code>|_|_|_|_|_|_|_|_|<br>
+     * |_|_|_|_|_|_|_|_|<br>
+     * |_|_|*|*|*|_|_|_|<br>
+     * |_|_|*|K|*|_|_|_|<br>
+     * |_|_|_|_|_|_|_|_|<br>
+     * |_|_|_|k|_|_|_|_|<br>
+     * |_|_|_|_|_|_|_|_|<br>
+     * |_|_|_|_|_|_|_|_|</code>
+     *
+     * @return An unfiltered list of all possible {@link Move}'s
+     */
     @Override
-    public List<int[]> getPossibleMoves()
+    public List<Move> getPossibleMoves()
     {
-        final List<int[]> moves = new ArrayList<>();
+        final List<Move> moves = new ArrayList<>();
 
         // basic movement
         for (int colOffset = -1; colOffset <= 1; colOffset++)
@@ -35,58 +54,66 @@ public final class King extends Piece
             {
                 if (colOffset != 0 || rowOffset != 0)
                 {
-                    int c = this.col + colOffset;
-                    int r = this.row + rowOffset;
+                    Position to = new Position(this.position.getCol() + colOffset, this.position.getRow() + rowOffset);
 
-                    if (this.onBoard(c, r))
+                    if (this.onBoard(to))
                     {
-                        if (this.board.hasPiece(c, r) && board.getPiece(c, r).getSide() == this.side)
+                        if (this.board.hasPiece(to) && this.board.getPiece(to).getSide() == this.side)
                             continue;
 
-                        moves.add(new int[]{ c, r });
+                        moves.add(new Move(this.position, to));
                     }
                 }
             }
         }
 
         // castling
-        if (this.board.getHistory().stream().noneMatch(move ->
-                move[0] == 4 && move[1] == startRow))
+        if (this.board.getHistory().stream().noneMatch(m -> m.getFrom().equals(new Position(4, startRow))))
         {
             // short castle
-            if (this.board.getHistory().stream().noneMatch(move ->
-                    move[0] == 7 && move[1] == startRow)
-                    && board.getPiece(7, startRow) instanceof Rook
-                    && board.getPiece(7, startRow).getSide() == side
-                    && IntStream.range(5, 6).noneMatch(it -> board.hasPiece(it, startRow)))
-                moves.add(new int[]{ 6, startRow });
+            if (this.board.getHistory().stream()
+                    .noneMatch(m -> m.getFrom().getCol() == 7 && m.getFrom().getRow() == startRow)
+                        && this.board.getPiece(new Position(7, startRow)) instanceof Rook
+                        && this.board.getPiece(new Position(7, startRow)).getSide() == this.side
+                        && IntStream.range(5, 6)
+                            .noneMatch(col -> this.board.hasPiece(new Position(col, startRow)))
+            )
+                moves.add(new Move(this.position, new Position(6, startRow)));
 
             // long castle
-            if (this.board.getHistory().stream().noneMatch(move ->
-                    move[0] == 0 && move[1] == startRow)
-                    && board.getPiece(0, startRow) instanceof Rook
-                    && board.getPiece(0, startRow).getSide() == side
-                    && IntStream.range(1, 3).noneMatch(it -> board.hasPiece(it, startRow)))
-                moves.add(new int[]{ 2, startRow });
+            if (this.board.getHistory().stream()
+                    .noneMatch(m -> m.getFrom().getCol() == 0 && m.getFrom().getRow() == startRow)
+                        && this.board.getPiece(new Position(0, startRow)) instanceof Rook
+                        && this.board.getPiece(new Position(0, startRow)).getSide() == this.side
+                        && IntStream.range(1, 3)
+                            .noneMatch(col -> this.board.hasPiece(new Position(col, startRow)))
+            )
+                moves.add(new Move(this.position, new Position(2, startRow)));
         }
 
         return filterLegalMoves(moves);
     }
 
+    /**
+     * Places the {@link Piece} on the given {@link Position}.
+     * Also removes a {@link Piece} if there is already a {@link Piece} on the given {@link Position}
+     *
+     * @param position the new {@link Position}
+     */
     @Override
-    public void setPosition(int col, int row)
+    public void setPosition(@NotNull Position position)
     {
         // handle castle movement
-        if (this.col == 4)
+        if (this.position.getCol() == 4)
         {
             // short castle
-            if (col == 6)
-                board.getPiece(7, startRow).setPosition(5, startRow);
+            if (position.getCol() == 6)
+                this.board.getPiece(new Position(7, startRow)).setPosition(new Position(5, startRow));
             // long castle
-            else if (col == 2)
-                board.getPiece(0, startRow).setPosition(3, startRow);
+            else if (position.getCol() == 2)
+                this.board.getPiece(new Position(0, startRow)).setPosition(new Position(3, startRow));
         }
 
-        super.setPosition(col, row);
+        super.setPosition(position);
     }
 }

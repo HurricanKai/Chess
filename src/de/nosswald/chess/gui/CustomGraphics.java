@@ -2,6 +2,7 @@ package de.nosswald.chess.gui;
 
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
+import de.nosswald.chess.game.Move;
 import de.nosswald.chess.game.piece.Piece;
 import de.nosswald.chess.utils.FieldColor;
 
@@ -150,7 +151,7 @@ public final class CustomGraphics
     {
         final int fieldSize = height / 8;
         final Piece selected = board.getSelected();
-        final int[] lastMove = board.getHistory().isEmpty() ? null : board.getHistory().get(board.getHistory().size() - 1);
+        final Move lastMove = board.getHistory().isEmpty() ? null : board.getHistory().get(board.getHistory().size() - 1);
 
         offX += (width - height) / 2;
 
@@ -175,11 +176,11 @@ public final class CustomGraphics
         if (selected != null)
         {
             graphics.setColor(FieldColor.SELECTED.getColor());
-            graphics.fillRect(offX + (fieldSize * selected.getCol()), offY + (fieldSize * selected.getRow()), fieldSize, fieldSize);
+            graphics.fillRect(offX + (fieldSize * selected.getPosition().getCol()), offY + (fieldSize * selected.getPosition().getRow()), fieldSize, fieldSize);
 
             selected.getPossibleMoves().forEach(move -> {
                 graphics.setColor(FieldColor.POSSIBLE_MOVE.getColor());
-                graphics.fillRect(offX + (fieldSize * move[0]), offY + (fieldSize * move[1]), fieldSize, fieldSize);
+                graphics.fillRect(offX + (fieldSize * move.getTo().getCol()), offY + (fieldSize * move.getTo().getRow()), fieldSize, fieldSize);
             });
         }
 
@@ -187,13 +188,13 @@ public final class CustomGraphics
         if (lastMove != null)
         {
             graphics.setColor(FieldColor.LAST_MOVE.getColor());
-            graphics.fillRect(offX + (fieldSize * lastMove[0]), offY + (fieldSize * lastMove[1]), fieldSize, fieldSize);
-            graphics.fillRect(offX + (fieldSize * lastMove[2]), offY + (fieldSize * lastMove[3]), fieldSize, fieldSize);
+            graphics.fillRect(offX + (fieldSize * lastMove.getFrom().getCol()), offY + (fieldSize * lastMove.getFrom().getRow()), fieldSize, fieldSize);
+            graphics.fillRect(offX + (fieldSize * lastMove.getTo().getCol()), offY + (fieldSize * lastMove.getTo().getRow()), fieldSize, fieldSize);
         }
 
         // draw pieces
         board.getPieces().forEach(piece ->
-                piece.paint((Graphics2D)graphics, offX + (piece.getCol() * fieldSize), offY + (piece.getRow() * fieldSize), fieldSize));
+                piece.paint((Graphics2D)graphics, offX + (piece.getPosition().getCol() * fieldSize), offY + (piece.getPosition().getRow() * fieldSize), fieldSize));
     }
 
     /**

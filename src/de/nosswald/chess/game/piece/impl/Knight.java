@@ -1,5 +1,7 @@
 package de.nosswald.chess.game.piece.impl;
 
+import de.nosswald.chess.game.Move;
+import de.nosswald.chess.game.Position;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
 
@@ -13,15 +15,31 @@ import java.util.Locale;
  */
 public final class Knight extends Piece
 {
-    public Knight(Side side, int col, int row)
+    /**
+     * @param side      the {@link Side}
+     * @param position  the {@link Position}
+     */
+    public Knight(Side side, Position position)
     {
-        super("knight_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, col, row);
+        super("knight_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, position);
     }
 
+    /**
+     * <code>|_|_|_|_|_|_|_|_|<br>
+     * |_|_|*|_|*|_|_|_|<br>
+     * |_|*|_|_|_|*|_|_|<br>
+     * |_|_|_|K|_|_|_|_|<br>
+     * |_|*|_|_|_|*|_|_|<br>
+     * |_|_|*|_|*|_|_|_|<br>
+     * |_|_|_|_|_|_|_|_|<br>
+     * |_|_|_|_|_|_|_|_|</code>
+     *
+     * @return An unfiltered list of all possible {@link Move}'s
+     */
     @Override
-    public List<int[]> getPossibleMoves()
+    public List<Move> getPossibleMoves()
     {
-        final List<int[]> moves = new ArrayList<>();
+        final List<Move> moves = new ArrayList<>();
 
         addMoves(moves, 2, 4, 1, 2);
         addMoves(moves, 1, 2, 2, 4);
@@ -29,21 +47,20 @@ public final class Knight extends Piece
         return filterLegalMoves(moves);
     }
 
-    private void addMoves(List<int[]> moves, int minFirst, int maxFirst, int minSecond, int maxSecond)
+    private void addMoves(List<Move> moves, int minFirst, int maxFirst, int minSecond, int maxSecond)
     {
         for (int colOffset = -minFirst; colOffset <= minFirst; colOffset += maxFirst)
         {
             for (int rowOffset = -minSecond; rowOffset <= minSecond; rowOffset += maxSecond)
             {
-                int c = this.col + colOffset;
-                int r = this.row + rowOffset;
+                Position to = new Position(this.position.getCol() + colOffset, this.position.getRow() + rowOffset);
 
-                if (this.onBoard(c, r))
+                if (this.onBoard(to))
                 {
-                    if (this.board.hasPiece(c, r) && board.getPiece(c, r).getSide() == this.side)
+                    if (this.board.hasPiece(to) && this.board.getPiece(to).getSide() == this.side)
                         continue;
 
-                    moves.add(new int[]{ c, r });
+                    moves.add(new Move(this.position, to));
                 }
             }
         }

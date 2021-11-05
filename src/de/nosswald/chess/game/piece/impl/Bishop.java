@@ -1,5 +1,7 @@
 package de.nosswald.chess.game.piece.impl;
 
+import de.nosswald.chess.game.Move;
+import de.nosswald.chess.game.Position;
 import de.nosswald.chess.game.Side;
 import de.nosswald.chess.game.piece.Piece;
 
@@ -13,46 +15,62 @@ import java.util.Locale;
  */
 public final class Bishop extends Piece
 {
-    public Bishop(Side side, int col, int row)
+    /**
+     * @param side      the {@link Side}
+     * @param position  the {@link Position}
+     */
+    public Bishop(Side side, Position position)
     {
-        super("bishop_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, col, row);
+        super("bishop_" + side.name().toLowerCase(Locale.ROOT) + ".png", side, position);
     }
 
+    /**
+     * <code>|*|_|_|_|_|_|*|_|<br>
+     * |_|*|_|_|_|*|_|_|<br>
+     * |_|_|*|_|*|_|_|_|<br>
+     * |_|_|_|B|_|_|_|_|<br>
+     * |_|_|*|_|*|_|_|_|<br>
+     * |_|*|_|_|_|*|_|_|<br>
+     * |*|_|_|_|_|_|*|_|<br>
+     * |_|_|_|_|_|_|_|*|</code>
+     *
+     * @return An unfiltered list of all possible {@link Move}'s
+     */
     @Override
-    public List<int[]> getPossibleMoves()
+    public List<Move> getPossibleMoves()
     {
-        final List<int[]> moves = new ArrayList<>();
+        final List<Move> moves = new ArrayList<>();
         int r;
 
         // right down
-        r = getRow() + 1;
-        for (int c = getCol() + 1; c < 8; c++)
+        r = this.position.getRow() + 1;
+        for (int c = this.position.getCol() + 1; c < 8; c++)
         {
-            if (!this.canPath(moves, c, r) || r == 7) break;
+            if (!this.canPath(moves, this.position, new Position(c, r)) || r == 7) break;
             r++;
         }
 
         // right up
-        r = getRow() - 1;
-        for (int c = getCol() + 1; c < 8; c++)
+        r = this.position.getRow() - 1;
+        for (int c = this.position.getCol() + 1; c < 8; c++)
         {
-            if (!this.canPath(moves, c, r) || r == 0) break;
+            if (!this.canPath(moves, this.position, new Position(c, r)) || r == 0) break;
             r--;
         }
 
         // left down
-        r = getRow() + 1;
-        for (int c = getCol() - 1; c >= 0; c--)
+        r = this.position.getRow() + 1;
+        for (int c = this.position.getCol() - 1; c >= 0; c--)
         {
-            if (!this.canPath(moves, c, r) || r == 7) break;
+            if (!this.canPath(moves, this.position, new Position(c, r)) || r == 7) break;
             r++;
         }
 
         // left up
-        r = getRow() - 1;
-        for (int c = getCol() - 1; c >= 0; c--)
+        r = this.position.getRow() - 1;
+        for (int c = this.position.getCol() - 1; c >= 0; c--)
         {
-            if (!this.canPath(moves, c, r) || r == 0) break;
+            if (!this.canPath(moves, this.position, new Position(c, r)) || r == 0) break;
             r--;
         }
 

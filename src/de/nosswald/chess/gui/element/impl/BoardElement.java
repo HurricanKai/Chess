@@ -2,6 +2,7 @@ package de.nosswald.chess.gui.element.impl;
 
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
+import de.nosswald.chess.game.Position;
 import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.SizeReference;
 import de.nosswald.chess.gui.element.Element;
@@ -45,6 +46,6 @@ public final class BoardElement extends Element
         final int col = (this.mouseX - graphics.getOffX()) / (graphics.getHeight() / 8);
         final int row = (this.mouseY - graphics.getOffY()) / (graphics.getHeight() / 8);
 
-        board.onClick(col, row);
+        board.onClick(new Position(col, row));
     }
 }
