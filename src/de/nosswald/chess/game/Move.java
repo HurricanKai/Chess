@@ -4,7 +4,7 @@ package de.nosswald.chess.game;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Move
+public final class Move
 {
     private Position from, to;
 

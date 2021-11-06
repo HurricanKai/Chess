@@ -13,7 +13,7 @@ public final class Logger
     /**
      * Prints the given message
      *
-     * @param level     the logger level
+     * @param level     the {@link LoggerLevel}
      * @param message   the message to print
      */
     public void print(LoggerLevel level, String message)
@@ -27,7 +27,7 @@ public final class Logger
     /**
      * Prints the given message
      *
-     * @param level     the logger level
+     * @param level     the {@link LoggerLevel}
      * @param message   the message to print
      * @param args      additional arguments
      */

@@ -13,6 +13,9 @@ public enum LoggerLevel
 
     private String prefix;
 
+    /**
+     * @param prefix the prefix
+     */
     LoggerLevel(String prefix)
     {
         this.prefix = prefix;

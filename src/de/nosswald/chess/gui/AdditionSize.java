@@ -1,7 +1,7 @@
 package de.nosswald.chess.gui;
 
 /**
- * Represents a {@link SizeReference} that is an addition of two other SizeReferences
+ * Represents a {@link SizeReference} that is an addition of two other {@link SizeReference}'s
  *
  * @author Nils Osswald
  * @author Noah Gerber

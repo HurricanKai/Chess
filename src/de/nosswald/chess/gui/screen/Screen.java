@@ -21,18 +21,27 @@ import java.util.List;
  */
 public abstract class Screen extends JPanel
 {
-    private final TitleBarComponent titleBarComponent = new TitleBarComponent(new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new AbsoluteSize(30));
+    /**
+     * Contains the {@link TitleBarComponent}
+     */
+    private final TitleBarComponent titleBarComponent = new TitleBarComponent(
+            new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new AbsoluteSize(30));
+
+    /**
+     * Contains all {@link Element}'s on the {@link Screen}
+     */
     protected final List<Element> elements = new ArrayList<>();
 
     public Screen()
     {
+        // add mouse listener
         this.addMouseListener(new MouseAdapter()
         {
             @Override
             public void mouseClicked(MouseEvent event)
             {
                 titleBarComponent.onClick(event);
-                elements.forEach(element -> element.onClick(event));
+                elements.forEach(e -> e.onClick(event));
             }
 
             @Override
@@ -42,13 +51,14 @@ public abstract class Screen extends JPanel
             }
         });
 
+        // add mouse motion listener
         this.addMouseMotionListener(new MouseMotionAdapter()
         {
             @Override
             public void mouseMoved(MouseEvent event)
             {
                 titleBarComponent.setMousePos(event.getX(), event.getY());
-                elements.forEach(element -> element.setMousePos(event.getX(), event.getY()));
+                elements.forEach(e -> e.setMousePos(event.getX(), event.getY()));
             }
 
             @Override
@@ -66,14 +76,11 @@ public abstract class Screen extends JPanel
 
         final CustomGraphics customGraphics = new CustomGraphics(graphics);
 
-        // set background
-        this.setBackground(new Color(229, 229, 229));
-
         // paint title bar
         titleBarComponent.onPaint(customGraphics);
 
         // paint elements
-        elements.forEach(element -> element.onPaint(customGraphics.translate(new RelativeSize(0), new AbsoluteSize(30))));
+        elements.forEach(e -> e.onPaint(customGraphics.translate(new RelativeSize(0), new AbsoluteSize(30))));
 
         // draw centered debug lines
         if (Chess.DEBUG_MODE)

@@ -4,7 +4,7 @@ package de.nosswald.chess.game;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public class Position
+public final class Position
 {
     private int col, row;
 

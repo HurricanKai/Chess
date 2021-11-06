@@ -42,9 +42,9 @@ public final class GameFrame extends JFrame
     }
 
     /**
-     * Changes the current screen
+     * Changes the current {@link Screen}
      *
-     * @param screen the screen
+     * @param screen the {@link Screen}
      */
     public void setScreen(@NotNull Screen screen)
     {
@@ -60,7 +60,7 @@ public final class GameFrame extends JFrame
     }
 
     /**
-     * @return the screen that is currently being displayed on the frame
+     * @return The {@link Screen} that is currently being displayed on the {@link GameFrame}
      */
     public Screen getCurrentScreen()
     {
