@@ -76,6 +76,9 @@ public abstract class Screen extends JPanel
 
         final CustomGraphics customGraphics = new CustomGraphics(graphics);
 
+        // set background
+        this.setBackground(new Color(229, 229, 229));
+
         // paint title bar
         titleBarComponent.onPaint(customGraphics);
 
