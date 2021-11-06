@@ -3,8 +3,7 @@ package de.nosswald.chess.gui.screen.impl;
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.game.Board;
 import de.nosswald.chess.gui.RelativeSize;
-import de.nosswald.chess.gui.element.impl.mainmenu.MainMenuButtonElement;
-import de.nosswald.chess.gui.element.impl.mainmenu.MainMenuCopyrightComponent;
+import de.nosswald.chess.gui.element.impl.MainMenuButtonElement;
 import de.nosswald.chess.gui.screen.Screen;
 
 /**
@@ -29,9 +28,6 @@ public final class MainMenuScreen extends Screen
         this.elements.add(
                 new MainMenuButtonElement("Options", new RelativeSize(.25F), new RelativeSize(.65F), new RelativeSize(.5F), new RelativeSize(.1F))
                         .setAction(() -> Chess.getInstance().getFrame().setScreen(new OptionsScreen(this)))
-        );
-        this.elements.add(
-                new MainMenuCopyrightComponent(new RelativeSize(0), new RelativeSize(0.9F), new RelativeSize(.2F), new RelativeSize(.1F))
         );
     }
 }
