@@ -6,6 +6,7 @@ import de.nosswald.chess.gui.element.Component;
 import de.nosswald.chess.gui.element.impl.LabelElement;
 
 import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.MouseEvent;
 
 /**

@@ -1,7 +1,7 @@
 package de.nosswald.chess;
 
 import de.nosswald.chess.game.Board;
-import de.nosswald.chess.gui.GameFrame;
+import de.nosswald.chess.gui.Frame;
 import de.nosswald.chess.gui.screen.impl.MainMenuScreen;
 import de.nosswald.chess.logger.Logger;
 import de.nosswald.chess.logger.LoggerLevel;
@@ -21,7 +21,7 @@ public final class Chess
     private static Chess instance;
 
     private final Logger logger;
-    private final GameFrame frame;
+    private final Frame frame;
     private Board board;
 
     /**
@@ -40,7 +40,7 @@ public final class Chess
 
         // create user interface
         logger.print(LoggerLevel.INFO, "Creating user interface..");
-        frame = new GameFrame();
+        frame = new Frame();
 
         // open main menu
         frame.setScreen(new MainMenuScreen());
@@ -61,7 +61,7 @@ public final class Chess
         return logger;
     }
 
-    public GameFrame getFrame()
+    public Frame getFrame()
     {
         return frame;
     }

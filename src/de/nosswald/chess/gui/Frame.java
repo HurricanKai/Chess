@@ -12,11 +12,11 @@ import java.awt.*;
  * @author Nils Osswald
  * @author Noah Gerber
  */
-public final class GameFrame extends JFrame
+public final class Frame extends JFrame
 {
     private Screen currentScreen;
 
-    public GameFrame()
+    public Frame()
     {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final int screenResolution = Toolkit.getDefaultToolkit().getScreenResolution();
@@ -60,7 +60,7 @@ public final class GameFrame extends JFrame
     }
 
     /**
-     * @return The {@link Screen} that is currently being displayed on the {@link GameFrame}
+     * @return The {@link Screen} that is currently being displayed on the {@link Frame}
      */
     public Screen getCurrentScreen()
     {
