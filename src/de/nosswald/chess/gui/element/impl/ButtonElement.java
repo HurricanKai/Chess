@@ -50,7 +50,7 @@ public abstract class ButtonElement extends Element
     /**
      * @return if the mouse cursor is currently hovering the button
      */
-    protected boolean isHovered()
+    public boolean isHovered()
     {
         return (mouseX >= graphics.getOffX() + x.get(graphics.getWidth())
                 && mouseX <= graphics.getOffX() + x.get(graphics.getWidth()) + width.get(graphics.getWidth())

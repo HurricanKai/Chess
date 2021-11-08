@@ -5,6 +5,7 @@ import de.nosswald.chess.gui.AbsoluteSize;
 import de.nosswald.chess.gui.CustomGraphics;
 import de.nosswald.chess.gui.RelativeSize;
 import de.nosswald.chess.gui.element.Element;
+import de.nosswald.chess.gui.element.impl.ResizeElement;
 import de.nosswald.chess.gui.element.impl.titlebar.TitleBarComponent;
 
 import javax.swing.*;
@@ -28,6 +29,12 @@ public abstract class Screen extends JPanel
             new RelativeSize(0), new RelativeSize(0), new RelativeSize(1), new AbsoluteSize(30));
 
     /**
+     * Contains the {@link ResizeElement}
+     */
+    private final ResizeElement resizeElement =
+            new ResizeElement(new RelativeSize(.98F), new RelativeSize(.98F), new RelativeSize(.02F), new RelativeSize(.02F));
+
+    /**
      * Contains all {@link Element}'s on the {@link Screen}
      */
     protected final List<Element> elements = new ArrayList<>();
@@ -41,6 +48,8 @@ public abstract class Screen extends JPanel
             public void mouseClicked(MouseEvent event)
             {
                 titleBarComponent.onClick(event);
+                resizeElement.onClick(event);
+
                 elements.forEach(e -> e.onClick(event));
             }
 
@@ -48,6 +57,7 @@ public abstract class Screen extends JPanel
             public void mousePressed(MouseEvent event)
             {
                 titleBarComponent.onPress(event);
+                resizeElement.onPress(event);
             }
         });
 
@@ -58,6 +68,8 @@ public abstract class Screen extends JPanel
             public void mouseMoved(MouseEvent event)
             {
                 titleBarComponent.setMousePos(event.getX(), event.getY());
+                resizeElement.setMousePos(event.getX(), event.getY());
+
                 elements.forEach(e -> e.setMousePos(event.getX(), event.getY()));
             }
 
@@ -65,6 +77,7 @@ public abstract class Screen extends JPanel
             public void mouseDragged(MouseEvent event)
             {
                 titleBarComponent.onDrag(event);
+                resizeElement.onDrag(event);
             }
         });
     }
@@ -79,8 +92,15 @@ public abstract class Screen extends JPanel
         // set background
         this.setBackground(new Color(229, 229, 229));
 
-        // paint title bar
+        // paint default elements
         titleBarComponent.onPaint(customGraphics);
+        resizeElement.onPaint(customGraphics);
+
+        // set cursor
+        if (resizeElement.isHovered())
+            setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+        else
+            setCursor(Cursor.getDefaultCursor());
 
         // paint elements
         elements.forEach(e -> e.onPaint(customGraphics.translate(new RelativeSize(0), new AbsoluteSize(30))));
