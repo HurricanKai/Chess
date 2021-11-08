@@ -196,13 +196,13 @@ public final class Board
     }
 
     /**
-     * @return If both sides are unable to move
+     * @return If both sides are unable to move or only both {@link King}'s are alive
      */
     private boolean isStaleMate()
     {
         List<Piece> piecesClone = new ArrayList<>(pieces);
 
-        return piecesClone.stream()
+        return pieces.size() == 2 || piecesClone.stream()
                 .filter(p -> p.getSide() == nextMove)
                 .allMatch(p -> p.getPossibleMoves().isEmpty()) && !isInCheck(nextMove);
     }
