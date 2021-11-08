@@ -46,6 +46,6 @@ public final class OpponentPlayer
                 "AI moved %s from %s to %s", piece.getClass().getSimpleName(),
                 piece.getPosition(), move.getTo().toString()
         );
-        board.makeMove(new Move(piece.getPosition(), move.getTo()));
+        board.makeMove(move, false);
     }
 }

@@ -6,7 +6,8 @@ package de.nosswald.chess.game;
  */
 public final class Move
 {
-    private Position from, to;
+    private final Position from, to;
+    private final Flag flag;
 
     /**
      * @param from  the {@link Position} to move from
@@ -16,6 +17,29 @@ public final class Move
     {
         this.from = from;
         this.to = to;
+
+        this.flag = Flag.NONE;
+    }
+
+    /**
+     * @param from  the {@link Position} to move from
+     * @param to    the {@link Position} to move to
+     * @param flag  the {@link Flag}
+     */
+    public Move(Position from, Position to, Flag flag)
+    {
+        this.from = from;
+        this.to = to;
+        this.flag = flag;
+    }
+
+    public enum Flag
+    {
+        NONE,
+        DOUBLE_FORWARD,
+        PROMOTION,
+        EN_PASSANT,
+        CASTLING
     }
 
     /**
@@ -32,5 +56,13 @@ public final class Move
     public Position getTo()
     {
         return to;
+    }
+
+    /**
+     * @return The {@link Flag}
+     */
+    public Flag getFlag()
+    {
+        return flag;
     }
 }

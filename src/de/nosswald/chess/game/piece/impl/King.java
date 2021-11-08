@@ -1,6 +1,5 @@
 package de.nosswald.chess.game.piece.impl;
 
-import com.sun.istack.internal.NotNull;
 import de.nosswald.chess.game.Move;
 import de.nosswald.chess.game.Position;
 import de.nosswald.chess.game.Side;
@@ -45,6 +44,7 @@ public final class King extends Piece
     @Override
     public List<Move> getPossibleMoves()
     {
+        // TODO fix castling bug
         final List<Move> moves = new ArrayList<>();
 
         // basic movement
@@ -78,7 +78,7 @@ public final class King extends Piece
                         && IntStream.range(5, 6)
                             .noneMatch(col -> this.board.hasPiece(new Position(col, startRow)))
             )
-                moves.add(new Move(this.position, new Position(6, startRow)));
+                moves.add(new Move(this.position, new Position(6, startRow), Move.Flag.CASTLING));
 
             // long castle
             if (this.board.getHistory().stream()
@@ -88,32 +88,9 @@ public final class King extends Piece
                         && IntStream.range(1, 3)
                             .noneMatch(col -> this.board.hasPiece(new Position(col, startRow)))
             )
-                moves.add(new Move(this.position, new Position(2, startRow)));
+                moves.add(new Move(this.position, new Position(2, startRow), Move.Flag.CASTLING));
         }
 
         return filterLegalMoves(moves);
-    }
-
-    /**
-     * Places the {@link Piece} on the given {@link Position}.
-     * Also removes a {@link Piece} if there is already a {@link Piece} on the given {@link Position}
-     *
-     * @param position the new {@link Position}
-     */
-    @Override
-    public void setPosition(@NotNull Position position)
-    {
-        // handle castle movement
-        if (this.position.getCol() == 4)
-        {
-            // short castle
-            if (position.getCol() == 6)
-                this.board.getPiece(new Position(7, startRow)).setPosition(new Position(5, startRow));
-            // long castle
-            else if (position.getCol() == 2)
-                this.board.getPiece(new Position(0, startRow)).setPosition(new Position(3, startRow));
-        }
-
-        super.setPosition(position);
     }
 }

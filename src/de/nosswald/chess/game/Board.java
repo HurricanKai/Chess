@@ -92,7 +92,7 @@ public final class Board
      */
     public void onClick(Position position)
     {
-        if (nextMove != playerSide || gameOver)
+        if (gameOver)
             return;
 
         if (selected == null)
@@ -119,10 +119,10 @@ public final class Board
                         Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
                                 "Player moved %s from %s to %s", selected.getClass().getSimpleName(),
                                 selected.getPosition().toString(), m.getTo().toString());
-                        makeMove(new Move(selected.getPosition(), position));
+                        makeMove(m, false);
 
                         // opponents move
-                        opponentPlayer.awaitResponse();
+                        //opponentPlayer.awaitResponse();
                     }
             );
 
@@ -134,19 +134,61 @@ public final class Board
     /**
      * Performs the given {@link Move} on the {@link Board}
      *
-     * @param move the {@link Move}
+     * @param move      the {@link Move}
+     * @param inSearch  whether this {@link Move} should be recorded in the history
      */
-    public void makeMove(@NotNull Move move)
+    public void makeMove(@NotNull Move move, boolean inSearch)
     {
-        history.add(new Move(move.getFrom(), move.getTo()));
-        getPiece(move.getFrom()).setPosition(move.getTo());
+        final Move.Flag flag = move.getFlag();
+        final Piece capturedPiece = getPiece(move.getTo());
+        final Piece movingPiece = getPiece(move.getFrom());
+
+        // capture piece
+        if (capturedPiece != null && !(flag == Move.Flag.EN_PASSANT))
+            pieces.remove(capturedPiece);
+
+        // move piece
+        movingPiece.setPosition(move.getTo());
+
+        // handle special moves
+        switch (flag)
+        {
+            case PROMOTION:
+                pieces.remove(movingPiece); // remove pawn
+                pieces.add(new Queen(movingPiece.getSide(), movingPiece.getPosition())); // TODO make piece selectable
+                break;
+
+            case EN_PASSANT:
+                pieces.remove(getPiece(new Position(move.getTo().getCol(), move.getFrom().getRow())));
+                break;
+
+            case CASTLING:
+                final int startRow = movingPiece.getSide() == Side.WHITE ? 7 : 0;
+
+                // short castle
+                if (move.getTo().getCol() == 6)
+                    getPiece(new Position(7, startRow)).setPosition(new Position(5, startRow));
+                // long castle
+                else if (move.getTo().getCol() == 2)
+                    getPiece(new Position(0, startRow)).setPosition(new Position(3, startRow));
+
+                break;
+        }
 
         // flip sides
         nextMove = nextMove.flip();
-        Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
-                "%s's turn", nextMove.toString());
+        Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG, "%s's turn", nextMove.toString());
 
-        // check if game is over
+        // add to history
+        if (!inSearch)
+        {
+            history.add(move);
+        }
+
+        /*
+         * !!! THIS SHOULD NOT BE HERE !!!
+         * (used to check if the game is over)
+         */
         if (isStaleMate() || isCheckMate(nextMove))
         {
             gameOver = true;
@@ -163,6 +205,22 @@ public final class Board
 
             Chess.getInstance().getFrame().setScreen(new GameResultScreen(this));
         }
+    }
+
+    /**
+     * Undos the given {@link Move} on the {@link Board}
+     *
+     * @param move      the {@link Move}
+     * @param inSearch  whether this {@link Move} should be recorded in the history
+     */
+    public void unmakeMove(Move move, boolean inSearch)
+    {
+        final Move.Flag flag = move.getFlag();
+        final Piece capturedPiece = getPiece(move.getTo());
+
+        // revive piece
+        if (capturedPiece != null && !(flag == Move.Flag.EN_PASSANT))
+            pieces.add(capturedPiece);
     }
 
     /**

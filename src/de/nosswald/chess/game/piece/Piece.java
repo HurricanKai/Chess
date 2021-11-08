@@ -106,6 +106,8 @@ public abstract class Piece
      */
     protected List<Move> filterLegalMoves(List<Move> pseudoLegalMoves)
     {
+        // TODO use new functions make move and unmake move
+
         if (!board.isLegitimacyChecking())
             return pseudoLegalMoves;
 
@@ -171,13 +173,11 @@ public abstract class Piece
 
     /**
      * Places the {@link Piece} on the given {@link Position}.
-     * Also removes a {@link Piece} if there is already a {@link Piece} on the given {@link Position}.
      *
      * @param position the new {@link Position}
      */
     public void setPosition(@NotNull Position position)
     {
-        board.getPieces().removeIf(p -> p.getPosition().equals(position));
         this.position = position;
     }
 
