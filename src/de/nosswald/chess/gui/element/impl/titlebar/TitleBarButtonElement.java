@@ -19,7 +19,7 @@ public final class TitleBarButtonElement extends ButtonElement
      * @param x     the x position
      * @param y     the y position
      * @param size  the width and the height
-     * @param color the color to fill the button with
+     * @param color the {@link Color} to fill the button with
      */
     public TitleBarButtonElement(SizeReference x, SizeReference y, SizeReference size, Color color)
     {
@@ -28,6 +28,11 @@ public final class TitleBarButtonElement extends ButtonElement
         this.color = color;
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
     public void onPaint(CustomGraphics graphics)
     {
@@ -35,6 +40,11 @@ public final class TitleBarButtonElement extends ButtonElement
         graphics.drawOval(x, y, width, height, color);
     }
 
+    /**
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
+     */
     @Override
     public void onClick(MouseEvent event)
     {

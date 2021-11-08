@@ -31,7 +31,7 @@ public abstract class Component extends Element
     /**
      * Paints the element
      *
-     * @param graphics the custom graphics object
+     * @param graphics the {@link CustomGraphics}
      */
     @Override
     public void onPaint(CustomGraphics graphics)
@@ -40,9 +40,9 @@ public abstract class Component extends Element
     }
 
     /**
-     * Called when a mouse button is being clicked
+     * Called if a mouse button was clicked
      *
-     * @param event the mouse event
+     * @param event the {@link MouseEvent}
      */
     @Override
     public void onClick(MouseEvent event)

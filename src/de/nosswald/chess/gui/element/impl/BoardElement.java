@@ -31,15 +31,25 @@ public final class BoardElement extends Element
         this.board = board;
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
-    public void onPaint(CustomGraphics g)
+    public void onPaint(CustomGraphics graphics)
     {
-        if (Chess.DEBUG_MODE) g.drawRect(x, y, width, height, Color.ORANGE);
-        graphics = g.translate(x, y).clip(g, width, height);
+        if (Chess.DEBUG_MODE) graphics.drawRect(x, y, width, height, Color.ORANGE);
+        this.graphics = graphics.translate(x, y).clip(graphics, width, height);
 
-        graphics.drawBoard(board);
+        this.graphics.drawBoard(board);
     }
 
+    /**
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
+     */
     @Override
     public void onClick(MouseEvent event)
     {

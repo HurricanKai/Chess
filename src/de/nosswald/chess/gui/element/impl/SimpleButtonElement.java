@@ -30,6 +30,11 @@ public final class SimpleButtonElement extends ButtonElement
         this.title = title;
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
     public void onPaint(CustomGraphics graphics)
     {
@@ -40,17 +45,22 @@ public final class SimpleButtonElement extends ButtonElement
     }
 
     /**
-     * @param graphics the graphics
-     * @return the graphics but clipped and translated on the button
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
      */
-    private CustomGraphics getContextGraphics(CustomGraphics graphics)
-    {
-        return graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);
-    }
-
     @Override
     public void onClick(MouseEvent event)
     {
         super.onClick(event);
+    }
+
+    /**
+     * @param graphics the {@link CustomGraphics}
+     * @return the {@link CustomGraphics} but clipped and translated on the {@link SimpleButtonElement}
+     */
+    private CustomGraphics getContextGraphics(CustomGraphics graphics)
+    {
+        return graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);
     }
 }

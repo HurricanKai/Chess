@@ -24,8 +24,8 @@ public final class LabelElement extends Element
      * @param y         the y position
      * @param width     the width
      * @param height    the height
-     * @param xAnchor   the horizontal anchor
-     * @param yAnchor   the vertical anchor
+     * @param xAnchor   the horizontal {@link Anchor}
+     * @param yAnchor   the vertical {@link Anchor}
      */
     public LabelElement(String title, SizeReference x, SizeReference y, SizeReference width, SizeReference height, Anchor xAnchor, Anchor yAnchor)
     {
@@ -40,6 +40,11 @@ public final class LabelElement extends Element
         font = new Font("Arial", Font.PLAIN, new AbsoluteSize(12).get(0));
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
     public void onPaint(CustomGraphics graphics)
     {
@@ -47,10 +52,10 @@ public final class LabelElement extends Element
     }
 
     /**
-     * Sets the text color
+     * Sets the text {@link Color}
      *
-     * @param color the color
-     * @return itself but with the new color
+     * @param color the {@link Color}
+     * @return Itself but with the new {@link Color}
      */
     public LabelElement setColor(Color color)
     {
@@ -60,10 +65,10 @@ public final class LabelElement extends Element
     }
 
     /**
-     * Sets the text font
+     * Sets the text {@link Font}
      *
-     * @param font the font
-     * @return itself but with the new font
+     * @param font the {@link Font}
+     * @return Itself but with the new {@link Font}
      */
     public LabelElement setFont(Font font)
     {
@@ -72,6 +77,11 @@ public final class LabelElement extends Element
         return this;
     }
 
+    /**
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
+     */
     @Override
     public void onClick(MouseEvent event) { }
 }

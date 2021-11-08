@@ -2,7 +2,6 @@ package de.nosswald.chess.gui.element.impl;
 
 import de.nosswald.chess.Chess;
 import de.nosswald.chess.gui.*;
-import de.nosswald.chess.gui.element.impl.ButtonElement;
 import de.nosswald.chess.logger.LoggerLevel;
 import de.nosswald.chess.utils.ResourceLocation;
 
@@ -23,7 +22,7 @@ public final class MainMenuButtonElement extends ButtonElement
     private final String title;
 
     /**
-     * @param title     the title to paint on the button
+     * @param title     the title to paint
      * @param x         the x position
      * @param y         the y position
      * @param width     the width
@@ -36,6 +35,11 @@ public final class MainMenuButtonElement extends ButtonElement
         this.title = title;
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
     public void onPaint(CustomGraphics graphics)
     {
@@ -58,17 +62,22 @@ public final class MainMenuButtonElement extends ButtonElement
     }
 
     /**
-     * @param graphics the graphics
-     * @return the graphics but clipped and translated on the button
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
      */
-    private CustomGraphics getContextGraphics(CustomGraphics graphics)
-    {
-        return graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);
-    }
-
     @Override
     public void onClick(MouseEvent event)
     {
         super.onClick(event);
+    }
+
+    /**
+     * @param graphics the {@link CustomGraphics}
+     * @return the {@link CustomGraphics} but clipped and translated on the {@link MainMenuButtonElement}
+     */
+    private CustomGraphics getContextGraphics(CustomGraphics graphics)
+    {
+        return graphics.translate(this.x, this.y).clip(graphics, this.width, this.height);
     }
 }

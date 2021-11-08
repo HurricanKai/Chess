@@ -27,12 +27,17 @@ public class ResizeElement extends ButtonElement
         super(x, y, width, height);
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
-    public void onPaint(CustomGraphics g)
+    public void onPaint(CustomGraphics graphics)
     {
-        super.onPaint(g);
+        super.onPaint(graphics);
 
-        g.drawRect(x, y, width, height, isHovered() ? Color.BLACK : new Color(0, 0, 0, 50));
+        graphics.drawRect(x, y, width, height, isHovered() ? Color.BLACK : new Color(0, 0, 0, 50));
     }
 
     /**
@@ -65,6 +70,11 @@ public class ResizeElement extends ButtonElement
         posY = event.getY();
     }
 
+    /**
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
+     */
     @Override
     public void onClick(MouseEvent event) { }
 }

@@ -21,7 +21,7 @@ public final class CustomGraphics
     private int offX;
 
     /**
-     * @param graphics the graphics object of the parent screen or component
+     * @param graphics the {@link Graphics} object of the parent {@link de.nosswald.chess.gui.screen.Screen} or {@link de.nosswald.chess.gui.element.Component}
      */
     public CustomGraphics(Graphics graphics)
     {
@@ -35,7 +35,7 @@ public final class CustomGraphics
     }
 
     /**
-     * @param graphics  the graphics instances of the parent screen or component
+     * @param graphics the {@link Graphics} object of the parent {@link de.nosswald.chess.gui.screen.Screen} or {@link de.nosswald.chess.gui.element.Component}
      * @param offX      the x offset
      * @param offY      the y offset
      * @param width     the width
@@ -56,7 +56,7 @@ public final class CustomGraphics
      * @param g
      * @param width
      * @param height
-     * @return
+     * @return Itself but clipped to the new sizes
      */
     public CustomGraphics clip(CustomGraphics g, SizeReference width, SizeReference height)
     {
@@ -68,7 +68,7 @@ public final class CustomGraphics
      *
      * @param x the x position to be added
      * @param y the y position to be added
-     * @return itself but translated
+     * @return Itself but translated on the new position
      */
     public CustomGraphics translate(SizeReference x, SizeReference y)
     {
@@ -84,7 +84,7 @@ public final class CustomGraphics
      * @param y         the y position
      * @param width     the width
      * @param height    the height
-     * @param color     the color to fill with
+     * @param color     the {@link Color} to fill with
      */
     public void drawRect(SizeReference x, SizeReference y, SizeReference width, SizeReference height, Color color)
     {
@@ -104,7 +104,7 @@ public final class CustomGraphics
      * @param height        the height
      * @param argWidth      the horizontal diameter of the arc at the four corners
      * @param argHeight     the vertical diameter of the arc at the four corners
-     * @param color         the color to fill with
+     * @param color         the {@link Color} to fill with
      */
     public void drawRoundRect(SizeReference x, SizeReference y, SizeReference width, SizeReference height, SizeReference argWidth, SizeReference argHeight, Color color)
     {
@@ -121,7 +121,7 @@ public final class CustomGraphics
      * @param y         the y position
      * @param width     the width
      * @param height    the height
-     * @param color     the color to fill with
+     * @param color     the {@link Color} to fill with
      */
     public void drawOval(SizeReference x, SizeReference y, SizeReference width, SizeReference height, Color color)
     {
@@ -130,23 +130,9 @@ public final class CustomGraphics
     }
 
     /**
-     * Draws an image
+     * Draws a chess {@link Board}
      *
-     * @param image     the image
-     * @param x         the x position
-     * @param y         the y position
-     * @param width     the width to scale to
-     * @param height    the height to scale to
-     */
-    public void drawImage(Image image, SizeReference x, SizeReference y, SizeReference width, SizeReference height)
-    {
-        graphics.drawImage(image, offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height), null, null);
-    }
-
-    /**
-     * Draws a chess board
-     *
-     * @param board the board
+     * @param board the {@link Board}
      */
     public void drawBoard(Board board)
     {
@@ -199,12 +185,12 @@ public final class CustomGraphics
     }
 
     /**
-     * Draws an image with even sides
+     * Draws an {@link Image} with even sides
      *
-     * @param image     the image
-     * @param size      the width and the height of the image
-     * @param xAnchor   the anchor on the x-axis
-     * @param yAnchor   the anchor of the y-axis
+     * @param image     the {@link Image}
+     * @param size      the width and the height of the {@link Image}
+     * @param xAnchor   the {@link Anchor} on the x-axis
+     * @param yAnchor   the {@link Anchor} of the y-axis
      */
     public void drawSquareImage(Image image, SizeReference size, Anchor xAnchor, Anchor yAnchor)
     {
@@ -228,10 +214,10 @@ public final class CustomGraphics
      * Draws a string
      *
      * @param string    the string
-     * @param xAnchor   the horizontal anchor
-     * @param yAnchor   the vertical anchor
-     * @param color     the color
-     * @param font      the font
+     * @param xAnchor   the horizontal {@link Anchor}
+     * @param yAnchor   the vertical {@link Anchor}
+     * @param color     the {@link Color}
+     * @param font      the {@link Font}
      */
     public void drawString(String string, Anchor xAnchor, Anchor yAnchor, Color color, Font font)
     {

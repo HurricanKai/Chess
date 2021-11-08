@@ -26,10 +26,27 @@ public abstract class ButtonElement extends Element
         super(x, y, width, height);
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
-    public void onPaint(CustomGraphics g)
+    public void onPaint(CustomGraphics graphics)
     {
-        graphics = g;
+        this.graphics = graphics;
+    }
+
+    /**
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
+     */
+    @Override
+    public void onClick(MouseEvent event)
+    {
+        if (isHovered())
+            action.onAction();
     }
 
     /**
@@ -40,15 +57,8 @@ public abstract class ButtonElement extends Element
         void onAction();
     }
 
-    @Override
-    public void onClick(MouseEvent event)
-    {
-        if (isHovered())
-            action.onAction();
-    }
-
     /**
-     * @return if the mouse cursor is currently hovering the button
+     * @return If the mouse cursor is currently hovering the element
      */
     public boolean isHovered()
     {
@@ -59,10 +69,10 @@ public abstract class ButtonElement extends Element
     }
 
     /**
-     * Sets the click action
+     * Sets the click {@link Action}
      *
-     * @param action the action
-     * @return itself but with the click action
+     * @param action the {@link Action}
+     * @return Itself but with the click {@link Action}
      */
     public ButtonElement setAction(Action action)
     {

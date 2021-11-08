@@ -82,6 +82,11 @@ public abstract class Screen extends JPanel
         });
     }
 
+    /**
+     * Paints the screen
+     *
+     * @param graphics the {@link Graphics}
+     */
     @Override
     public void paint(Graphics graphics)
     {

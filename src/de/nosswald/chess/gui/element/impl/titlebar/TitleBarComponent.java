@@ -48,6 +48,11 @@ public final class TitleBarComponent extends Component
         );
     }
 
+    /**
+     * Paints the element
+     *
+     * @param graphics the {@link CustomGraphics}
+     */
     @Override
     public void onPaint(CustomGraphics graphics)
     {
@@ -58,6 +63,11 @@ public final class TitleBarComponent extends Component
         super.onPaint(graphics);
     }
 
+    /**
+     * Called if a mouse button was clicked
+     *
+     * @param event the {@link MouseEvent}
+     */
     @Override
     public void onClick(MouseEvent event)
     {
@@ -65,7 +75,7 @@ public final class TitleBarComponent extends Component
     }
 
     /**
-     * Called when the mouse is dragging the frame
+     * Called when the mouse is dragging the {@link de.nosswald.chess.gui.Frame}
      *
      * @param event the event
      */
@@ -76,9 +86,9 @@ public final class TitleBarComponent extends Component
     }
 
     /**
-     * Called when a mouse button is hold down
+     * Called when a mouse button is being hold down
      *
-     * @param event the event
+     * @param event the {@link MouseEvent}
      */
     public void onPress(MouseEvent event)
     {
@@ -88,7 +98,7 @@ public final class TitleBarComponent extends Component
     }
 
     /**
-     * @return if the mouse cursor is currently hovering the button
+     * @return If the mouse cursor is currently hovering the element
      */
     private boolean isHovered()
     {
