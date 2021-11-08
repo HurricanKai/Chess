@@ -89,6 +89,7 @@ public final class CustomGraphics
     public void drawRect(SizeReference x, SizeReference y, SizeReference width, SizeReference height, Color color)
     {
         graphics.setColor(color);
+        graphics.drawRect(offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height));
         graphics.fillRect(offX + x.get(this.width), offY + y.get(this.height), width.get(this.width), height.get(this.height));
     }
 
