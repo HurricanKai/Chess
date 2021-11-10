@@ -13,8 +13,9 @@ import java.util.List;
 /**
  * @author Nils Osswald
  * @author Noah Gerber
+ * @author Kai Jellinghaus
  */
-public final class OpponentPlayer
+public abstract class OpponentPlayer
 {
     private final Side side;
 
@@ -33,13 +34,7 @@ public final class OpponentPlayer
     {
         // perform first possible move
         final Board board = Chess.getInstance().getBoard();
-        final List<Piece> piecesClone = new ArrayList(board.getPieces());
-        final Piece piece = piecesClone
-                .stream().filter(p -> p.getSide() == side)
-                .filter(p -> !p.getPossibleMoves().isEmpty())
-                .findFirst().orElse(null);
-        final Move move = piece.getPossibleMoves().stream()
-                .findFirst().orElse(null);
+        final Move move = selectMove(board);
 
         // send the move to the board
         Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG,
@@ -48,4 +43,6 @@ public final class OpponentPlayer
         );
         board.makeMove(move, false);
     }
+
+    protected abstract Move selectMove(Board board);
 }

@@ -42,7 +42,7 @@ public final class Board
     /**
      * Stores the {@link OpponentPlayer}
      */
-    private final OpponentPlayer opponentPlayer = new OpponentPlayer(playerSide.flip());
+    private final OpponentPlayer opponentPlayer = new BasicRecursiveNumericRatingAI(playerSide.flip(), 10);
 
     /**
      * Stores the currently selected {@link Piece} (<code>null</code> if nothing is selected)
