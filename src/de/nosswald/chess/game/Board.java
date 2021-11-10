@@ -92,7 +92,7 @@ public final class Board
      */
     public void onClick(Position position)
     {
-        if (gameOver)
+        if (nextMove != playerSide || gameOver)
             return;
 
         if (selected == null)
@@ -122,7 +122,7 @@ public final class Board
                         makeMove(m, false);
 
                         // opponents move
-                        //opponentPlayer.awaitResponse();
+                        opponentPlayer.awaitResponse();
                     }
             );
 
@@ -140,12 +140,9 @@ public final class Board
     public void makeMove(@NotNull Move move, boolean inSearch)
     {
         final Move.Flag flag = move.getFlag();
-        final Piece capturedPiece = getPiece(move.getTo());
         final Piece movingPiece = getPiece(move.getFrom());
 
-        // capture piece
-        if (capturedPiece != null && !(flag == Move.Flag.EN_PASSANT))
-            pieces.remove(capturedPiece);
+        pieces.remove(move.getCapturedPiece());
 
         // move piece
         movingPiece.setPosition(move.getTo());
@@ -171,7 +168,6 @@ public final class Board
                 // long castle
                 else if (move.getTo().getCol() == 2)
                     getPiece(new Position(0, startRow)).setPosition(new Position(3, startRow));
-
                 break;
         }
 
@@ -182,6 +178,7 @@ public final class Board
         // add to history
         if (!inSearch)
         {
+            // TODO fifty move counter / repetition position
             history.add(move);
         }
 
@@ -215,12 +212,51 @@ public final class Board
      */
     public void unmakeMove(Move move, boolean inSearch)
     {
-        final Move.Flag flag = move.getFlag();
-        final Piece capturedPiece = getPiece(move.getTo());
+        final Piece oldPiece = getPiece(move.getTo());
+        final Piece capturedPiece = move.getCapturedPiece();
 
-        // revive piece
-        if (capturedPiece != null && !(flag == Move.Flag.EN_PASSANT))
+        // reset position
+        oldPiece.setPosition(move.getFrom());
+
+        // recover captured piece
+        if (capturedPiece != null)
+        {
+            capturedPiece.setPosition(move.getTo());
             pieces.add(capturedPiece);
+        }
+
+        // handle special moves
+        switch (move.getFlag())
+        {
+            case PROMOTION:
+                pieces.remove(oldPiece);
+                pieces.add(new Pawn(oldPiece.getSide(), move.getFrom()));
+                break;
+            case EN_PASSANT:
+                capturedPiece.setPosition(new Position(
+                        capturedPiece.getPosition().getCol(),
+                        capturedPiece.getPosition().getRow() + (capturedPiece.getSide() == Side.WHITE ? 1 : -1))
+                );
+                break;
+            case CASTLING:
+                Piece rightRook = getPiece(new Position(move.getTo().getCol() + 1, move.getTo().getRow()));
+                Rook rook = (Rook) (rightRook == null ?
+                        getPiece(new Position(move.getTo().getCol() - 1, move.getTo().getRow())) : rightRook);
+                rook.setPosition(new Position(rook.getPosition().getCol() == 3 ? 0 : 7, move.getTo().getRow()));
+                break;
+            default:
+                break;
+        }
+
+        // set side
+        nextMove = oldPiece.getSide();
+        Chess.getInstance().getLogger().printFormat(LoggerLevel.DEBUG, "%s's turn", nextMove.toString());
+
+        if (!inSearch)
+        {
+            // TODO fifty move counter / repetition position
+            history.remove(move);
+        }
     }
 
     /**

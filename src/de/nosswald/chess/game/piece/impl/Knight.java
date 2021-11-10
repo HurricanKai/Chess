@@ -60,7 +60,7 @@ public final class Knight extends Piece
                     if (this.board.hasPiece(to) && this.board.getPiece(to).getSide() == this.side)
                         continue;
 
-                    moves.add(new Move(this.position, to));
+                    moves.add(new Move(this.position, to, this.board.getPiece(to)));
                 }
             }
         }

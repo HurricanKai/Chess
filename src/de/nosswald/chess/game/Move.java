@@ -1,5 +1,8 @@
 package de.nosswald.chess.game;
 
+import com.sun.istack.internal.Nullable;
+import de.nosswald.chess.game.piece.Piece;
+
 /**
  * @author Nils Osswald
  * @author Noah Gerber
@@ -8,15 +11,18 @@ public final class Move
 {
     private final Position from, to;
     private final Flag flag;
+    @Nullable private final Piece capturedPiece;
 
     /**
      * @param from  the {@link Position} to move from
      * @param to    the {@link Position} to move to
+     * @param capturedPiece
      */
-    public Move(Position from, Position to)
+    public Move(Position from, Position to, Piece capturedPiece)
     {
         this.from = from;
         this.to = to;
+        this.capturedPiece = capturedPiece;
 
         this.flag = Flag.NONE;
     }
@@ -25,13 +31,17 @@ public final class Move
      * @param from  the {@link Position} to move from
      * @param to    the {@link Position} to move to
      * @param flag  the {@link Flag}
+     * @param capturedPiece
      */
-    public Move(Position from, Position to, Flag flag)
+    public Move(Position from, Position to, Flag flag, Piece capturedPiece)
     {
         this.from = from;
         this.to = to;
         this.flag = flag;
+        this.capturedPiece = capturedPiece;
     }
+
+
 
     public enum Flag
     {
@@ -39,7 +49,7 @@ public final class Move
         DOUBLE_FORWARD,
         PROMOTION,
         EN_PASSANT,
-        CASTLING
+        CASTLING;
     }
 
     /**
@@ -64,5 +74,13 @@ public final class Move
     public Flag getFlag()
     {
         return flag;
+    }
+
+    /**
+     * @return The captured {@link Piece} (<code>null<code/> if no piece was captured)
+     */
+    public Piece getCapturedPiece()
+    {
+        return capturedPiece;
     }
 }

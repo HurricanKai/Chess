@@ -52,28 +52,31 @@ public final class Pawn extends Piece
         if (!this.board.hasPiece(new Position(this.position.getCol(), rowForward))
                 && this.onBoard(new Position(this.position.getCol(), rowForward))
         )
-            moves.add(new Move(this.position, new Position(this.position.getCol(), rowForward), flag));
+            moves.add(new Move(this.position, new Position(this.position.getCol(), rowForward), flag, null));
 
         // double step forward
         if (isFirstMove && !this.board.hasPiece(new Position(this.position.getCol(), rowForward))
                 && !this.board.hasPiece(new Position(this.position.getCol(), rowFirst))
                 && this.onBoard(new Position(this.position.getCol(), rowFirst))
         )
-            moves.add(new Move(this.position, new Position(this.position.getCol(), rowFirst), Move.Flag.DOUBLE_FORWARD));
+            moves.add(new Move(this.position, new Position(this.position.getCol(), rowFirst),
+                    Move.Flag.DOUBLE_FORWARD, null));
 
         // opponent attack right
         if (this.onBoard(new Position(this.position.getCol() + 1, rowForward))
                 && this.board.hasPiece(new Position(this.position.getCol() + 1, rowForward))
                 && this.board.getPiece(new Position(this.position.getCol() + 1, rowForward)).getSide() != this.side
         )
-            moves.add(new Move(this.position, new Position(this.position.getCol() + 1, rowForward), flag));
+            moves.add(new Move(this.position, new Position(this.position.getCol() + 1, rowForward), flag,
+                    this.board.getPiece(new Position(this.position.getCol() + 1, rowForward))));
 
         // opponent attack left
         if (this.onBoard(new Position(this.position.getCol() - 1, rowForward))
                 && this.board.hasPiece(new Position(this.position.getCol() - 1, rowForward))
                 && this.board.getPiece(new Position(this.position.getCol() - 1, rowForward)).getSide() != this.side
         )
-            moves.add(new Move(this.position, new Position(this.position.getCol() - 1, rowForward), flag));
+            moves.add(new Move(this.position, new Position(this.position.getCol() - 1, rowForward), flag,
+                    this.board.getPiece(new Position(this.position.getCol() - 1, rowForward))));
 
         // en passant
         for (int i = -1; i < 3; i += 2)
@@ -90,7 +93,8 @@ public final class Pawn extends Piece
                     && lastMove.getTo().equals(targetPiece.getPosition())
                     && lastMove.getFlag() == Move.Flag.DOUBLE_FORWARD
             )
-                moves.add(new Move(this.position, new Position(this.getPosition().getCol() + i, rowForward), Move.Flag.EN_PASSANT));
+                moves.add(new Move(this.position, new Position(this.getPosition().getCol() + i, rowForward),
+                        Move.Flag.EN_PASSANT, targetPiece));
         }
 
         return filterLegalMoves(moves);

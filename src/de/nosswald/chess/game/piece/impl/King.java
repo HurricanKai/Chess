@@ -61,7 +61,7 @@ public final class King extends Piece
                         if (this.board.hasPiece(to) && this.board.getPiece(to).getSide() == this.side)
                             continue;
 
-                        moves.add(new Move(this.position, to));
+                        moves.add(new Move(this.position, to, this.board.getPiece(to)));
                     }
                 }
             }
@@ -78,7 +78,7 @@ public final class King extends Piece
                         && IntStream.range(5, 6)
                             .noneMatch(col -> this.board.hasPiece(new Position(col, startRow)))
             )
-                moves.add(new Move(this.position, new Position(6, startRow), Move.Flag.CASTLING));
+                moves.add(new Move(this.position, new Position(6, startRow), Move.Flag.CASTLING, null));
 
             // long castle
             if (this.board.getHistory().stream()
@@ -88,7 +88,7 @@ public final class King extends Piece
                         && IntStream.range(1, 3)
                             .noneMatch(col -> this.board.hasPiece(new Position(col, startRow)))
             )
-                moves.add(new Move(this.position, new Position(2, startRow), Move.Flag.CASTLING));
+                moves.add(new Move(this.position, new Position(2, startRow), Move.Flag.CASTLING, null));
         }
 
         return filterLegalMoves(moves);

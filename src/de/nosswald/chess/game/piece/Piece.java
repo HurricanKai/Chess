@@ -90,10 +90,10 @@ public abstract class Piece
             if (board.hasPiece(to))
             {
                 if (board.getPiece(to).getSide() != this.side)
-                    moves.add(new Move(from, to));
+                    moves.add(new Move(from, to, board.getPiece(to)));
                 return false;
             }
-            moves.add(new Move(from, to));
+            moves.add(new Move(from, to, null));
         }
         return true;
     }
@@ -106,8 +106,6 @@ public abstract class Piece
      */
     protected List<Move> filterLegalMoves(List<Move> pseudoLegalMoves)
     {
-        // TODO use new functions make move and unmake move
-
         if (!board.isLegitimacyChecking())
             return pseudoLegalMoves;
 
@@ -151,19 +149,11 @@ public abstract class Piece
                 }
             }
 
-            final Position position = this.position;
-            final Piece piece = board.getPiece(position);
-            final List<Piece> oldPieces = new ArrayList<>(board.getPieces());
-
-            piece.setPosition(pseudoLegalMove.getTo());
-
+            // check if move is legal
+            board.makeMove(pseudoLegalMove, true);
             if (!board.isInCheck(side))
                 legalMoves.add(pseudoLegalMove);
-
-            // reset
-            setPosition(position);
-            board.getPieces().clear();
-            board.getPieces().addAll(oldPieces);
+            board.unmakeMove(pseudoLegalMove, true);
         }
 
         board.setLegitimacyChecking(true);
