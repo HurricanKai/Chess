@@ -69,15 +69,15 @@ public abstract class Screen extends JPanel
             {
                 titleBarComponent.setMousePos(event.getX(), event.getY());
                 resizeElement.setMousePos(event.getX(), event.getY());
-
+                resizeElement.onMove(event);
                 elements.forEach(e -> e.setMousePos(event.getX(), event.getY()));
             }
 
             @Override
             public void mouseDragged(MouseEvent event)
             {
-                titleBarComponent.onDrag(event);
                 resizeElement.onDrag(event);
+                titleBarComponent.onDrag(event);
             }
         });
     }

@@ -6,6 +6,7 @@ import de.nosswald.chess.gui.Frame;
 import de.nosswald.chess.gui.SizeReference;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 /**
@@ -15,6 +16,7 @@ import java.awt.event.MouseEvent;
 public class ResizeElement extends ButtonElement
 {
     private int posX, posY;
+    boolean dragging;
 
     /**
      * @param x      the x position
@@ -40,6 +42,11 @@ public class ResizeElement extends ButtonElement
         graphics.drawRect(x, y, width, height, isHovered() ? Color.BLACK : new Color(0, 0, 0, 50));
     }
 
+    public void onMove(MouseEvent event)
+    {
+        boolean dragging = false;
+    }
+
     /**
      * Called when the mouse is dragging the frame
      *
@@ -49,11 +56,13 @@ public class ResizeElement extends ButtonElement
     {
         final Frame frame = Chess.getInstance().getFrame();
 
-        if (isHovered())
+
+        if(isHovered() || dragging)
         {
+            dragging = true;
             frame.setSize(
-                    frame.getWidth() + event.getX() - posX,
-                    frame.getHeight() + event.getY() - posY
+                    event.getXOnScreen() - frame.getX(),
+                    event.getYOnScreen() - frame.getY()
             );
         }
     }
